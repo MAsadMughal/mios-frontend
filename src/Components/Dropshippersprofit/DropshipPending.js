@@ -8,26 +8,26 @@ class DropshipPending extends Component {
       loading: false,
     };
   }
-
+  host = process.env.REACT_APP_API_URL;
   async componentDidMount() {
     this.setState({ loading: true });
     // let profit = `http://localhost:5000/api/profit/dropshippersprofit`;
     // await fetch(profit);
-    let url = `http://localhost:5000/api/profit/dropshippending`;
+    let url = `${this.host}/api/profit/dropshippending`;
     let data = await fetch(url);
     data = await data.json();
     this.setState({ loading: false, orders: data });
   }
 
   handleProfit = async (id) => {
-    let url = `http://localhost:5000/api/profit/profitstatus/${id}`;
+    let url = `${this.host}/api/profit/profitstatus/${id}`;
     await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let updatedUser = `http://localhost:5000/api/order/dropshiporder`
+    let updatedUser = `${this.host}/api/order/dropshiporder`
     let uUser = await fetch(updatedUser);
     let usr = await uUser.json();
     this.setState({ orders: usr });

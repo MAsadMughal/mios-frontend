@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 
 
 const CategoryProducts = () => {
+  const host = process.env.REACT_APP_API_URL;
   const { products, getProducts, getCategories } = useContext(ProductContext);
   const [currentPro, setProductState] = useState([]);
   const [singleProduct, setSingleProduct] = useState({})
@@ -20,7 +21,7 @@ const CategoryProducts = () => {
   const { id } = useParams();
   useEffect(() => {
     const getFeatured = async () => {
-      const { data } = await axios.get(`/api/product/categoryProducts/${id}`);
+      const { data } = await axios.get(`${host}/api/product/categoryProducts/${id}`);
       setProductState(data.products);
     }
     getFeatured();

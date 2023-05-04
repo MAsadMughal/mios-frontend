@@ -7,6 +7,7 @@ import Notification from "../../Notifications/Notifications";
 import Loader from "../../Loader/Loader";
 
 const AddProduct = () => {
+  const host = process.env.REACT_APP_API_URL;
   const Navigate = useNavigate();
   const { getProducts } = useContext(ProductContext);
   let [img, setImg] = useState("");
@@ -87,7 +88,7 @@ const AddProduct = () => {
     } else {
       try {
         setLoading(true);
-        await axios.post("/api/product/addProduct", {
+        await axios.post(`${host}/api/product/addProduct`, {
           category,
           skuNumber,
           title,

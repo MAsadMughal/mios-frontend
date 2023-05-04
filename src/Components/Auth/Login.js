@@ -40,7 +40,11 @@ export class Login extends Component {
         },
         email, password
       });
-      if (response.data?.authtoken) {
+      if (response?.data?.authtoken) {
+        var d = new Date();
+        d.setTime(d.getTime() + (3600 * 60 * 1000));
+        var expires = "expires=" + d.toUTCString()
+        document.cookie = "token=" + response.data.authtoken + ';' + expires;
         this.setState({ user: response.data.authtoken });
         window.location.reload();
       }
@@ -52,7 +56,7 @@ export class Login extends Component {
       } else {
         Notification("Error", e.message, "danger");
       }
-    } 
+    }
   };
 
   render() {

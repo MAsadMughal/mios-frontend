@@ -59,12 +59,16 @@ const Signup = ({ setuser }) => {
                 window.alert('Enter Complete Details');
             } else {
                 // eslint-disable-next-line
-                await axios.post('api/auth/signup', {
+                const {data}=await axios.post('api/auth/signup', {
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     role, name, email, password, address, phone, company, city
                 })
+                var d = new Date();
+                d.setTime(d.getTime() + (3600 * 60 * 1000));
+                var expires = "expires=" + d.toUTCString()
+                document.cookie = "token=" + data?.authtoken + ';' + expires;
                 await getUserDetails();
             }
         } catch (e) {
@@ -96,7 +100,7 @@ const Signup = ({ setuser }) => {
                         <input type="phone" name="phone" id='phone' placeholder="Phone Number" autoFocus onChange={onChange} required />
                         <input type="text" name="address" id='address' placeholder="Address" autoFocus onChange={onChange} required />
                         <input type="text" name="company" id='company' placeholder="Company Name" autoFocus onChange={onChange} /><br />
-                        <select name="city"  style={{height:"35px",fontSize:"20px"}} className='input-group' onChange={onChange} value={city} id="Location" required>
+                        <select name="city" style={{ height: "35px", fontSize: "20px" }} className='input-group' onChange={onChange} value={city} id="Location" required>
                             <option value="" disabled selected>Select The City</option>
                             <option value="Islamabad">Islamabad</option>
                             <option value="" disabled>Punjab Cities</option>

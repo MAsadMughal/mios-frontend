@@ -7,6 +7,7 @@ import Notification from "../../Notifications/Notifications";
 import { ReactNotifications } from "react-notifications-component";
 
 const ProductDetail = () => {
+  const host = process.env.REACT_APP_API_URL;
   const [products, setProducts] = useState([]);
   const params = useParams();
   const [quantity, setQuantity] = useState(1);
@@ -17,7 +18,7 @@ const ProductDetail = () => {
   const { id } = params;
   useEffect(() => {
     const getProducts = async () => {
-      const { data } = await axios.get(`/api/product/product/${id}`);
+      const { data } = await axios.get(`${host}/api/product/product/${id}`);
       setProducts(data);
     };
     getProducts();

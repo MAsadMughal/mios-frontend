@@ -4,10 +4,11 @@ import { Link } from "react-router-dom";
 
 
 const PendingOrders = () => {
+    const host = process.env.REACT_APP_API_URL;
     const [orders, setOrders] = useState([]);
     useEffect(() => {
         const getOrders = async () => {
-            const { data } = await axios.get('/api/order/pendingOrders');
+            const { data } = await axios.get(`${host}/api/order/pendingOrders`);
             setOrders(data);
         }
         getOrders();

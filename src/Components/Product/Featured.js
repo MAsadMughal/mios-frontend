@@ -9,6 +9,7 @@ import axios from "axios";
 
 
 const FeaturedProducts = () => {
+  const host = process.env.REACT_APP_API_URL;
   const { products, getProducts, getCategories } = useContext(ProductContext);
   const [currentPro, setProductState] = useState([]);
   const [singleProduct, setSingleProduct] = useState({})
@@ -18,7 +19,7 @@ const FeaturedProducts = () => {
   const { addToCart } = context;
   useEffect(() => {
     const getFeatured = async () => {
-      const { data } = await axios.get('/api/product/featured');
+      const { data } = await axios.get(`${host}/api/product/featured`);
       setProductState(data.featuredProducts);
     }
     getFeatured();

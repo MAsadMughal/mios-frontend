@@ -1,21 +1,22 @@
 import axios from "axios";
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Notification from "../../Notifications/Notifications";
 import { ReactNotifications } from "react-notifications-component";
 const image = window.location.origin + "/Assets/no-data.svg";
 const DropshipPending = () => {
+  const host = process.env.REACT_APP_API_URL;
   const [allProfits, setAllProfits] = useState([]);
   useEffect(() => {
     getAllProfits()
   }, [])
   const getAllProfits = async () => {
-    const { data } = await axios.get('/api/profitrecords/allprofits');
+    const { data } = await axios.get(`${host}/api/profitrecords/allprofits`);
     setAllProfits(data);
   }
   const payAllProfits = async (user, amount) => {
     try {
-      const { data } = await axios.post('/api/profitrecords/payAllProfits', { userId: user, amount });
+      const { data } = await axios.post(`${host}/api/profitrecords/payAllProfits`, { userId: user, amount });
       Notification('Success', data.message, 'success')
       await getAllProfits();
     } catch (error) {

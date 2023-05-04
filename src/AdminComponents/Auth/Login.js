@@ -9,6 +9,7 @@ import Notification from '../../Notifications/Notifications';
 import { ReactNotifications } from 'react-notifications-component';
 
 const AdminLogin = ({ setUser }) => {
+  const host = process.env.REACT_APP_API_URL;
   const { user, getUserDetails } = useContext(UserContext);
   const [admin, setAdmin] = useState({ email: '', password: '' })
   const { email, password } = admin;
@@ -37,7 +38,7 @@ const AdminLogin = ({ setUser }) => {
 
     try {
       // eslint-disable-next-line
-      const response = await axios.post("/api/auth/adminlogin", {
+      const response = await axios.post(`${host}/api/auth/adminlogin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

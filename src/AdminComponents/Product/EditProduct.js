@@ -7,6 +7,7 @@ import Notification from "../../Notifications/Notifications";
 import Loader from "../../Loader/Loader";
 
 const EditProduct = () => {
+  const host = process.env.REACT_APP_API_URL;
   const Navigate = useNavigate();
   const { getProducts } = useContext(ProductContext);
   let [img, setImg] = useState("");
@@ -63,7 +64,7 @@ const EditProduct = () => {
 
   useEffect(() => {
     const getProduct = async () => {
-      const { data } = await axios.get(`/api/product/product/${id}`);
+      const { data } = await axios.get(`${host}/api/product/product/${id}`);
       setProduct(data[0]);
     };
     getProduct();
@@ -110,7 +111,7 @@ const EditProduct = () => {
     } else {
       try {
         setLoading(true);
-        await axios.put(`/api/product/editProduct/${id}`, {
+        await axios.put(`${host}/api/product/editProduct/${id}`, {
           category,
           skuNumber,
           title,

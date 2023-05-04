@@ -97,18 +97,15 @@ const Cart = () => {
                         </table>
                     </div>
 
-                    <CheckoutButtonDiv>
-                        <Link to={"/checkout"}>
-                            <CheckoutButton2
-                                style={{
-                                    marginLeft: "160px",
-                                    border: '2px solid black',
-                                }}
-                            >
+                    <div className="d-flex justify-content-end mt-4">
+
+                        <Link to={"/checkout"} className="btn btn-primary">
+                            
                                 PROCEED TO CHECKOUT
-                            </CheckoutButton2>
+                           
                         </Link>
-                    </CheckoutButtonDiv>
+                    </div>
+                    
                 </div>
             )}
         </>

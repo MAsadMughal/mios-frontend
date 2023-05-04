@@ -15,9 +15,9 @@ class WholesaleOrder extends Component {
     this.modalRef = React.createRef();
     this.closeRef = React.createRef();
   }
-
+  host = process.env.REACT_APP_API_URL;
   async componentDidMount() {
-    let url = `http://localhost:5000/api/order/wholesaleorder`;
+    let url = `${this.host}/api/order/wholesaleorder`;
     this.setState({ loading: true });
     let data = await fetch(url);
     data = await data.json();
@@ -31,14 +31,14 @@ class WholesaleOrder extends Component {
   };
 
   handlePayment = async (_id) => {
-    let url = `http://localhost:5000/api/order/changepaymentstatus/${_id}`;
+    let url = `${this.host}/api/order/changepaymentstatus/${_id}`;
     await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let updatedUser = `http://localhost:5000/api/order/wholesaleorder`;
+    let updatedUser = `${this.host}/api/order/wholesaleorder`;
     let uUser = await fetch(updatedUser);
     let usr = await uUser.json();
     this.setState({ orders: usr });
@@ -51,21 +51,21 @@ class WholesaleOrder extends Component {
   };
 
   // handleShipStatus = async (id) => {
-  //   let url = `http://localhost:5000/api/order/changeshippingstatus/${id}`;
+  //   let url = `${this.host}/api/order/changeshippingstatus/${id}`;
   //   await fetch(url, {
   //     method: "PUT",
   //     headers: {
   //       "Content-Type": "application/json",
   //     },
   //   });
-  //   let updatedUser = `http://localhost:5000/api/order/wholesaleorder`;
+  //   let updatedUser = `${this.host}/api/order/wholesaleorder`;
   //   let uUser = await fetch(updatedUser);
   //   let usr = await uUser.json();
   //   this.setState({ orders: usr });
   // };
 
   handleOrderStatues = async (id, orderStatus) => {
-    let url = `http://localhost:5000/api/order/changeorderstatus/${id}`;
+    let url = `${this.host}/api/order/changeorderstatus/${id}`;
     await fetch(url, {
       method: "PUT",
       headers: {
@@ -73,21 +73,21 @@ class WholesaleOrder extends Component {
       },
       body: JSON.stringify({ orderStatus }),
     });
-    let updatedUser = `http://localhost:5000/api/order/wholesaleorder`;
+    let updatedUser = `${this.host}/api/order/wholesaleorder`;
     let uUser = await fetch(updatedUser);
     let usr = await uUser.json();
     this.setState({ orders: usr });
   };
 
   handleDelete = async (id) => {
-    let url = `http://localhost:5000/api/product/deleteproduct/${id}`;
+    let url = `${this.host}/api/product/deleteproduct/${id}`;
     await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let updatedOrder = `http://localhost:5000/api/order/allorders`;
+    let updatedOrder = `${this.host}/api/order/allorders`;
     let uOrder = await fetch(updatedOrder);
     let pro = await uOrder.json();
     this.setState({ products: pro });

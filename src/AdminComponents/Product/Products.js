@@ -8,12 +8,13 @@ import Notification from "../../Notifications/Notifications";
 
 
 const AdminProducts = () => {
+  const host = process.env.REACT_APP_API_URL;
   const { products, getProducts } = useContext(ProductContext);
   let [loading, setLoading] = useState(false);
   const deleteProduct = async (e) => {
     try {
       setLoading(true);
-      await axios.delete(`/api/product/deleteProduct/${e.currentTarget.id}`);
+      await axios.delete(`${host}/api/product/deleteProduct/${e.currentTarget.id}`);
       await getProducts();
       setLoading(false);
     }

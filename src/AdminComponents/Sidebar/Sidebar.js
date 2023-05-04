@@ -7,6 +7,7 @@ import ProductContext from '../../context/Product/ProductContext';
 
 
 const Sidebar = () => {
+    const host = process.env.REACT_APP_API_URL;
     const { allUsers, wholesellers, dropShippers, requests, user } = useContext(UserContext);
     const { categories, products } = useContext(ProductContext);
 
@@ -25,7 +26,7 @@ const Sidebar = () => {
 
     const Navigate = useNavigate();
     const handleLogout = async () => {
-        await axios.get("/api/auth/logout");
+        await axios.get(`${host}/api/auth/logout`);
         Navigate('/admin/login')
         window.location.reload();
     }

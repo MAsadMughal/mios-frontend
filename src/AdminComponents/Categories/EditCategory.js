@@ -5,6 +5,7 @@ import ProductContext from '../../context/Product/ProductContext';
 
 
 const EditCategory = () => {
+  const host = process.env.REACT_APP_API_URL;
   const [name, setName] = useState("")
   const { getProducts } = useContext(ProductContext);
 
@@ -29,7 +30,7 @@ const EditCategory = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/api/category/editcategory/${id}`, { name });
+      await axios.put(`${host}/api/category/editcategory/${id}`, { name });
       await getProducts();
       Navigate('/admin/categories');
     } catch (e) {

@@ -6,6 +6,7 @@ import UserContext from '../../context/User/UserContext'
 import Notification from '../../Notifications/Notifications';
 
 const UserProfile = () => {
+    const host = process.env.REACT_APP_API_URL;
     const { user, getUserDetails } = useContext(UserContext);
     const [userDetails, setUserDetails] = useState({ name: "", email: "", city: "", address: "", phone: "", company: "", role: "" });
     const { name, email, address, phone, company, city, role } = userDetails;
@@ -23,7 +24,7 @@ const UserProfile = () => {
     const updateFun = async () => {
         try {
             // const data = await axios.put(`/api/auth/update/${user._id}`, userDetails);
-            await axios.put(`/api/auth/update/${user._id}`, userDetails);
+            await axios.put(`${host}/api/auth/update/${user._id}`, userDetails);
             Notification("Success", "Successfully updated", "success");
             await getUserDetails();
             Navigate('/Dashboard');
@@ -39,7 +40,7 @@ const UserProfile = () => {
     }
 
     return (
-        <div className="mb-3 mt-3">
+        <div className="my-5 mx-5">
             <center><h1>{user && user.name}'s Profile</h1></center><ReactNotifications />
             <label className="form-label">Name</label>
             <input onChange={changeFun} type="text" value={name} name="name" className="form-control" placeholder="Enter Your Name" />
@@ -52,7 +53,7 @@ const UserProfile = () => {
             <label className="form-label">Company</label>
             <input onChange={changeFun} type="text" value={company} name="company" className="form-control" placeholder="Enter Your Company Name." />
             <label className="form-label">City</label>
-            <select name="city" className='input-group' style={{height:"35px",fontSize:"20px"}} value={city} onChange={changeFun} id="Location" required>
+            <select name="city" className='input-group form-select'   value={city} onChange={changeFun} id="Location" required>
                 <option value="" disabled selected>Select The City</option>
                 <option value="Islamabad">Islamabad</option>
                 <option value="" disabled>Punjab Cities</option>
@@ -298,7 +299,7 @@ const UserProfile = () => {
             </select><br/>
             <label className="form-label">Role</label>
             <input type="text" value={role} name="role" disabled className="form-control" placeholder="" /><br />
-            <button onClick={updateFun} type="submit" className="btn btn-primary">Submit</button>
+            <button onClick={updateFun} type="submit" className="btn btn-primary">Save</button>
         </div>
     )
 }

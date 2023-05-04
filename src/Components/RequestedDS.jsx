@@ -6,6 +6,7 @@ import axios from 'axios';
 
 
 const RequestedDS = ({ setUser }) => {
+    const host = process.env.REACT_APP_API_URL;
     const { user, getUserDetails } = useContext(UserContext)
 
 
@@ -13,7 +14,7 @@ const RequestedDS = ({ setUser }) => {
 
     const Navigate = useNavigate();
     const logout = async () => {
-        await axios.get('/api/auth/logout');
+        await axios.get(`${host}/api/auth/logout`);
         await getUserDetails();
         setUser(user);
         Navigate('/login');

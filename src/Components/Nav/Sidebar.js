@@ -5,6 +5,7 @@ import UserContext from '../../context/User/UserContext';
 import axios from 'axios';
 
 const Sidebar = () => {
+    const host = process.env.REACT_APP_API_URL;
     // const Navigate = useNavigate();
     const { categories, CartItems } = useContext(ProductContext);
     const { user } = useContext(UserContext);
@@ -13,7 +14,7 @@ const Sidebar = () => {
 
 
     const logout = async () => {
-        await axios.get('/api/auth/logout');
+        await axios.get(`${host}/api/auth/logout`);
         window.location.reload();
     }
 

@@ -9,9 +9,10 @@ class Payments extends Component {
       loading: false,
     };
   }
+  host = process.env.REACT_APP_API_URL;
 
   async componentDidMount() {
-    let url = `http://localhost:5000/api/payment/paidpayments`;
+    let url = `${this.host}/api/payment/paidpayments`;
     this.setState({ loading: true });
     let data = await fetch(url ,{
       method: "GET",

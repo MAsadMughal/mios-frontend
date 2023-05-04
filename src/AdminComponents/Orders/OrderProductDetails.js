@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const OrderProductDetails = () => {
+  const host = process.env.REACT_APP_API_URL;
   const [orderProduct, setOrderProduct] = useState([]);
 
   const params = useParams();
   let { id } = params;
 
   const getOrderProducts = async () => {
-    let url = `http://localhost:5000/api/order/orderproduct/${id}`;
+    let url = `${host}/api/order/orderproduct/${id}`;
     let data = await fetch(url);
     data = await data.json();
     setOrderProduct(data);

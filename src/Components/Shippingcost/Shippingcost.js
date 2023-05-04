@@ -17,10 +17,10 @@ export class Shippingcost extends Component {
     this.closeRef = React.createRef();
   }
 
-
+  host = process.env.REACT_APP_API_URL;
 
   async componentDidMount() {
-    let url = `http://localhost:5000/api/shipping/shippingcalc`;
+    let url = `${this.host}/api/shipping/shippingcalc`;
     this.setState({ loading: true });
     let data = await fetch(url);
     data = await data.json();

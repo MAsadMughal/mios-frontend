@@ -15,9 +15,9 @@ class DropshipOrder extends Component {
     this.modalRef = React.createRef();
     this.closeRef = React.createRef();
   }
-
+  host = process.env.REACT_APP_API_URL;
   async componentDidMount() {
-    let url = `http://localhost:5000/api/order/dropshiporder`;
+    let url = `${this.host}/api/order/dropshiporder`;
     this.setState({ loading: true });
     let data = await fetch(url);
     data = await data.json();
@@ -31,14 +31,14 @@ class DropshipOrder extends Component {
   };
 
   handlePayment = async (_id) => {
-    let url = `http://localhost:5000/api/order/changepaymentstatus/${_id}`;
+    let url = `${this.host}/api/order/changepaymentstatus/${_id}`;
     await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let updatedUser = `http://localhost:5000/api/order/dropshiporder`;
+    let updatedUser = `${this.host}/api/order/dropshiporder`;
     let uUser = await fetch(updatedUser);
     let usr = await uUser.json();
     this.setState({ orders: usr });
@@ -51,21 +51,21 @@ class DropshipOrder extends Component {
   };
 
   handleShipStatus = async (id) => {
-    let url = `http://localhost:5000/api/order/changeshippingstatus/${id}`;
+    let url = `${this.host}/api/order/changeshippingstatus/${id}`;
     await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let updatedUser = `http://localhost:5000/api/order/dropshiporder`;
+    let updatedUser = `${this.host}/api/order/dropshiporder`;
     let uUser = await fetch(updatedUser);
     let usr = await uUser.json();
     this.setState({ orders: usr });
   };
 
   handleOrderStatues = async (id, orderStatus) => {
-    let url = `http://localhost:5000/api/order/changeorderstatus/${id}`;
+    let url = `${this.host}/api/order/changeorderstatus/${id}`;
     await fetch(url, {
       method: "PUT",
       headers: {
@@ -73,21 +73,21 @@ class DropshipOrder extends Component {
       },
       body: JSON.stringify({ orderStatus }),
     });
-    let updatedUser = `http://localhost:5000/api/order/wholesaleorder`;
+    let updatedUser = `${this.host}/api/order/dropshiporder`;
     let uUser = await fetch(updatedUser);
     let usr = await uUser.json();
     this.setState({ orders: usr });
   };
 
   handleDelete = async (id) => {
-    let url = `http://localhost:5000/api/product/deleteproduct/${id}`;
+    let url = `${this.host}/api/product/deleteproduct/${id}`;
     await fetch(url, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let updatedOrder = `http://localhost:5000/api/order/allorders`
+    let updatedOrder = `${this.host}/api/order/allorders`
     let uOrder = await fetch(updatedOrder);
     let pro = await uOrder.json();
     this.setState({ products: pro });
@@ -200,7 +200,7 @@ class DropshipOrder extends Component {
                         </button>
                       </td>
                       <td className="text-center align-middle">
-                          {/* {order.orderStatus === "Pending" ? (
+                          {order.orderStatus === "Pending" ? (
                             <>
                             <button
                               className="btn btn-primary btn-sm mb-2"
@@ -231,9 +231,9 @@ class DropshipOrder extends Component {
                           </>
                           ): (<button className="btn btn-primary btn-sm">
                             {order.orderStatus}
-                          </button>)} */}
+                          </button>)}
 
-                        {order.orderStatus === "Pending" ? (
+                        {/* {order.orderStatus === "Pending" ? (
                           <>
                             <button
                               className="btn btn-primary btn-sm mb-2"
@@ -274,7 +274,7 @@ class DropshipOrder extends Component {
                           <button className="btn btn-primary btn-sm">
                             {order.orderStatus}
                           </button> // Add default case here
-                        )}
+                        )} */}
                       </td>
                       <td className="text-center align-middle">
                         <button
@@ -290,7 +290,7 @@ class DropshipOrder extends Component {
                         </button>
                       </td>
                       <td className="text-center align-middle">
-                        <Link to={`/admin/editwholesaleorder/${order._id}`}>
+                        <Link to={`/admin/editdropshiporder/${order._id}`}>
                           <span className="edit-delete">Edit </span>
                         </Link>
                         |

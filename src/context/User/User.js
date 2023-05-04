@@ -5,6 +5,7 @@ import UserContext from "./UserContext";
 
 
 const User = (props) => {
+    const host = process.env.REACT_APP_API_URL;
     const [allUsers, setAllUsers] = useState(0)
     const [wholesellers, setWholeSellers] = useState(0)
     const [dropShippers, setDropShippers] = useState(0)
@@ -17,7 +18,7 @@ const User = (props) => {
     useEffect(() => {
         const userDetails = async () => {
             try {
-                const { data } = await axios.get('/api/auth/user', { headers: { "Content-Type": "application/json", } },);
+                const { data } = await axios.get(`${host}/api/auth/user`, { headers: { "Content-Type": "application/json", } },);
                 setUser(data);
             } catch (e) {
                 setError(e);
@@ -27,10 +28,10 @@ const User = (props) => {
     }, [])
 
     const getAllUsers = async () => {
-        const { data } = await axios.get('/api/auth/allUsers');
-        const Wholesellers = await axios.get('/api/auth/allwholesellers');
-        const DropShippers = await axios.get('/api/auth/alldropShippers');
-        const Requests = await axios.get('/api/auth/allrequests');
+        const { data } = await axios.get(`${host}/api/auth/allUsers`);
+        const Wholesellers = await axios.get(`${host}/api/auth/allwholesellers`);
+        const DropShippers = await axios.get(`${host}/api/auth/alldropShippers`);
+        const Requests = await axios.get(`${host}/api/auth/allrequests`);
         setAllUsers(data.length);
         setWholeSellers(Wholesellers.data.length);
         setDropShippers(DropShippers.data.length);
@@ -45,10 +46,10 @@ const User = (props) => {
 
 
     const getAndSetUsers = async () => {
-        const { data } = await axios.get('/api/auth/allUsers');
-        const Wholesellers = await axios.get('/api/auth/allwholesellers');
-        const DropShippers = await axios.get('/api/auth/alldropShippers');
-        const Requests = await axios.get('/api/auth/allrequests');
+        const { data } = await axios.get(`${host}/api/auth/allUsers`);
+        const Wholesellers = await axios.get(`${host}/api/auth/allwholesellers`);
+        const DropShippers = await axios.get(`${host}/api/auth/alldropShippers`);
+        const Requests = await axios.get(`${host}/api/auth/allrequests`);
         setAllUsers(data.length);
         setWholeSellers(Wholesellers.data.length);
         setDropShippers(DropShippers.data.length);
@@ -57,7 +58,7 @@ const User = (props) => {
 
     const getUserDetails = async () => {
         try {
-            const { data } = await axios.get('/api/auth/user', { headers: { "Content-Type": "application/json", } },);
+            const { data } = await axios.get(`${host}/api/auth/user`, { headers: { "Content-Type": "application/json", } },);
             setUser(data);
         } catch (e) {
             setError('');

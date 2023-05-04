@@ -9,13 +9,14 @@ import { Link } from 'react-router-dom';
 
 
 const DropShip = () => {
+  const host = process.env.REACT_APP_API_URL;
   const [allUsers, setAllUser] = useState([])
   const { getAndSetUsers } = useContext(UserContext);
   const [show, setShow] = useState(true)
 
   useEffect(() => {
     const getAllUsers = async () => {
-      const { data } = await axios.get('/api/auth/alldropshippers');
+      const { data } = await axios.get(`${host}/api/auth/alldropshippers`);
       if (allUsers.length !== data.length) {
         setAllUser(data);
       }
@@ -26,7 +27,7 @@ const DropShip = () => {
 
 
   const getUsers = async () => {
-    const { data } = await axios.get('/api/auth/alldropshippers');
+    const { data } = await axios.get(`${host}/api/auth/alldropshippers`);
     if (allUsers.length !== data.length) {
       setAllUser(data);
     }
@@ -35,7 +36,7 @@ const DropShip = () => {
 
 
   const deleteAccount = async (e) => {
-    await axios.delete(`/api/auth/delete/${e.currentTarget.id}`);
+    await axios.delete(`${host}/api/auth/delete/${e.currentTarget.id}`);
     await getUsers();
   }
 
@@ -70,7 +71,7 @@ const DropShip = () => {
       if (!name || !email || !password || !address || !phone || !company || !city) {
         window.alert('Enter Complete Details');
       } else {
-        await axios.post('/api/auth/createdropshipper', { headers: { 'Content-Type': 'application/json' }, name, email, password, address, phone, company, city })
+        await axios.post(`${host}/api/auth/createdropshipper`, { headers: { 'Content-Type': 'application/json' }, name, email, password, address, phone, company, city })
         Notification("Success", "Dropshipper User Created Successfully", "success");
         setUser({
           name: "",

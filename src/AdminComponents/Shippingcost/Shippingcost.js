@@ -17,10 +17,10 @@ export class Shippingcost extends Component {
     this.closeRef = React.createRef();
   }
 
-
+  host = process.env.REACT_APP_API_URL;
 
   async componentDidMount() {
-    let url = `/api/shipping/shippingcalc`;
+    let url = `${this.host}/api/shipping/shippingcalc`;
     this.setState({ loading: true });
     let data = await fetch(url);
     data = await data.json();
@@ -53,14 +53,14 @@ export class Shippingcost extends Component {
     }
 
     this.setState({ loading: true });
-    await fetch(`/api/shipping/editshippingcalc/${shippingId}`, {
+    await fetch(`${this.host}/api/shipping/editshippingcalc/${shippingId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(shippingcalc),
     });
-    let url = `/api/shipping/shippingcalc`;
+    let url = `${this.host}/api/shipping/shippingcalc`;
     let uProducts = await fetch(url);
     let pro = await uProducts.json();
     this.setState({ shipping: pro, loading: false });
@@ -74,13 +74,13 @@ export class Shippingcost extends Component {
 
   handleDelete = async (id) => {
     this.setState({ loading: true });
-    await fetch(`/api/shipping/deleteshippingcalc/${id}`, {
+    await fetch(`${this.host}/api/shipping/deleteshippingcalc/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let url = `/api/shipping/shippingcalc`;
+    let url = `${this.host}/api/shipping/shippingcalc`;
     let uProducts = await fetch(url);
     let pro = await uProducts.json();
     this.setState({ shipping: pro, loading: false });
@@ -113,10 +113,10 @@ export class Shippingcost extends Component {
                 {this.state.shipping.map((cost) => {
                   return (
                     <tr key={cost._id}>
-                      <td>{this.state?.shipping?.indexOf(cost) + 1}</td>
-                      <td className="text-center">{cost?.weight === 'half' ? `0.5 Kg` : cost.weight === 'one' ? `1.0 Kg` : cost.weight === 'greater' ? `Greater than 1 kg` : null}</td>
-                      <td className="text-center">{cost?.incity}</td>
-                      <td className="text-center">{cost?.outcity}</td>
+                      <td>{this.state.shipping.indexOf(cost) + 1}</td>
+                      <td className="text-center">{cost.weight === 'half' ? `0.5 Kg` : cost.weight === 'one' ? `1.0 Kg` : cost.weight === 'greater' ? `Greater than 1 kg` : null}</td>
+                      <td className="text-center">{cost.incity}</td>
+                      <td className="text-center">{cost.outcity}</td>
                       <td className="text-center align-middle">
                         <span title="Edit" style={{ cursor: "pointer" }} onClick={() => this.handleEdit(cost._id)}>Edit</span>&nbsp; | &nbsp;
                         <span title="Delete" style={{ cursor: "pointer" }} onClick={() => this.handleDelete(cost._id)}>Delete</span>

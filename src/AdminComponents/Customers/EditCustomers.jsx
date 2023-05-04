@@ -6,6 +6,7 @@ import Notification from '../../Notifications/Notifications';
 import UserContext from '../../context/User/UserContext';
 
 const EditCustomers = () => {
+  const host = process.env.REACT_APP_API_URL;
   const params = useParams();
   const { id } = params;
   const Navigate = useNavigate();
@@ -26,7 +27,7 @@ const EditCustomers = () => {
 
   useEffect(() => {
     const getUserData = async () => {
-      const { data } = await axios.get(`/api/auth/getCustomerDetails/${id}`);
+      const { data } = await axios.get(`${host}/api/auth/getCustomerDetails/${id}`);
       setUser(data);
     }
     getUserData();
@@ -65,7 +66,7 @@ const EditCustomers = () => {
       if (!name || !email || !role || !address || !phone || !company || !city) {
         window.alert('Enter Complete Details');
       } else {
-        await axios.put(`/api/auth/admin/editCustomer/${id}`, { headers: { 'Content-Type': 'application/json' }, name, email, role, address, phone, company, dropShipperStatus, city });
+        await axios.put(`${host}/api/auth/admin/editCustomer/${id}`, { headers: { 'Content-Type': 'application/json' }, name, email, role, address, phone, company, dropShipperStatus, city });
         Notification("Success", "Account Details Updated Successfully", "success");
         setUser({
           name: "",

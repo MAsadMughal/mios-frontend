@@ -60,10 +60,11 @@ import UpdateShippingStatus from './AdminComponents/Orders/UpdateShippingStatus'
 import EditOrderAdminW from './AdminComponents/Orders/EditOrderAdminW';
 import EditOrderAdminD from './AdminComponents/Orders/EditOrderAdminD';
 import OrderReport from './AdminComponents/Reports/OrderReport';
-import DropshipPending from './AdminComponents/Dropshippersprofit/DropshipPending';
-import PendingByOrder from './AdminComponents/Dropshippersprofit/PendingByOrder';
-
+// import DropshipPending from './AdminComponents/Dropshippersprofit/DropshipPending';
+// import PendingByOrder from './AdminComponents/Dropshippersprofit/PendingByOrder';
+axios.defaults.withCredentials = true;
 function App() {
+  const host = process.env.REACT_APP_API_URL;
   let [user, setUser] = useState({});
   // eslint-disable-next-line
   let [error, setError] = useState('');
@@ -73,7 +74,7 @@ function App() {
   useEffect(() => {
     const getUserDetails = async () => {
       try {
-        const { data } = await axios.get('/api/auth/user', { headers: { "Content-Type": "application/json", } },);
+        const { data } = await axios.get(`${host}/api/auth/user`, { headers: { "Content-Type": "application/json", } },);
         setUser(data);
       } catch (e) {
         setError('');
@@ -150,8 +151,8 @@ function App() {
                   <Route path="/admin/editdropshiporder/:id" element={admin ? <EditOrderAdminD /> : <></>} />
                   <Route path="/admin/shippingcost" element={admin ? <Shippingcost /> : null} />
                   {/* <Route path="/admin/reports" element={admin ? <Reports /> : null} /> */}
-                  <Route path="/admin/pendingprofits" element={admin ? <DropshipPending /> : null} />
-                  <Route path="/admin/pendingprofits/byorder/:id" element={admin ? <PendingByOrder /> : null} />
+                  {/* <Route path="/admin/pendingprofits" element={admin ? <DropshipPending /> : null} /> */}
+                  {/* <Route path="/admin/pendingprofits/byorder/:id" element={admin ? <PendingByOrder /> : null} /> */}
                   {/* <Route path="/admin/dropshippaid" element={admin ? <DropshipPaid /> : null} /> */}
                   {/* <Route path="/admin/products" element={admin ? <AddProduct /> : null} /> */}
                   <Route path="/admin/addProduct" element={admin ? <AddProduct /> : null} />

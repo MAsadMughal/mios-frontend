@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ProductContext from "./ProductContext";
 
 const ProductState = (props) => {
+  const host = process.env.REACT_APP_API_URL;
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [CartItems, setCartItems] = useState([]);
@@ -14,15 +15,15 @@ const ProductState = (props) => {
   // const [onSale, setOnSale] = useState([])
 
   const getCategories = async () => {
-    const { data } = await axios.get(`/api/category/allcategories`);
+    const { data } = await axios.get(`${host}/api/category/allcategories`);
     setCategories(data?.categories);
   };
   const getProducts = async () => {
-    const { data } = await axios.get(`/api/product/allProducts`);
+    const { data } = await axios.get(`${host}/api/product/allProducts`);
     setProducts(data?.products);
   };
   const getShipCat = async () => {
-    const { data } = await axios.get("/api/shipping/shippingcalc");
+    const { data } = await axios.get(`${host}/api/shipping/shippingcalc`);
     setShippingCat(data);
   };
   useEffect(() => {
@@ -30,12 +31,12 @@ const ProductState = (props) => {
   }, []);
 
   const Cart = async () => {
-    const { data } = await axios.get(`/api/cart/allcartitems`);
+    const { data } = await axios.get(`${host}/api/cart/allcartitems`);
     setCartItems(data);
   };
 
   const getMyshop = async () => {
-    const { data } = await axios.get(`/api/myshop/allmyshopitems`);
+    const { data } = await axios.get(`${host}/api/myshop/allmyshopitems`);
     setMyShopItems(data);
   };
 
@@ -52,7 +53,7 @@ const ProductState = (props) => {
       quantity,
     };
     await axios
-      .post(`/api/cart/addtocart`, { cart })
+      .post(`${host}/api/cart/addtocart`, { cart })
       .then(function (response) {
         console.log(response);
       })
@@ -63,7 +64,7 @@ const ProductState = (props) => {
 
   const removeCartProduct = async (id) => {
     await axios
-      .delete(`/api/cart/deletecartitem/${id}`)
+      .delete(`${host}/api/cart/deletecartitem/${id}`)
       .then(function (response) {
         setCartItems(response.data.result);
       })
@@ -74,7 +75,7 @@ const ProductState = (props) => {
 
   const updateCartProductQty = async (id, qty) => {
     await axios
-      .put(`/api/cart/updatecart/${id}`, { qty })
+      .put(`${host}/api/cart/updatecart/${id}`, { qty })
       .then(function (response) {
         setCartItems(response.data.result);
       })
@@ -85,7 +86,7 @@ const ProductState = (props) => {
 
   const addToMyShop = async (product) => {
     await axios
-      .post(`/api/myshop/addtomyshop`, { product })
+      .post(`${host}/api/myshop/addtomyshop`, { product })
       .then(function (response) {
         console.log(response);
       })

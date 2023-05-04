@@ -122,13 +122,12 @@ export const CheckoutButton2=styled.button`
 border:none;
 border-radius:5px;
 background:transparent;
-background-color:#00FA9A;
+background-color:deepskyblue;
+padding:10px;
 margin-left:12%;
 font-weight:bold;
-color:#2F4F4F;
-width:200px;
+color:#fff;
 font-size:15px;
-height:40px;
 transition: all ease-in-out 0.3s;
 &:hover{
     background-color:#98FB98;

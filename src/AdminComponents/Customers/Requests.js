@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 
 
 const Requests = () => {
+  const host = process.env.REACT_APP_API_URL;
   const [allUsers, setAllUser] = useState([])
   let [user, setUser] = useState({
     name: "",
@@ -28,7 +29,7 @@ const Requests = () => {
   //UseEffect
   useEffect(() => {
     const getAllUsers = async () => {
-      const { data } = await axios.get('/api/auth/allrequests');
+      const { data } = await axios.get(`${host}/api/auth/allrequests`);
       if (allUsers.length !== data.length) {
         setAllUser(data);
       }
@@ -48,7 +49,7 @@ const Requests = () => {
 
   //Get All Users on Change
   const getUsers = async () => {
-    const { data } = await axios.get('/api/auth/allrequests');
+    const { data } = await axios.get(`${host}/api/auth/allrequests`);
     if (allUsers.length !== data.length) {
       setAllUser(data);
     }
@@ -62,7 +63,7 @@ const Requests = () => {
       if (!name || !email || !password || !address || !phone || !company || !city) {
         window.alert('Enter Complete Details');
       } else {
-        await axios.post('/api/auth/createrequest', { headers: { 'Content-Type': 'application/json' }, name, email, password, address, phone, company, city })
+        await axios.post(`${host}/api/auth/createrequest`, { headers: { 'Content-Type': 'application/json' }, name, email, password, address, phone, company, city })
         Notification("Success", "Dropshipper(Request) Account Created Successfully", "success");
         setUser({
           name: "",
@@ -90,13 +91,13 @@ const Requests = () => {
 
   //Delete Account
   const deleteAccount = async (e) => {
-    await axios.delete(`/api/auth/delete/${e.currentTarget.id}`);
+    await axios.delete(`${host}/api/auth/delete/${e.currentTarget.id}`);
     await getUsers();
   }
 
   //Approve Account
   const approveAccount = async (e) => {
-    await axios.put(`/api/auth/approve/${e.currentTarget.id}`);
+    await axios.put(`${host}/api/auth/approve/${e.currentTarget.id}`);
     await getUsers();
   }
 

@@ -10,8 +10,9 @@ import Loader from '../../Loader/Loader';
 import Notification from '../../Notifications/Notifications';
 
 const PlaceOrder = () => {
+    const host = process.env.REACT_APP_API_URL;
+
     const { CartItems, subTotal, Cart, shippCat } = useContext(ProductContext);
-    console.log(shippCat);
     const { user } = useContext(UserContext);
     const { getMyOrders } = useContext(OrderContext);
     let [loading, setLoading] = useState(false);
@@ -101,7 +102,6 @@ const PlaceOrder = () => {
     const calculateShippingcost = (city) => {
         if (parseFloat(weight / 1000) <= 0.5000) {
             const data = shippCat.find(item => item.weight === "half");
-
             if (city === "Lahore") {
                 setShipping(data.incity);
                 setTotal(subTotal + data.incity);
@@ -189,7 +189,7 @@ const PlaceOrder = () => {
             const orderValues = { ...orderDetails, total, shipping, orderType };
             try {
                 setLoading(true);
-                await axios.post('/api/order/placeOrder', orderValues);
+                await axios.post(`${host}/api/order/placeOrder`, orderValues);
                 setLoading(false);
                 Notification("Success", "Ordered Successfully", "success");
                 setShippingDetails((prevVal) => ({
@@ -849,7 +849,9 @@ const PlaceOrder = () => {
                     </>}
                     <br />
                     <br />
-                    <button onClick={placeOrder} type="submit" className="btn btn-primary">Submit</button>
+                    <div className="d-flex justify-content-center">
+                        <button onClick={placeOrder} type="submit" className="btn btn-primary">Checkout</button>
+                    </div>
                 </div >}
         </>
     )

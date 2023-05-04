@@ -2,10 +2,11 @@ import React, {  useEffect, useState } from 'react'
 import axios from 'axios';
 
 const ShippedOrders = () => {
-    const [orders, setOrders] = useState([]);
+    const host = process.env.REACT_APP_API_URL;
+    const [orders, setOrders] = useState([])
     useEffect(() => {
         const getOrders = async () => {
-            const { data } = await axios.get('/api/order/shippedOrders');
+            const { data } = await axios.get(`${host}/api/order/shippedOrders`);
             setOrders(data);
         }
         getOrders();

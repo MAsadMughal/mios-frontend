@@ -17,6 +17,8 @@ export class ShippingAddress extends Component {
       };
       this.onChange = this.onChange.bind(this);
     }
+
+    host = process.env.REACT_APP_API_URL;
 onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -41,7 +43,7 @@ onChange = (e) => {
             "zipCode":zipCode,
         };
         this.setState({ loading: true });
-        const response = await fetch("http://localhost:5000/api/shipping/addshipping", {
+        const response = await fetch(`${this.host}/api/shipping/addshipping`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +61,7 @@ onChange = (e) => {
 
 
       async componentDidMount() {
-        let url = `http://localhost:5000/api/shipping/addshipping`;
+        let url = `${this.host}/api/shipping/addshipping`;
         this.setState({ loading: true });
         let data = await fetch(url);
         data = await data.json();

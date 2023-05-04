@@ -11,9 +11,9 @@ class Order extends Component {
       checked: false,
     };
   }
-
+  host = process.env.REACT_APP_API_URL;
   async componentDidMount() {
-    let url = `http://localhost:5000/api/order/allorders`;
+    let url = `${this.host}/api/order/allorders`;
     this.setState({ loading: true });
     let data = await fetch(url);
     data = await data.json();
@@ -27,14 +27,14 @@ class Order extends Component {
   };
 
   handlePayment = async (_id) => {
-    let url = `http://localhost:5000/api/order/changepaymentstatus/${_id}`;
+    let url = `${this.host}/api/order/changepaymentstatus/${_id}`;
     await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let updatedUser = `http://localhost:5000/api/order/allorders`
+    let updatedUser = `${this.host}/api/order/allorders`
     let uUser = await fetch(updatedUser);
     let usr = await uUser.json();
     this.setState({ orders: usr });
@@ -42,14 +42,14 @@ class Order extends Component {
 
 
   handleDelete = async (id) => {
-        // let url = `http://localhost:5000/api/product/deleteproduct/${id}`;
+        // let url = `${this.host}/api/product/deleteproduct/${id}`;
         // let data = await fetch(url, {
         //   method: "DELETE",
         //   headers: {
         //     "Content-Type": "application/json",
         //   },
         // });
-        // let updatedOrder = `http://localhost:5000/api/order/allorders`
+        // let updatedOrder = `${this.host}/api/order/allorders`
         // let uOrder = await fetch(updatedOrder);
         // let pro = await uOrder.json();
         // this.setState({ products: pro });

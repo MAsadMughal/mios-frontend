@@ -5,6 +5,7 @@ import UserContext from '../../context/User/UserContext';
 import "./Customers.css";
 
 const Customers = () => {
+  const host = process.env.REACT_APP_API_URL;
   const [allUsers, setAllUser] = useState([])
   const { getAndSetUsers } = useContext(UserContext);
 
@@ -12,7 +13,7 @@ const Customers = () => {
 
   useEffect(() => {
     const getAllUsers = async () => {
-      const { data } = await axios.get('/api/auth/allUsers');
+      const { data } = await axios.get(`${host}/api/auth/allUsers`);
       if (allUsers.length !== data.length) {
         setAllUser(data);
       }
@@ -22,7 +23,7 @@ const Customers = () => {
 
 
   const getUsers = async () => {
-    const { data } = await axios.get('/api/auth/allUsers');
+    const { data } = await axios.get(`${host}/api/auth/allUsers`);
     if (allUsers.length !== data.length) {
       setAllUser(data);
     }
@@ -31,7 +32,7 @@ const Customers = () => {
 
 
   const deleteAccount = async (e) => {
-    await axios.delete(`/api/auth/delete/${e.currentTarget.id}`);
+    await axios.delete(`${host}/api/auth/delete/${e.currentTarget.id}`);
     await axios.get('/api/auth/allUsers');
     await getUsers()
   }

@@ -1,8 +1,9 @@
 .formtag {
   width: 95%;
   text-align: left;
-  background-color:aquamarine;
+  background-color:#f1f1f1;
   padding: 30px;
+  border-radius: 10px;
 }
 .form-check-input {
   width: 20px;

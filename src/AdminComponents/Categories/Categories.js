@@ -8,6 +8,7 @@ import "./Categories.css";
 import Notification from '../../Notifications/Notifications';
 
 const Categories = () => {
+  const host = process.env.REACT_APP_API_URL;
   const { categories, getCategories } = useContext(ProductContext);
   const [show, setShow] = useState(true)
 
@@ -18,7 +19,7 @@ const Categories = () => {
 
   const deleteCategory = async (e) => {
     try {
-      await axios.delete(`/api/category/deletecategory/${e.currentTarget.id}`);
+      await axios.delete(`${host}/api/category/deletecategory/${e.currentTarget.id}`);
       await getCategories();
     } catch (e) {
       Notification("Error",e.response.data,"danger")

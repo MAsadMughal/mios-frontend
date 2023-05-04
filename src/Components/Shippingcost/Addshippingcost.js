@@ -13,7 +13,7 @@ export class Addshippingcost extends Component {
     };
     this.onChange = this.onChange.bind(this);
   }
-
+  host = process.env.REACT_APP_API_URL;
   onChecked = (e) => {
     this.setState({
       checked: !this.state.checked,
@@ -39,7 +39,7 @@ export class Addshippingcost extends Component {
         "outcity":outofcity
     };
     this.setState({ loading: true });
-    const response = await fetch("http://localhost:5000/api/shipping/addshippingcalc", {
+    const response = await fetch(`${this.host}/api/shipping/addshippingcalc`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

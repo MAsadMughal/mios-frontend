@@ -12,9 +12,9 @@ class DropshipPaid extends Component {
       checked: false,
     };
   }
-
+  host = process.env.REACT_APP_API_URL;
   async componentDidMount() {
-    let url = `http://localhost:5000/api/profit/paidprofit`;
+    let url = `${this.host}/api/profit/paidprofit`;
     this.setState({ loading: true });
     let data = await fetch(url);
     data = await data.json();
@@ -28,14 +28,14 @@ class DropshipPaid extends Component {
   };
 
   handlePayment = async (_id) => {
-    let url = `http://localhost:5000/api/order/changepaymentstatus/${_id}`;
+    let url = `${this.host}/api/order/changepaymentstatus/${_id}`;
     await fetch(url, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
     });
-    let updatedUser = `http://localhost:5000/api/order/dropshiporder`
+    let updatedUser = `${this.host}/api/order/dropshiporder`
     let uUser = await fetch(updatedUser);
     let usr = await uUser.json();
     this.setState({ orders: usr });

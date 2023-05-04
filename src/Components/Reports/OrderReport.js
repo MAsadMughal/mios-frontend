@@ -14,9 +14,10 @@ class OrderReport extends Component {
       odate: "",
     };
   }
+  host = process.env.REACT_APP_API_URL;
 
   async componentDidMount() {
-    let url = `http://localhost:5000/api/order/allorders`;
+    let url = `${this.host}/api/order/allorders`;
     this.setState({ loading: true });
     let data = await fetch(url);
     data = await data.json();
@@ -33,7 +34,7 @@ class OrderReport extends Component {
     e.preventDefault();
     let date = new Date(this.state.odate);
     let edate = moment(date).format("YYYY-MM-DD");
-    let url = `http://localhost:5000/api/order/search/${edate}`;
+    let url = `${this.host}/api/order/search/${edate}`;
     this.setState({ loading: true });
     let data = await fetch(url 
       , {

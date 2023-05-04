@@ -14,6 +14,7 @@ import { arr, navArr, orderStatuses } from './SidebarData';
 
 
 export default function Sidebar() {
+    const host = process.env.REACT_APP_API_URL;
     const [open, setOpen] = useState(false);
     const handleDrawerOpen = () => { setOpen(true); };
     const handleDrawerClose = () => { setOpen(false); };
@@ -26,16 +27,14 @@ export default function Sidebar() {
     useEffect(() => {
         window.scrollTo(0, 0);
         const getNumbers = async () => {
-            const pending = await axios.get('/api/order/pendingOrders')
-            const shipped = await axios.get('/api/order/shippedOrders')
-            const delivered = await axios.get('/api/order/deliveredOrders')
-            const returned = await axios.get('/api/order/returnedOrders')
+            const pending = await axios.get(`${host}/api/order/pendingOrders`)
+            const shipped = await axios.get(`${host}/api/order/shippedOrders`)
+            const delivered = await axios.get(`${host}/api/order/deliveredOrders`)
+            const returned = await axios.get(`${host}/api/order/returnedOrders`)
             setNumbers({ pending: pending?.data?.length, shipped: shipped?.data?.length, delivered: delivered?.data?.length, returned: returned?.data?.length })
-            const { data } = await axios.get('/api/product/catcount');
+            const { data } = await axios.get(`${host}/api/product/catcount`);
             setCount(data.count);
-
         }
-
         getNumbers();
     }, [location.pathname])
     const { CartItems, categories } = useContext(ProductContext);
@@ -43,7 +42,7 @@ export default function Sidebar() {
 
 
     const logout = async () => {
-        await axios.get('/api/auth/logout');
+        await axios.get(`${host}/api/auth/logout`);
         Navigate('/login');
         window.location.reload();
     }

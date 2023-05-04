@@ -5,10 +5,11 @@ import OrderContext from './OrderContext'
 
 
 const OrderState = (props) => {
+  const host = process.env.REACT_APP_API_URL;
   const [userOrders, setUserOrders] = useState([]);
 
   const getMyOrders = async () => {
-    const { data } = await axios.get('/api/order/myOrders');
+    const { data } = await axios.get(`${host}/api/order/myOrders`);
     setUserOrders(data);
   }
 

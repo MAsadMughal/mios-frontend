@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 const UpdateShippingStatus = () => {
+  const host = process.env.REACT_APP_API_URL;
   const [trackingId, setTrackingId] = useState("");
   const [courierServiceName, setcourierServiceName] = useState("");
 
@@ -30,13 +31,13 @@ const UpdateShippingStatus = () => {
     e.preventDefault();
     try {
       await axios
-        .post(`http://localhost:5000/api/order/addtrackingdetails/${id}`, {
+        .post(`${host}/api/order/addtrackingdetails/${id}`, {
           trackingId,
           courierServiceName,
         })
         .then(async (res) => {
           console.log(res.data);
-          let url = `http://localhost:5000/api/order/changeshippingstatus/${id}`;
+          let url = `${host}/api/order/changeshippingstatus/${id}`;
           await fetch(url, {
             method: "PUT",
             headers: {

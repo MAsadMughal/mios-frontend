@@ -7,6 +7,7 @@ import Notification from '../../Notifications/Notifications';
 
 
 const WholeSeller = () => {
+  const host = process.env.REACT_APP_API_URL;
   let [allUsers, setAllUsers] = useState([])
   let [show, setShow] = useState(true);
   let [user, setUser] = useState({
@@ -25,7 +26,7 @@ const WholeSeller = () => {
 
   useEffect(() => {
     const getAllUsers = async () => {
-      const { data } = await axios.get('/api/auth/allwholesellers');
+      const { data } = await axios.get(`${host}/api/auth/allwholesellers`);
       if (allUsers.length !== data.length) {
         setAllUsers(data);
       }
@@ -38,7 +39,7 @@ const WholeSeller = () => {
 
 
   const getUsers = async () => {
-    const { data } = await axios.get('/api/auth/allwholesellers');
+    const { data } = await axios.get(`${host}/api/auth/allwholesellers`);
     if (allUsers.length !== data.length) {
       setAllUsers(data);
     }
@@ -46,7 +47,7 @@ const WholeSeller = () => {
   }
 
   const deleteAccount = async (e) => {
-    await axios.delete(`/api/auth/delete/${e.currentTarget.id}`);
+    await axios.delete(`${host}/api/auth/delete/${e.currentTarget.id}`);
     await getUsers();
   }
 
@@ -65,7 +66,7 @@ const WholeSeller = () => {
       if (!name || !email || !password || !address || !phone || !company || !city) {
         window.alert('Enter Complete Details');
       } else {
-        await axios.post('/api/auth/createWholeSeller', {
+        await axios.post(`${host}/api/auth/createWholeSeller`, {
           headers: { 'Content-Type': 'application/json' }, name, email, password, address, phone, company, city
         });
         Notification("Success", "WholeSeller User Created Successfully", "success");

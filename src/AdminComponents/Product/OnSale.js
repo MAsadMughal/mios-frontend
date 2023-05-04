@@ -8,9 +8,9 @@ export default class OnSale extends Component {
       loading: false,
     };
   }
-
+  host = process.env.REACT_APP_API_URL;
   async componentDidMount() {
-    let url = `http://localhost:5000/api/product/onsale`;
+    let url = `${this.host}/api/product/onsale`;
     this.setState({ loading: true });
     let data = await fetch(url);
     data = await data.json();
