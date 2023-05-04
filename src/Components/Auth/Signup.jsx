@@ -10,7 +10,7 @@ import UserContext from '../../context/User/UserContext';
 
 
 const Signup = ({ setuser }) => {
-
+    const host = process.env.REACT_APP_API_URL;
     let [user, setUser] = useState({
         role: "wholeseller",
         name: "",
@@ -59,7 +59,7 @@ const Signup = ({ setuser }) => {
                 window.alert('Enter Complete Details');
             } else {
                 // eslint-disable-next-line
-                const {data}=await axios.post('api/auth/signup', {
+                const { data } = await axios.post(`${host}/api/auth/signup`, {
                     headers: {
                         'Content-Type': 'application/json'
                     },

@@ -31,10 +31,10 @@ export class Login extends Component {
     this.setState({ loading: true });
     this.login(this.state.email, this.state.password);
   }
-
+  host = process.env.REACT_APP_API_URL;
   login = async (email, password) => {
     try {
-      const response = await axios.post("/api/auth/login", {
+      const response = await axios.post(`${this.host}/api/auth/login`, {
         headers: {
           "Content-Type": "application/json",
         },
