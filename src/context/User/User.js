@@ -22,7 +22,8 @@ const User = (props) => {
                     headers: {
                         'Content-Type': 'application/json',
                         credentials: 'include',
-                        'Cookie': document.cookie                     }
+                        // 'Cookie': document.cookie
+                                         }
                 },);
                 setUser(data);
             } catch (e) {
@@ -67,7 +68,7 @@ const User = (props) => {
                 headers: {
                     'Content-Type': 'application/json',
                      credentials: 'include',
-                    'Cookie': document.cookie // Include the authentication cookie here
+                    // 'Cookie': document.cookie // Include the authentication cookie here
                 }
             },);
             setUser(data);

@@ -79,7 +79,7 @@ function App() {
           headers: {
             'Content-Type': 'application/json',
             credentials: 'include',
-            'Cookie': document.cookie 
+            // 'Cookie': document.cookie 
           }
         },);
         setUser(data);
