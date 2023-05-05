@@ -34,6 +34,7 @@ export class Login extends Component {
   host = process.env.REACT_APP_API_URL;
   login = async (email, password) => {
     try {
+      console.log(document.cookie)
       const response = await axios.post(`${this.host}/api/auth/login`, {
         headers: {
           "Content-Type": "application/json",
@@ -44,12 +45,11 @@ export class Login extends Component {
         var d = new Date();
         d.setTime(d.getTime() + (3600 * 60 * 1000));
         var expires = "expires=" + d.toUTCString()
-        console.log(document.cookie)
         document.cookie = "token=" + response.data.authtoken + ';' + expires;
-        console.log(document.cookie)
         this.setState({ user: response.data.authtoken });
-        window.location.reload();
+        // window.location.reload();
       }
+      console.log(document.cookie)
     } catch (e) {
       if (e.response?.data?.errors[0]?.msg) {
         Notification("Error", e.response.data.errors[0].msg, "danger");
