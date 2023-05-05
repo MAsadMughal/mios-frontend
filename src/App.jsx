@@ -75,13 +75,7 @@ function App() {
     const getUserDetails = async () => {
       try {
         console.log(document.cookie);
-        const { data } = await axios.get(`${host}/api/auth/user`, {
-          headers: {
-            'Content-Type': 'application/json',
-            credentials: 'include',
-            // 'Cookie': document.cookie 
-          }
-        },);
+        const { data } = await axios.get(`${host}/api/auth/user`, { withCredentials: true });
         setUser(data);
       } catch (e) {
         setError('');

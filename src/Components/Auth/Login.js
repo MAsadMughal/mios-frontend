@@ -36,18 +36,17 @@ export class Login extends Component {
     try {
       console.log(document.cookie)
       const response = await axios.post(`${this.host}/api/auth/login`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
         email, password
+      }, {
+        withCredentials: true
       });
       if (response?.data?.authtoken) {
-        var d = new Date();
-        d.setTime(d.getTime() + (3600 * 60 * 1000));
-        var expires = "expires=" + d.toUTCString()
-        document.cookie = "token=" + response.data.authtoken + ';SameSite=None;' + expires + ';Secure';
+        // var d = new Date();
+        // d.setTime(d.getTime() + (3600 * 60 * 1000));
+        // var expires = "expires=" + d.toUTCString()
+        // document.cookie = "token=" + response.data.authtoken + ';SameSite=None;' + expires + ';Secure';
         this.setState({ user: response.data.authtoken });
-        // window.location.reload();
+        window.location.reload();
       }
       console.log(document.cookie)
     } catch (e) {
