@@ -21,7 +21,8 @@ const User = (props) => {
                 const { data } = await axios.get(`${host}/api/auth/user`, {
                     headers: {
                         'Content-Type': 'application/json',
-                        credentials: 'include'                    }
+                        credentials: 'include',
+                        'Cookie': document.cookie                     }
                 },);
                 setUser(data);
             } catch (e) {
@@ -65,7 +66,9 @@ const User = (props) => {
             const { data } = await axios.get(`${host}/api/auth/user`, {
                 headers: {
                     'Content-Type': 'application/json',
-                    credentials: 'include'                }
+                     credentials: 'include',
+                    'Cookie': document.cookie // Include the authentication cookie here
+                }
             },);
             setUser(data);
         } catch (e) {
