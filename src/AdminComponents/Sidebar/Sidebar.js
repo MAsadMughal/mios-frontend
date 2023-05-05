@@ -27,7 +27,9 @@ const Sidebar = () => {
     const Navigate = useNavigate();
     const handleLogout = async () => {
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        await axios.get('/api/auth/logout');
+        await axios.get('/api/auth/logout', {
+            withCredentials: true
+        });
         Navigate('/admin/login')
         window.location.reload();
     }
