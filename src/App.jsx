@@ -74,7 +74,13 @@ function App() {
   useEffect(() => {
     const getUserDetails = async () => {
       try {
-        const { data } = await axios.get(`${host}/api/auth/user`, { headers: { "Content-Type": "application/json", } },);
+        console.log(document.cookie);
+        const { data } = await axios.get(`${host}/api/auth/user`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Cookie': document.cookie// Include the authentication cookie here
+          }
+        },);
         setUser(data);
       } catch (e) {
         setError('');

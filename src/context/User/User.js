@@ -18,7 +18,12 @@ const User = (props) => {
     useEffect(() => {
         const userDetails = async () => {
             try {
-                const { data } = await axios.get(`${host}/api/auth/user`, { headers: { "Content-Type": "application/json", } },);
+                const { data } = await axios.get(`${host}/api/auth/user`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Cookie': document.cookie // Include the authentication cookie here
+                    }
+                },);
                 setUser(data);
             } catch (e) {
                 setError(e);
@@ -58,7 +63,12 @@ const User = (props) => {
 
     const getUserDetails = async () => {
         try {
-            const { data } = await axios.get(`${host}/api/auth/user`, { headers: { "Content-Type": "application/json", } },);
+            const { data } = await axios.get(`${host}/api/auth/user`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Cookie': document.cookie // Include the authentication cookie here
+                }
+            },);
             setUser(data);
         } catch (e) {
             setError('');
