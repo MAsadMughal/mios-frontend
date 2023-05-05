@@ -45,6 +45,7 @@ export class Login extends Component {
         d.setTime(d.getTime() + (3600 * 60 * 1000));
         var expires = "expires=" + d.toUTCString()
         document.cookie = "token=" + response.data.authtoken + ';' + expires;
+        console.log(document.cookie)
         this.setState({ user: response.data.authtoken });
         window.location.reload();
       }
