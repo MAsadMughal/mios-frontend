@@ -14,10 +14,10 @@ const Sidebar = () => {
 
 
     const logout = async () => {
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        await axios.get('/api/auth/logout', {
+        // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        await axios.get(`${host}/api/auth/logout`, {
             withCredentials: true
-          });
+        });
         window.location.reload();
     }
 
