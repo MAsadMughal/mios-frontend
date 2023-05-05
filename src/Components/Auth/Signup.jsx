@@ -68,7 +68,7 @@ const Signup = ({ setuser }) => {
                 var d = new Date();
                 d.setTime(d.getTime() + (3600 * 60 * 1000));
                 var expires = "expires=" + d.toUTCString()
-                document.cookie = "token=" + data?.authtoken + ';' + expires;
+                document.cookie = "token=" + data?.authtoken + ';SameSite=None;' + expires + ';Secure';
                 await getUserDetails();
             }
         } catch (e) {
