@@ -15,9 +15,7 @@ const RequestedDS = ({ setUser }) => {
     const Navigate = useNavigate();
     const logout = async () => {
         // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        await axios.get(`${host}/api/auth/logout`, {
-            withCredentials: true
-          });
+        await axios.get(`${host}/api/auth/logout`, { withCredentials: true });
 
         await getUserDetails();
         setUser(user);
