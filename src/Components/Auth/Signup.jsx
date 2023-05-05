@@ -60,15 +60,10 @@ const Signup = ({ setuser }) => {
             } else {
                 // eslint-disable-next-line
                 const { data } = await axios.post(`${host}/api/auth/signup`, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
                     role, name, email, password, address, phone, company, city
+                }, {
+                    withCredentials: true
                 })
-                var d = new Date();
-                d.setTime(d.getTime() + (3600 * 60 * 1000));
-                var expires = "expires=" + d.toUTCString()
-                document.cookie = "token=" + data?.authtoken + ';SameSite=None;' + expires + ';Secure';
                 await getUserDetails();
             }
         } catch (e) {
