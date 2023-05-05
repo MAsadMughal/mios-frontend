@@ -42,7 +42,9 @@ export default function Sidebar() {
 
 
     const logout = async () => {
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        await axios.get('/api/auth/logout');
+
         Navigate('/login');
         window.location.reload();
     }
