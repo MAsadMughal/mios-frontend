@@ -78,7 +78,7 @@ function App() {
         const { data } = await axios.get(`${host}/api/auth/user`, {
           headers: {
             'Content-Type': 'application/json',
-            'Cookie': document.cookie// Include the authentication cookie here
+            credentials: 'include'
           }
         },);
         setUser(data);
