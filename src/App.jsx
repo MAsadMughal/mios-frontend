@@ -74,7 +74,6 @@ function App() {
   useEffect(() => {
     const getUserDetails = async () => {
       try {
-        console.log(document.cookie);
         const { data } = await axios.get(`${host}/api/auth/user`, { withCredentials: true });
         setUser(data);
       } catch (e) {
