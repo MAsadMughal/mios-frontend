@@ -3,7 +3,7 @@ import ProductContext from '../../context/Product/ProductContext';
 import UserContext from '../../context/User/UserContext';
 import "./Dashboard.css";
 import axios from 'axios';
-
+import Loader from '../../Loader/Loader';
 const Dashboard = () => {
   const { getAndSetUsers } = useContext(UserContext)
   const { getCategories, getProducts } = useContext(ProductContext)
