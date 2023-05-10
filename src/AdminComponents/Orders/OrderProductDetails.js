@@ -19,7 +19,6 @@ const OrderProductDetails = () => {
     getOrderProducts();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  console.log(orderProduct);
 
   return (
     <>

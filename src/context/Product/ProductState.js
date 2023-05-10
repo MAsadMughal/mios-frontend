@@ -7,37 +7,63 @@ const ProductState = (props) => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [CartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [subTotal, setSubTotal] = useState(0);
   const [shippCat, setShippingCat] = useState(0);
   const [MyShopItems, setMyShopItems] = useState([]);
 
-  // const [featured, setFeatured] = useState([])
-  // const [onSale, setOnSale] = useState([])
+  const [featured, setFeatured] = useState([])
+  const [onSale, setOnSale] = useState([])
+
+  const getFeatured = async () => {
+    setLoading(true)
+    const { data } = await axios.get(`${host}/api/product/featured`);
+    setFeatured(data?.featuredProducts);
+    setLoading(false)
+  };
+  const getOnSale = async () => {
+    setLoading(true)
+    const { data } = await axios.get(`${host}/api/product/allonsale`);
+    setOnSale(data?.onSaleProducts);
+    setLoading(false)
+  };
+
+
 
   const getCategories = async () => {
+    setLoading(true)
     const { data } = await axios.get(`${host}/api/category/allcategories`);
     setCategories(data?.categories);
+    setLoading(false)
   };
   const getProducts = async () => {
+    setLoading(true)
     const { data } = await axios.get(`${host}/api/product/allProducts`);
     setProducts(data?.products);
+    setLoading(false)
   };
   const getShipCat = async () => {
+    setLoading(true)
     const { data } = await axios.get(`${host}/api/shipping/shippingcalc`);
     setShippingCat(data);
+    setLoading(false)
   };
   useEffect(() => {
     getShipCat();
   }, []);
 
   const Cart = async () => {
+    setLoading(true)
     const { data } = await axios.get(`${host}/api/cart/allcartitems`);
     setCartItems(data);
+    setLoading(false)
   };
 
   const getMyshop = async () => {
+    setLoading(true)
     const { data } = await axios.get(`${host}/api/myshop/allmyshopitems`);
     setMyShopItems(data);
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -52,45 +78,53 @@ const ProductState = (props) => {
       product,
       quantity,
     };
-    await axios
-      .post(`${host}/api/cart/addtocart`, { cart })
+    setLoading(true)
+    await axios.post(`${host}/api/cart/addtocart`, { cart })
       .then(function (response) {
+        setLoading(false)
         console.log(response);
       })
       .catch(function (error) {
+        setLoading(false)
         console.log(error);
       });
   };
 
   const removeCartProduct = async (id) => {
-    await axios
-      .delete(`${host}/api/cart/deletecartitem/${id}`)
+    setLoading(true)
+    await axios.delete(`${host}/api/cart/deletecartitem/${id}`)
       .then(function (response) {
+        setLoading(false)
         setCartItems(response.data.result);
       })
       .catch(function (error) {
+        setLoading(false)
         console.log(error);
       });
   };
 
   const updateCartProductQty = async (id, qty) => {
-    await axios
-      .put(`${host}/api/cart/updatecart/${id}`, { qty })
+    setLoading(true)
+    await axios.put(`${host}/api/cart/updatecart/${id}`, { qty })
       .then(function (response) {
+        setLoading(false)
         setCartItems(response.data.result);
       })
       .catch(function (error) {
+        setLoading(false)
         console.log(error);
       });
   };
 
   const addToMyShop = async (product) => {
-    await axios
-      .post(`${host}/api/myshop/addtomyshop`, { product })
+    setLoading(true)
+    await axios.post(`${host}/api/myshop/addtomyshop`, { product })
       .then(function (response) {
+        setLoading(false)
         console.log(response);
       })
       .catch(function (error) {
+        setLoading(false)
         console.log(error);
       });
   };
@@ -98,6 +132,7 @@ const ProductState = (props) => {
   return (
     <ProductContext.Provider
       value={{
+        loading, setLoading,
         categories,
         getCategories,
         products,
@@ -111,7 +146,7 @@ const ProductState = (props) => {
         removeCartProduct,
         updateCartProductQty,
         addToMyShop,
-        getMyshop,
+        getMyshop, getFeatured, getOnSale, featured, onSale,
         MyShopItems,
       }}
     >

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
+import Loader from '../../Loader/Loader';
 // const image = window.location.origin + "/Assets/no-data.svg";
 export class Shippingcost extends Component {
   constructor() {
@@ -64,7 +65,6 @@ export class Shippingcost extends Component {
     let uProducts = await fetch(url);
     let pro = await uProducts.json();
     this.setState({ shipping: pro, loading: false });
-    this.closeRef.current.click();
   };
 
   onChange = (e) => {
@@ -89,8 +89,8 @@ export class Shippingcost extends Component {
 
   render() {
     return (
-      <>
-        <div className="main">
+      <>{this.state.loading ? <Loader /> : <>
+        <div className="main" id="main">
           <div className="container-fluid">
 
             <div className="my-3 d-flex justify-content-between">
@@ -196,6 +196,8 @@ export class Shippingcost extends Component {
                   type="button"
                   className="btn btn-secondary"
                   data-bs-dismiss="modal"
+                  data-bs-toggle="modal"
+                  data-bs-target="#main"
                   ref={this.closeRef}
                 >
                   Close
@@ -208,7 +210,8 @@ export class Shippingcost extends Component {
           </div>
         </div>
       </>
-    )
+      }
+      </>)
   }
 }
 

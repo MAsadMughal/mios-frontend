@@ -9,45 +9,14 @@ import Loader from "../../Loader/Loader";
 const EditProduct = () => {
   const host = process.env.REACT_APP_API_URL;
   const Navigate = useNavigate();
-  const { getProducts } = useContext(ProductContext);
+  const { getProducts, loading, setLoading } = useContext(ProductContext);
   let [img, setImg] = useState("");
   const params = useParams();
   const { id } = params;
-  let [loading, setLoading] = useState(false);
   let { categories } = useContext(ProductContext);
-  let [product, setProduct] = useState({
-    category: "",
-    skuNumber: "",
-    title: "",
-    stock: 0,
-    wholesalePrice: 0,
-    dropshipperPrice: 0,
-    discountedPriceW: 0,
-    discountedPriceD: 0,
-    purchasePrice: 0,
-    weight: 0,
-    featured: false,
-    onSale: false,
-    photo: "",
-    description: "",
-  });
 
-  const {
-    category,
-    skuNumber,
-    title,
-    stock,
-    wholesalePrice,
-    dropshipperPrice,
-    discountedPriceW,
-    discountedPriceD,
-    purchasePrice,
-    weight,
-    featured,
-    onSale,
-    photo,
-    description,
-  } = product;
+  let [product, setProduct] = useState({ category: "", skuNumber: "", title: "", stock: 0, wholesalePrice: 0, dropshipperPrice: 0, discountedPriceW: 0, discountedPriceD: 0, purchasePrice: 0, weight: 0, featured: false, onSale: false, photo: "", description: "", });
+  const { category, skuNumber, title, stock, wholesalePrice, dropshipperPrice, discountedPriceW, discountedPriceD, purchasePrice, weight, featured, onSale, photo, description, } = product;
 
   useEffect(() => {
     if (img) {
@@ -64,29 +33,17 @@ const EditProduct = () => {
 
   useEffect(() => {
     const getProduct = async () => {
+      setLoading(true)
       const { data } = await axios.get(`${host}/api/product/product/${id}`);
       setProduct(data[0]);
+      setLoading(false)
     };
     getProduct();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !category ||
-      !skuNumber ||
-      !title ||
-      !stock ||
-      Number(stock) === 0 ||
-      !wholesalePrice ||
-      Number(wholesalePrice) === 0 ||
-      !dropshipperPrice ||
-      Number(dropshipperPrice) === 0 ||
-      !purchasePrice ||
-      Number(purchasePrice) === 0 ||
-      !weight ||
-      !photo ||
-      !description
+    if (!category || !skuNumber || !title || !stock || Number(stock) === 0 || !wholesalePrice || Number(wholesalePrice) === 0 || !dropshipperPrice || Number(dropshipperPrice) === 0 || !purchasePrice || Number(purchasePrice) === 0 || !weight || !photo || !description
     ) {
       Notification(
         "Error",
@@ -112,41 +69,15 @@ const EditProduct = () => {
       try {
         setLoading(true);
         await axios.put(`${host}/api/product/editProduct/${id}`, {
-          category,
-          skuNumber,
-          title,
-          stock,
-          wholesalePrice,
-          dropshipperPrice,
-          discountedPriceW,
-          discountedPriceD,
-          purchasePrice,
-          weight,
-          featured,
-          onSale,
-          photo,
-          description,
+          category, skuNumber, title, stock, wholesalePrice, dropshipperPrice, discountedPriceW, discountedPriceD, purchasePrice, weight, featured, onSale, photo, description,
         });
-        setProduct({
-          category: "",
-          skuNumber: "",
-          title: "",
-          stock: 0,
-          wholesalePrice: 0,
-          dropshipperPrice: 0,
-          discountedPriceW: 0,
-          discountedPriceD: 0,
-          purchasePrice: 0,
-          weight: 0,
-          featured: false,
-          onSale: false,
-          photo: "",
-          description: "",
-        });
+        setProduct({ category: "", skuNumber: "", title: "", stock: 0, wholesalePrice: 0, dropshipperPrice: 0, discountedPriceW: 0, discountedPriceD: 0, purchasePrice: 0, weight: 0, featured: false, onSale: false, photo: "", description: "", });
+        await getProducts();
         setLoading(false);
         Notification("Success", "Product Added Successfully", "success");
-        Navigate("/admin/products");
-        await getProducts();
+        setTimeout(() => {
+          Navigate("/admin/products");
+        }, 2000);
       } catch (e) {
         setLoading(false);
         if (e.response?.data?.keyPattern) {

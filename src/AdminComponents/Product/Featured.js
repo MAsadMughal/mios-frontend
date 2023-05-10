@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ReactNotifications } from "react-notifications-component";
 import { Link } from "react-router-dom";
 import ProductContext from "../../context/Product/ProductContext";
@@ -9,13 +9,18 @@ import Notification from "../../Notifications/Notifications";
 
 const Featured = () => {
   const host = process.env.REACT_APP_API_URL;
-  const { products, getProducts } = useContext(ProductContext);
-  let [loading, setLoading] = useState(false);
+  const { featured, getFeatured, loading, setLoading } = useContext(ProductContext);
+  
+  useEffect(() => {
+    getFeatured()
+  }, [])
+  
+  
   const deleteProduct = async (e) => {
     try {
       setLoading(true);
       await axios.delete(`${host}/api/product/deleteProduct/${e.currentTarget.id}`);
-      await getProducts();
+      await getFeatured();
       setLoading(false);
     }
     catch (error) {
@@ -47,7 +52,7 @@ const Featured = () => {
               <th>Delete</th>
             </tr>
           </thead>
-          {products && products.map((item, ind) => {
+          {featured && featured.map((item, ind) => {
             return (
               <tbody key={ind}>
                 <tr>
@@ -59,8 +64,8 @@ const Featured = () => {
                   <td>{item.stock}</td>
                   <td>{item.wholesalePrice}</td>
                   <td>{item.dropshipperPrice}</td>
-                  <td>{item.featured ? `True` : `False`}</td>
-                  <td>{item.onSale ? `True` : `False`}</td>
+                  <td>{item.featured ? `Yes` : `No`}</td>
+                  <td>{item.onSale ? `Yes` : `No`}</td>
                   <td><Link to={`/admin/product/edit/${item._id}`}><button className="btn btn-info" id={item._id} >Edit</button> </Link> </td>
                   <td><button id={item._id} className="btn btn-danger" onClick={deleteProduct} >Delete</button> </td>
                 </tr>

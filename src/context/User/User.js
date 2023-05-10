@@ -7,6 +7,7 @@ import UserContext from "./UserContext";
 const User = (props) => {
     const host = process.env.REACT_APP_API_URL;
     const [allUsers, setAllUsers] = useState(0)
+    const [loading, setLoading] = useState(false)
     const [wholesellers, setWholeSellers] = useState(0)
     const [dropShippers, setDropShippers] = useState(0)
     const [requests, setRequests] = useState(0)
@@ -18,9 +19,12 @@ const User = (props) => {
     useEffect(() => {
         const userDetails = async () => {
             try {
+                setLoading(true)
                 const { data } = await axios.get(`${host}/api/auth/user`, { withCredentials: true });
                 setUser(data);
+                setLoading(false)
             } catch (e) {
+                setLoading(false)
                 setError(e);
             }
         }
@@ -28,6 +32,7 @@ const User = (props) => {
     }, [])
 
     const getAllUsers = async () => {
+        setLoading(true)
         const { data } = await axios.get(`${host}/api/auth/allUsers`);
         const Wholesellers = await axios.get(`${host}/api/auth/allwholesellers`);
         const DropShippers = await axios.get(`${host}/api/auth/alldropShippers`);
@@ -36,6 +41,7 @@ const User = (props) => {
         setWholeSellers(Wholesellers.data.length);
         setDropShippers(DropShippers.data.length);
         setRequests(Requests.data.length);
+        setLoading(false)
     }
 
     useEffect(() => {
@@ -46,6 +52,7 @@ const User = (props) => {
 
 
     const getAndSetUsers = async () => {
+        setLoading(true)
         const { data } = await axios.get(`${host}/api/auth/allUsers`);
         const Wholesellers = await axios.get(`${host}/api/auth/allwholesellers`);
         const DropShippers = await axios.get(`${host}/api/auth/alldropShippers`);
@@ -54,13 +61,17 @@ const User = (props) => {
         setWholeSellers(Wholesellers.data.length);
         setDropShippers(DropShippers.data.length);
         setRequests(Requests.data.length);
+        setLoading(false)
     }
 
     const getUserDetails = async () => {
         try {
+            setLoading(true)
             const { data } = await axios.get(`${host}/api/auth/user`, { withCredentials: true });
             setUser(data);
+            setLoading(false)
         } catch (e) {
+            setLoading(false)
             setError('');
         }
     }
@@ -69,7 +80,7 @@ const User = (props) => {
 
 
     return (
-        <UserContext.Provider value={{ user, getUserDetails, error, allUsers, setAllUsers, wholesellers, setWholeSellers, dropShippers, setDropShippers, requests, setRequests, getAndSetUsers }}>
+        <UserContext.Provider value={{ loading, setLoading, user, getUserDetails, error, allUsers, setAllUsers, wholesellers, setWholeSellers, dropShippers, setDropShippers, requests, setRequests, getAndSetUsers }}>
             {props.children}
         </UserContext.Provider>
     )

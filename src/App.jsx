@@ -60,8 +60,10 @@ import UpdateShippingStatus from './AdminComponents/Orders/UpdateShippingStatus'
 import EditOrderAdminW from './AdminComponents/Orders/EditOrderAdminW';
 import EditOrderAdminD from './AdminComponents/Orders/EditOrderAdminD';
 import OrderReport from './AdminComponents/Reports/OrderReport';
-// import DropshipPending from './AdminComponents/Dropshippersprofit/DropshipPending';
-// import PendingByOrder from './AdminComponents/Dropshippersprofit/PendingByOrder';
+import DropshipPending from './AdminComponents/Dropshippersprofit/DropshipPending';
+import PendingByOrder from './AdminComponents/Dropshippersprofit/PendingByOrder';
+import DropshipPaid from './AdminComponents/Dropshippersprofit/DropshipPaid';
+
 axios.defaults.withCredentials = true;
 function App() {
   const host = process.env.REACT_APP_API_URL;
@@ -109,8 +111,8 @@ function App() {
                   <Route path="/signup" element={DSrequest ? <Navigate to="/" /> : (user._id && user.isAdmin === false) ? <Navigate to="/" /> : admin ? <Navigate to="/" /> : <Signup setuser={setUser} />} />
                   <Route path='/productMain' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ProductMain /> : <Navigate to="/login" />} />
                   {/* <Route path='/categories/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin == false) ? <CategoryProducts params={{ id: ':id' }} /> : null} /> */}
-                  <Route path='/featured' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <FeaturedProducts /> : null} />
-                  <Route path='/onsale' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <OnSaleProducts /> : null} />
+                  <Route path='/featured' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <Featured /> : null} />
+                  <Route path='/onsale' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <OnSale /> : null} />
                   <Route path='/instock' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <Instock /> : null} />
                   <Route path='/outOfStock' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <OutOfStock /> : null} />
                   <Route path='/cart' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <Cart /> : null} />
@@ -151,9 +153,9 @@ function App() {
                   <Route path="/admin/editdropshiporder/:id" element={admin ? <EditOrderAdminD /> : <></>} />
                   <Route path="/admin/shippingcost" element={admin ? <Shippingcost /> : null} />
                   {/* <Route path="/admin/reports" element={admin ? <Reports /> : null} /> */}
-                  {/* <Route path="/admin/pendingprofits" element={admin ? <DropshipPending /> : null} /> */}
-                  {/* <Route path="/admin/pendingprofits/byorder/:id" element={admin ? <PendingByOrder /> : null} /> */}
-                  {/* <Route path="/admin/dropshippaid" element={admin ? <DropshipPaid /> : null} /> */}
+                  <Route path="/admin/pendingprofits" element={admin ? <DropshipPending /> : null} />
+                  <Route path="/admin/pendingprofits/byorder/:id" element={admin ? <PendingByOrder /> : null} />
+                  <Route path="/admin/dropship-paid" element={admin ? <DropshipPaid /> : null} />
                   {/* <Route path="/admin/products" element={admin ? <AddProduct /> : null} /> */}
                   <Route path="/admin/addProduct" element={admin ? <AddProduct /> : null} />
                   <Route path="/admin/category/edit/:id" element={admin ? <EditCategory /> : null} />

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import "./Order.css";
 import { Link } from "react-router-dom";
+import Loader from "../../Loader/Loader";
 const image = window.location.origin + "/Assets/no-data.svg";
 class WholesaleOrder extends Component {
   constructor() {
@@ -95,8 +96,8 @@ class WholesaleOrder extends Component {
 
   render() {
     return (
-      <>
-        <div className="main">
+      <>{this.state.loading ? <Loader /> :
+        <><div className="main">
           <div className="container-fluid">
             <table className="table table-hover table-bordered">
               <thead>
@@ -200,8 +201,8 @@ class WholesaleOrder extends Component {
                         </button>
                       </td>
                       <td className="text-center align-middle">
-                          {order.orderStatus === "Pending" ? (
-                            <>
+                        {order.orderStatus === "Pending" ? (
+                          <>
                             <button
                               className="btn btn-primary btn-sm mb-2"
                               onClick={() =>
@@ -229,9 +230,9 @@ class WholesaleOrder extends Component {
                                 : "Order Deliver"}
                             </button>
                           </>
-                          ): (<button className="btn btn-primary btn-sm">
-                            {order.orderStatus}
-                          </button>)}
+                        ) : (<button className="btn btn-primary btn-sm">
+                          {order.orderStatus}
+                        </button>)}
 
                         {/* {order.orderStatus === "Pending" ? (
                           <>
@@ -313,66 +314,66 @@ class WholesaleOrder extends Component {
             )}
           </div>
         </div>
-        <button
-          ref={this.modalRef}
-          type="button"
-          className="btn btn-primary d-none"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          Launch demo modal
-        </button>
+          <button
+            ref={this.modalRef}
+            type="button"
+            className="btn btn-primary d-none"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Launch demo modal
+          </button>
 
-        <div
-          className="modal fade"
-          id="exampleModal"
-          tabIndex="-1"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-lg modal-dialog-centered">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Shipping Details
-                </h5>
-                <button
-                  type="button"
-                  className="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                ></button>
-              </div>
-              <div className="modal-body">
-                <table className="table table-bordered">
-                  <tbody>
-                    <tr>
-                      <th scope="row">Name</th>
-                      <td>{this.state.details.name}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">E-mail</th>
-                      <td>{this.state.details.email}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">City</th>
-                      <td>{this.state.details.city}</td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Address</th>
-                      <td>{this.state.details.address} </td>
-                    </tr>
-                    <tr>
-                      <th scope="row">Phone</th>
-                      <td>{this.state.details.phone}</td>
-                    </tr>
-                  </tbody>
-                </table>
+          <div
+            className="modal fade"
+            id="exampleModal"
+            tabIndex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-lg modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Shipping Details
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="modal-body">
+                  <table className="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Name</th>
+                        <td>{this.state.details.name}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">E-mail</th>
+                        <td>{this.state.details.email}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">City</th>
+                        <td>{this.state.details.city}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Address</th>
+                        <td>{this.state.details.address} </td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Phone</th>
+                        <td>{this.state.details.phone}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </>
+        </>}</>
     );
   }
 }

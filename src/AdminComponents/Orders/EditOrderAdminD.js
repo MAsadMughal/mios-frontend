@@ -34,7 +34,6 @@ const EditOrderAdminD = () => {
 
   const onChangeShip = (e)=>{
     setShippingDetails({...shippingDetails, [e.target.name]: e.target.value})
-    console.log(shippingDetails)
 
     
   }
@@ -62,7 +61,6 @@ const EditOrderAdminD = () => {
         phone: shippingDetails.phone,
       });
 
-      console.log(shippingDetails)
 
       await axios
         .put(`${host}/api/order/updatetrackingdetails/${id}`, {

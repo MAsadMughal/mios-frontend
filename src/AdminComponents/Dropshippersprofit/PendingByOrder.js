@@ -1,35 +1,43 @@
 import axios from "axios";
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ReactNotifications } from "react-notifications-component";
 import { Link, useParams } from "react-router-dom";
 import Notification from "../../Notifications/Notifications";
+import Loader from "../../Loader/Loader";
 const image = window.location.origin + "/Assets/no-data.svg";
 const PendingByOrder = () => {
+
     const host = process.env.REACT_APP_API_URL;
     const [allProfits, setAllProfits] = useState([]);
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         getAllProfits();
         // eslint-disable-next-line
     }, [])
     const { id } = useParams();
     const getAllProfits = async () => {
+        setLoading(true)
         const { data } = await axios.get(`${host}/api/profitrecords/pendingprofitsbyuser/${id}`);
         setAllProfits(data);
+        setLoading(false)
     }
 
     const paySingleProfits = async (user, amount, orderId) => {
         try {
+            setLoading(true)
             const { data } = await axios.post(`${host}/api/profitrecords/paySingleProfit`, { userId: user, amount, orderId });
-            Notification('Success', data.message, 'success')
             await getAllProfits();
+            setLoading(false)
+            Notification('Success', data.message, 'success')
         } catch (error) {
+            setLoading(false)
             Notification('Error', error.message, 'danger')
         }
     }
 
     return (
         <><ReactNotifications />
-            <div className="main">
+            {loading ? <Loader /> : <div className="main">
                 <div className="container-fluid">
                     <table className="table table-hover table-bordered">
                         <thead>
@@ -47,7 +55,6 @@ const PendingByOrder = () => {
                         <tbody>
 
                             {allProfits && allProfits?.map((item, key) => {
-                                console.log(item);
                                 return (<tr key={key}>
                                     <td colSpan="1" className="text-center">{key + 1}</td>
                                     <td colSpan="1" className="text-center">{item?.user?.name}</td>
@@ -65,7 +72,7 @@ const PendingByOrder = () => {
                         <img className='no_data-img' src={image} alt='No Data' ></img>
                     </div>}
                 </div>
-            </div>
+            </div>}
         </>
     );
 }

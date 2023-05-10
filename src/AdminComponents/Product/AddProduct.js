@@ -9,61 +9,15 @@ import Loader from "../../Loader/Loader";
 const AddProduct = () => {
   const host = process.env.REACT_APP_API_URL;
   const Navigate = useNavigate();
-  const { getProducts } = useContext(ProductContext);
+  const { getProducts, loading, setLoading } = useContext(ProductContext);
   let [img, setImg] = useState("");
-  let [loading, setLoading] = useState(false);
   let { categories } = useContext(ProductContext);
-  let [product, setProduct] = useState({
-    category: "",
-    skuNumber: "",
-    title: "",
-    stock: 0,
-    wholesalePrice: 0,
-    dropshipperPrice: 0,
-    discountedPriceW: 0,
-    discountedPriceD: 0,
-    purchasePrice: 0,
-    weight: 0,
-    featured: false,
-    onSale: false,
-    photo: "",
-    description: "",
-  });
-
-  const {
-    category,
-    skuNumber,
-    title,
-    stock,
-    wholesalePrice,
-    dropshipperPrice,
-    discountedPriceW,
-    discountedPriceD,
-    purchasePrice,
-    weight,
-    featured,
-    onSale,
-    photo,
-    description,
-  } = product;
+  let [product, setProduct] = useState({ category: "", skuNumber: "", title: "", stock: 0, wholesalePrice: 0, dropshipperPrice: 0, discountedPriceW: 0, discountedPriceD: 0, purchasePrice: 0, weight: 0, featured: false, onSale: false, photo: "", description: "", });
+  const { category, skuNumber, title, stock, wholesalePrice, dropshipperPrice, discountedPriceW, discountedPriceD, purchasePrice, weight, featured, onSale, photo, description, } = product;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !category ||
-      !skuNumber ||
-      !title ||
-      !stock ||
-      Number(stock) <= 0 ||
-      !wholesalePrice ||
-      Number(wholesalePrice) <= 0 ||
-      !dropshipperPrice ||
-      Number(dropshipperPrice) <= 0 ||
-      !purchasePrice ||
-      Number(purchasePrice) <= 0 ||
-      !weight ||
-      !photo ||
-      !description
+    if (!category || !skuNumber || !title || !stock || Number(stock) <= 0 || !wholesalePrice || Number(wholesalePrice) <= 0 || !dropshipperPrice || Number(dropshipperPrice) <= 0 || !purchasePrice || Number(purchasePrice) <= 0 || !weight || !photo || !description
     ) {
       Notification(
         "Error",
@@ -89,38 +43,12 @@ const AddProduct = () => {
       try {
         setLoading(true);
         await axios.post(`${host}/api/product/addProduct`, {
-          category,
-          skuNumber,
-          title,
-          stock,
-          wholesalePrice,
-          dropshipperPrice,
-          discountedPriceW,
-          discountedPriceD,
-          purchasePrice,
-          weight,
-          featured,
-          onSale,
-          photo,
-          description,
+          category, skuNumber, title, stock, wholesalePrice, dropshipperPrice, discountedPriceW, discountedPriceD, purchasePrice, weight, featured, onSale, photo, description,
         });
         setLoading(false);
         Notification("Success", "Product Added Successfully", "success");
         setProduct({
-          category: "",
-          skuNumber: "",
-          title: "",
-          stock: 0,
-          wholesalePrice: 0,
-          dropshipperPrice: 0,
-          discountedPriceW: 0,
-          discountedPriceD: 0,
-          purchasePrice: 0,
-          weight: 0,
-          featured: false,
-          onSale: false,
-          photo: "",
-          description: "",
+          category: "", skuNumber: "", title: "", stock: 0, wholesalePrice: 0, dropshipperPrice: 0, discountedPriceW: 0, discountedPriceD: 0, purchasePrice: 0, weight: 0, featured: false, onSale: false, photo: "", description: "",
         });
         Navigate("/admin/products");
         await getProducts();
@@ -199,7 +127,7 @@ const AddProduct = () => {
                   name="title"
                   onChange={onChange}
                 />
-                <br />{" "}
+                <br />
                 <select
                   className="form-control"
                   type="text"

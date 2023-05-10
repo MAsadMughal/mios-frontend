@@ -36,7 +36,6 @@ const UpdateShippingStatus = () => {
           courierServiceName,
         })
         .then(async (res) => {
-          console.log(res.data);
           let url = `${host}/api/order/changeshippingstatus/${id}`;
           await fetch(url, {
             method: "PUT",

@@ -9,8 +9,7 @@ import Notification from "../../Notifications/Notifications";
 
 const AdminProducts = () => {
   const host = process.env.REACT_APP_API_URL;
-  const { products, getProducts } = useContext(ProductContext);
-  let [loading, setLoading] = useState(false);
+  const { products, getProducts, loading, setLoading } = useContext(ProductContext);
   const deleteProduct = async (e) => {
     try {
       setLoading(true);

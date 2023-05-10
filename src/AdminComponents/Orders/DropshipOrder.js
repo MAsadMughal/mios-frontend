@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import "./Order.css";
 import { Link } from "react-router-dom";
+import Loader from "../../Loader/Loader";
 const image = window.location.origin + "/Assets/no-data.svg";
 class DropshipOrder extends Component {
   constructor() {
@@ -95,7 +96,7 @@ class DropshipOrder extends Component {
 
   render() {
     return (
-      <>
+      <>{this.state.loading ? <Loader /> : <>
         <div className="main">
           <div className="container-fluid">
             <table className="table table-hover table-bordered">
@@ -200,8 +201,8 @@ class DropshipOrder extends Component {
                         </button>
                       </td>
                       <td className="text-center align-middle">
-                          {order.orderStatus === "Pending" ? (
-                            <>
+                        {order.orderStatus === "Pending" ? (
+                          <>
                             <button
                               className="btn btn-primary btn-sm mb-2"
                               onClick={() =>
@@ -229,9 +230,9 @@ class DropshipOrder extends Component {
                                 : "Order Deliver"}
                             </button>
                           </>
-                          ): (<button className="btn btn-primary btn-sm">
-                            {order.orderStatus}
-                          </button>)}
+                        ) : (<button className="btn btn-primary btn-sm">
+                          {order.orderStatus}
+                        </button>)}
 
                         {/* {order.orderStatus === "Pending" ? (
                           <>
@@ -372,7 +373,7 @@ class DropshipOrder extends Component {
             </div>
           </div>
         </div>
-      </>
+      </>}</>
     );
   }
 }

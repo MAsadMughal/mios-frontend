@@ -1,75 +1,80 @@
-import React, { Component } from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
+import { ReactNotifications } from "react-notifications-component";
 import { Link } from "react-router-dom";
-export default class OnSale extends Component {
-  constructor() {
-    super();
-    this.state = {
-      products: [],
-      loading: false,
-    };
+import ProductContext from "../../context/Product/ProductContext";
+import Loader from "../../Loader/Loader";
+import Notification from "../../Notifications/Notifications";
+
+
+const OnSale = () => {
+  const host = process.env.REACT_APP_API_URL;
+
+  const { onSale, getOnSale, loading, setLoading } = useContext(ProductContext);
+
+  useEffect(() => {
+    getOnSale()
+  }, [])
+  const deleteProduct = async (e) => {
+    try {
+      setLoading(true);
+      await axios.delete(`${host}/api/product/deleteProduct/${e.currentTarget.id}`);
+      await getOnSale();
+      setLoading(false);
+    }
+    catch (error) {
+      setLoading(false);
+      Notification("Error", error.response.data, 'danger');
+    }
   }
-  host = process.env.REACT_APP_API_URL;
-  async componentDidMount() {
-    let url = `${this.host}/api/product/onsale`;
-    this.setState({ loading: true });
-    let data = await fetch(url);
-    data = await data.json();
-    this.setState({ loading: false, products: data });
-  }
-
-
-
-  render() {
-    return (
-      <>
-        <div className="main">
-        <div className="container-fluid">
-          <div className="my-3 d-flex justify-content-center">
-            <Link to="/admin/addProduct">
-              <span className="btn btn-sm btn-primary">Add Product</span>
-            </Link>
-          </div>
-        <table className="table table-hover table-bordered">
+  return (
+    <div>
+      {loading ? null : <Link to="/admin/addProduct">
+        <center><br />   <button className="btn btn-info">Add New Product</button> <br /></center>
+      </Link>}
+      <ReactNotifications /><br />
+      {loading ? <Loader /> :
+        <table className="table" width={"95%"}>
           <thead>
-            <tr className="table-dark">
-              <th colSpan="1" >Sr.</th>
-              <th colSpan="1" className="text-center">SKU Number</th>
-              <th colSpan="1" className="text-center">Title</th>
-              <th colSpan="1" className="text-center">Stock</th>
-              <th colSpan="1" className="text-center">Category</th>
-              <th colSpan="1" className="text-center">Wholesale Price</th>
-              <th colSpan="1" className="text-center">Discounted Price</th>
-              <th colSpan="1" className="text-center">Purchase Price</th>
-              <th colSpan="1" className="text-center">Product Weight</th>
-              <th colSpan="1" className="text-center">Feature Product</th>
-              <th colSpan="1" className="text-center">Actions</th>
+            <tr>
+              <th>ID</th>
+              <th>photo</th>
+              <th>title</th>
+              <th>category</th>
+              <th>skuNumber</th>
+              <th>stock</th>
+              <th>Wholeseller Price</th>
+              <th>Dropshipper Price</th>
+              <th>featured</th>
+              <th>onSale</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
-          <tbody>
-
-
-            {this.state.products.map((product) => {
-              return (
-                <tr key={product._id}>
-                  <td>{this.state.products.indexOf(product) + 1}</td>
-                  <td className="text-center">{product.skuNumber}</td>
-                  <td className="text-center">{product.title}</td>
-                  <td className="text-center">{product.stock}</td>
-                  <td className="text-center">{product.category.name}</td>
-                  <td className="text-center">{product.wholesalePrice}</td>
-                  <td className="text-center">{product.discountedPrice}</td>
-                  <td className="text-center">{product.purchasePrice}</td>
-                  <td className="text-center">{product.weight} kg</td>
-                  <td className="text-center">{product.featureProduct === true ? "No" : "Yes"}</td>
-                  <td className="text-center">Edit | Delete</td>
+          {onSale && onSale.map((item, ind) => {
+            return (
+              <tbody key={ind}>
+                <tr>
+                  <td>{ind + 1}</td>
+                  <td> <img src={item.photo.url} alt="" height="50px" width={"50px"} /> </td>
+                  <td> {item.title} </td>
+                  <td>{item.category.name}</td>
+                  <td>{item.skuNumber}</td>
+                  <td>{item.stock}</td>
+                  <td>{item.wholesalePrice}</td>
+                  <td>{item.dropshipperPrice}</td>
+                  <td>{item.featured ? `Yes` : `No`}</td>
+                  <td>{item.onSale ? `Yes` : `No`}</td>
+                  <td><Link to={`/admin/product/edit/${item._id}`}><button className="btn btn-info" id={item._id} >Edit</button> </Link> </td>
+                  <td><button id={item._id} className="btn btn-danger" onClick={deleteProduct} >Delete</button> </td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        </div>
-        </div>
-      </>
-    );
-  }
+              </tbody>
+            )
+          })}
+
+        </table>}
+    </div >
+  );
 }
+
+export default OnSale;

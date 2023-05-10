@@ -7,10 +7,11 @@ import image from "../assets/images/logo_sml 1.png";
 import UserContext from '../../context/User/UserContext';
 import Notification from '../../Notifications/Notifications';
 import { ReactNotifications } from 'react-notifications-component';
+import Loader from '../../Loader/Loader';
 
 const AdminLogin = ({ setUser }) => {
   const host = process.env.REACT_APP_API_URL;
-  const { user, getUserDetails } = useContext(UserContext);
+  const { user, getUserDetails, loading, setLoading } = useContext(UserContext);
   const [admin, setAdmin] = useState({ email: '', password: '' })
   const { email, password } = admin;
   const Navigate = useNavigate();
@@ -38,6 +39,7 @@ const AdminLogin = ({ setUser }) => {
 
     try {
       // eslint-disable-next-line
+      setLoading(true)
       const response = await axios.post(`${host}/api/auth/adminlogin`, {
         method: "POST",
         headers: {
@@ -46,7 +48,9 @@ const AdminLogin = ({ setUser }) => {
         email, password
       });
       await getUserDetails();
+      setLoading(false)
     } catch (e) {
+      setLoading(false)
       if (e.response?.data?.errors[0]?.msg) {
         Notification("Error", e.response.data.errors[0].msg, "danger");
       } else if (e.response?.data?.errors?.msg) {
@@ -65,12 +69,12 @@ const AdminLogin = ({ setUser }) => {
           <div>
             <img className='logo_mios' src={image} alt='logo' />
           </div>
-
-          <form method='post'>
-            <input type="email" name="email" id='email' placeholder="E-mail" autoFocus onChange={onChange} required />
-            <input className="mb-3" type="password" name="password" id='password' placeholder="Password" onChange={onChange} required />
-            <input type="submit" value="Login" onClick={login} />
-          </form>
+          {loading ? <Loader /> :
+            <form method='post'>
+              <input type="email" name="email" id='email' placeholder="E-mail" autoFocus onChange={onChange} required />
+              <input className="mb-3" type="password" name="password" id='password' placeholder="Password" onChange={onChange} required />
+              <input type="submit" value="Login" onClick={login} />
+            </form>}
         </div>
       </section>
 
