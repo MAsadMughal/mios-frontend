@@ -1,56 +1,63 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import OrderContext from '../../context/Order/OrderContext'
+import Loader from '../../Loader/Loader';
+import UserContext from '../../context/User/UserContext';
 
 const MyOrders = () => {
-    const { userOrders } = useContext(OrderContext);
+    const { getMyOrders, userOrders, orderLoading } = useContext(OrderContext);
+    const { loading } = useContext(UserContext);
+    useEffect(() => {
+        getMyOrders()
+    }, [])
 
     return (
-        <div>
-            <h1 style={{ textAlign: 'center' }}>My Orders</h1>
-            <table className='table table-striped table-responsive table-hover' width={'90%'}>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Address</th>
-                        <th>City</th>
-                        <th>Shipping Charges</th>
-                        <th>Total</th>
-                        <th>Payment Method</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {userOrders && userOrders.map((item, ind) => {
-                        var date = new Date(item.date);
-                        var d = date.getDate();
-                        var m = date.getMonth() + 1;
-                        var y = date.getFullYear();
-                        var h = date.getHours();
-                        var min = date.getMinutes();
-                        return (
-                            <tr key={ind}>
-                                <td>{ind + 1}</td>
-                                <td>{item.shippingDetails.name}</td>
-                                <td>{item.shippingDetails.phone}</td>
-                                <td>{item.shippingDetails.address}</td>
-                                <td>{item.shippingDetails.city}</td>
-                                <td>{item.shippingPrice}</td>
-                                <td>{item.orderAmount}</td>
-                                <td>{item.paymentOption}</td>
-                                <td>{`${d}/${m}/${y} at ${h}:${min}`}</td>
-                                <td>{item.orderStatus}</td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
+        <>
+            {orderLoading || loading ? <Loader /> : <div>
+                <h1 style={{ textAlign: 'center' }}>My Orders</h1>
+                <table className='table table-striped table-responsive table-hover' width={'90%'}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th>Shipping Charges</th>
+                            <th>Total</th>
+                            <th>Payment Method</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {userOrders && userOrders.map((item, ind) => {
+                            var date = new Date(item.date);
+                            var d = date.getDate();
+                            var m = date.getMonth() + 1;
+                            var y = date.getFullYear();
+                            var h = date.getHours();
+                            var min = date.getMinutes();
+                            return (
+                                <tr key={ind}>
+                                    <td>{ind + 1}</td>
+                                    <td>{item.shippingDetails.name}</td>
+                                    <td>{item.shippingDetails.phone}</td>
+                                    <td>{item.shippingDetails.address}</td>
+                                    <td>{item.shippingDetails.city}</td>
+                                    <td>{item.shippingPrice}</td>
+                                    <td>{item.orderAmount}</td>
+                                    <td>{item.paymentOption}</td>
+                                    <td>{`${d}/${m}/${y} at ${h}:${min}`}</td>
+                                    <td>{item.orderStatus}</td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
 
-            </table>
+                </table>
 
-        </div>
-    )
+            </div>}
+        </>)
 }
 
 export default MyOrders

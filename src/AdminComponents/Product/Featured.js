@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, } from "react";
 import { ReactNotifications } from "react-notifications-component";
 import { Link } from "react-router-dom";
 import ProductContext from "../../context/Product/ProductContext";

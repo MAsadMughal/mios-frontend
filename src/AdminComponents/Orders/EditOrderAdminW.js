@@ -15,7 +15,7 @@ const EditOrderAdminW = () => {
 
   const getDetails = async () => {
     const { data } = await axios.get(`${host}/api/order/orderproduct/${id}`);
-    setShippingDetails(data.billingDetails);
+    setShippingDetails(data.shippingDetails);
   };
 
   const getTracking = async () => {
@@ -33,8 +33,6 @@ const EditOrderAdminW = () => {
 
   const onChangeShip = (e)=>{
     setShippingDetails({...shippingDetails, [e.target.name]: e.target.value})
-
-    
   }
   
   const onChange = (e) => {
@@ -52,7 +50,6 @@ const EditOrderAdminW = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
       await axios.put(`${host}/api/order/updateshippingdetails/${id}`, {
         name: shippingDetails.name,
         address: shippingDetails.address,

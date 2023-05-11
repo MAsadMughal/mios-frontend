@@ -193,16 +193,15 @@ export class Shippingcost extends Component {
               </div>
               <div className="modal-footer">
                 <button
-                  type="button"
                   className="btn btn-secondary"
+                  type="button"
                   data-bs-dismiss="modal"
-                  data-bs-toggle="modal"
-                  data-bs-target="#main"
-                  ref={this.closeRef}
+                  aria-label="Close"
                 >
                   Close
                 </button>
-                <button onClick={() => this.handleSubmit()} type="button" className="btn btn-primary">
+                <button onClick={() => this.handleSubmit()} type="button" data-bs-dismiss="modal"
+                  className="btn btn-primary">
                   Save changes
                 </button>
               </div>

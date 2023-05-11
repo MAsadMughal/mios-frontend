@@ -6,11 +6,10 @@ import UserContext from '../../context/User/UserContext';
 export const CartProduct = ({ Data }) => {
 
     const context = useContext(ProductContext);
-    const { removeCartProduct, updateCartProductQty } = context;
-    const [Qty, setQty] = useState(Data.quantity);
-    const [currPrice, setCurrPrice] = useState(0);
     const { user } = useContext(UserContext);
-
+    const { removeCartProduct, updateCartProductQty, cartLoading } = context;
+    const [Qty, setQty] = useState(Data.quantity);
+    const [currPrice, setCurrPrice] = useState(user.role == "wholeseller" ? Data?.product?.wholesalePrice : user.role == "dropshipper" ? Data.product.dropshipperPrice : 0);
     useEffect(() => {
         if (user.isAdmin === false) {
             if (user.role === "wholeseller") {
@@ -27,7 +26,7 @@ export const CartProduct = ({ Data }) => {
                 }
             }
         }
-    }, [])// eslint-disable-line react-hooks/exhaustive-deps
+    }, [cartLoading,user])// eslint-disable-line react-hooks/exhaustive-deps
 
 
     useEffect(() => {
@@ -36,11 +35,11 @@ export const CartProduct = ({ Data }) => {
         }
     }, [Qty])// eslint-disable-line react-hooks/exhaustive-deps
 
-    const addOne = (id) => {
+    const addOne = () => {
         setQty(Qty + 1);
     }
 
-    const minusOne = (id) => {
+    const minusOne = () => {
         setQty(Qty - 1);
         //if Qty is less than 1, set Qty to 1
         if (Qty <= 1) {

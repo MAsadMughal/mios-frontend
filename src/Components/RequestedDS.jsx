@@ -25,8 +25,8 @@ const RequestedDS = ({ setUser }) => {
 
     return (
         <>
-            <h1>Currently, Your Request for a Dropshipper Account is under Process. You can Login After Your request is Entertained by our Team.</h1>
-            <button onClick={logout}>LOGOUT</button>
+            <h1 className='header'>Currently, Your Request for a Dropshipper Account is under Process. You can Login After Your request is Entertained by our Team.</h1>
+            <button className='btn btn-info' onClick={logout}>LOGOUT</button>
         </>
     )
 }

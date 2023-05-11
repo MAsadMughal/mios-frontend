@@ -6,7 +6,7 @@ import { Navigate } from "react-router-dom";
 import image from "../assets/images/logo_sml 1.png";
 import Notification from '../../Notifications/Notifications';
 import { ReactNotifications } from 'react-notifications-component';
-
+import Loader from '../../Loader/Loader';
 
 export class Login extends Component {
 
@@ -43,7 +43,10 @@ export class Login extends Component {
         this.setState({ user: response.data.authtoken });
         window.location.reload();
       }
+      this.setState({ loading: false });
+
     } catch (e) {
+      this.setState({ loading: false });
       if (e.response?.data?.errors[0]?.msg) {
         Notification("Error", e.response.data.errors[0].msg, "danger");
       } else if (e.response?.data?.errors?.msg) {
@@ -57,30 +60,31 @@ export class Login extends Component {
   render() {
     return (
       <><ReactNotifications />
-        <section className="area-login">
+        {this.state.loading ? <Loader /> :
+          <section className="area-login">
 
-          {this.state.user ? (
-            <Navigate to="/productMain" replace={true} />
-          ) : null}
+            {this.state.user ? (
+              <Navigate to="/productMain" replace={true} />
+            ) : null}
 
-          <div className="login">
-            <div>
-              <img className='logo_mios' src={image} alt='logo' />
+            <div className="login">
+              <div>
+                <img className='logo_mios' src={image} alt='logo' />
+              </div>
+
+              <form method='post' onSubmit={this.onSubmit}>
+                <input type="email" name="email" id='email' placeholder="E-mail" autoFocus onChange={this.onChange} required />
+                <input className="mb-3" type="password" name="password" id='password' placeholder="Password" onChange={this.onChange} required />
+                <br /> <input type="submit" value="Login" />
+                <span>
+                  <center>
+                    <br />
+                    Don't Have an Account? <Link to="/signup">SIGN UP</Link>
+                  </center>
+                </span>
+              </form>
             </div>
-
-            <form method='post' onSubmit={this.onSubmit}>
-              <input type="email" name="email" id='email' placeholder="E-mail" autoFocus onChange={this.onChange} required />
-              <input className="mb-3" type="password" name="password" id='password' placeholder="Password" onChange={this.onChange} required />
-              <br /> <input type="submit" value="Login" />
-              <span>
-                <center>
-                  <br />
-                  Don't Have an Account? <Link to="/signup">SIGN UP</Link>
-                </center>
-              </span>
-            </form>
-          </div>
-        </section>
+          </section>}
       </>
     )
   }

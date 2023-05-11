@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 
+
 const EditOrderAdminD = () => {
   const host = process.env.REACT_APP_API_URL;
   const [trackingId, setTrackingId] = useState("");
@@ -16,7 +17,7 @@ const EditOrderAdminD = () => {
 
   const getDetails = async () => {
     const { data } = await axios.get(`${host}/api/order/orderproduct/${id}`);
-    setShippingDetails(data.billingDetails);
+    setShippingDetails(data.shippingDetails);
   };
 
   const getTracking = async () => {
@@ -26,18 +27,16 @@ const EditOrderAdminD = () => {
   };
 
   useEffect(() => {
-    
+
     getDetails();
     getTracking();
 
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onChangeShip = (e)=>{
-    setShippingDetails({...shippingDetails, [e.target.name]: e.target.value})
-
-    
+  const onChangeShip = (e) => {
+    setShippingDetails({ ...shippingDetails, [e.target.name]: e.target.value })
   }
-  
+
   const onChange = (e) => {
     setTrackingId(e.target.value);
   };
@@ -61,15 +60,14 @@ const EditOrderAdminD = () => {
         phone: shippingDetails.phone,
       });
 
-
       await axios
         .put(`${host}/api/order/updatetrackingdetails/${id}`, {
           trackingId,
           courierServiceName,
         })
 
-        Navigate(`/admin/dropshiporders`);
-        
+      Navigate(`/admin/dropshiporders`);
+
     } catch (e) {
       console.log(e);
     }
@@ -85,7 +83,7 @@ const EditOrderAdminD = () => {
               className="py-2 px-4 rounded"
             >
               <div className="row mb-2   justify-content-center">
-            <h3 className="text-center my-2">Edit Shipping Details</h3>
+                <h3 className="text-center my-2">Edit Shipping Details</h3>
                 <div className="form-group col-sm-8 mt-3">
                   <label htmlFor="name">Name</label>
                   <input

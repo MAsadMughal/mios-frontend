@@ -23,11 +23,12 @@ const Product = ({ product, modalRef }) => {
       setQuantity(0);
     }
   };
-
   const addAndRefresh = async (product) => {
     await addToCart({ product }, quantity);
-    Notification("Success", "Added To Cart", "success");
     await Refresh();
+    setTimeout(() => {
+      Notification("Success", "Added To Cart", "success");
+    }, 10);
   };
 
   return (

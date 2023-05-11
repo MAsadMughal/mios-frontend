@@ -6,6 +6,7 @@ import image from "../assets/images/logo_sml 1.png";
 import Notification from '../../Notifications/Notifications';
 import { ReactNotifications } from 'react-notifications-component';
 import UserContext from '../../context/User/UserContext';
+import Loader from '../../Loader/Loader';
 
 
 
@@ -23,6 +24,7 @@ const Signup = ({ setuser }) => {
     })
 
     const userDetail = useContext(UserContext);
+    const { loading, setLoading } = userDetail;
     const userDetails = userDetail.user;
     const getUserDetails = userDetail.getUserDetails;
     const Navigate = useNavigate();
@@ -58,15 +60,18 @@ const Signup = ({ setuser }) => {
             if (!role || !name || !email || !city || !password || !address || !phone || !company) {
                 window.alert('Enter Complete Details');
             } else {
+                setLoading(true)
                 // eslint-disable-next-line
-                const { data } = await axios.post(`${host}/api/auth/signup`, {
+                await axios.post(`${host}/api/auth/signup`, {
                     role, name, email, password, address, phone, company, city
                 }, {
                     withCredentials: true
                 })
                 await getUserDetails();
+                setLoading(false)
             }
         } catch (e) {
+            setLoading(false)
             if (e.response?.data?.errors[0]?.msg) {
                 Notification("Error", e.response.data.errors[0].msg, "danger");
             } else if (e.response?.data?.errors?.msg) {
@@ -81,7 +86,7 @@ const Signup = ({ setuser }) => {
     return (
         <>
             <ReactNotifications />
-            <section className="area-login">
+            {loading ? <Loader /> : <section className="area-login">
                 <div className="login">
                     <div>
                         <img className='logo_mios' src={image} alt='logo' />
@@ -350,7 +355,7 @@ const Signup = ({ setuser }) => {
                         </center>
                     </span>
                 </div>
-            </section>
+            </section>}
         </>
     )
 }

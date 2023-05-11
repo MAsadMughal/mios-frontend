@@ -8,6 +8,7 @@ const ProductState = (props) => {
   const [products, setProducts] = useState([]);
   const [CartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
   const [subTotal, setSubTotal] = useState(0);
   const [shippCat, setShippingCat] = useState(0);
   const [MyShopItems, setMyShopItems] = useState([]);
@@ -53,10 +54,10 @@ const ProductState = (props) => {
   }, []);
 
   const Cart = async () => {
-    setLoading(true)
+    setCartLoading(true)
     const { data } = await axios.get(`${host}/api/cart/allcartitems`);
     setCartItems(data);
-    setLoading(false)
+    setCartLoading(false)
   };
 
   const getMyshop = async () => {
@@ -79,39 +80,42 @@ const ProductState = (props) => {
       quantity,
     };
     setLoading(true)
+    setCartLoading(true)
     await axios.post(`${host}/api/cart/addtocart`, { cart })
       .then(function (response) {
+        setCartLoading(false)
         setLoading(false)
         console.log(response);
       })
       .catch(function (error) {
+        setCartLoading(false)
         setLoading(false)
         console.log(error);
       });
   };
 
   const removeCartProduct = async (id) => {
-    setLoading(true)
+    setCartLoading(true)
     await axios.delete(`${host}/api/cart/deletecartitem/${id}`)
       .then(function (response) {
-        setLoading(false)
+        setCartLoading(false)
         setCartItems(response.data.result);
       })
       .catch(function (error) {
-        setLoading(false)
+        setCartLoading(false)
         console.log(error);
       });
   };
 
   const updateCartProductQty = async (id, qty) => {
-    setLoading(true)
+    setCartLoading(true)
     await axios.put(`${host}/api/cart/updatecart/${id}`, { qty })
       .then(function (response) {
-        setLoading(false)
+        setCartLoading(false)
         setCartItems(response.data.result);
       })
       .catch(function (error) {
-        setLoading(false)
+        setCartLoading(false)
         console.log(error);
       });
   };
@@ -147,7 +151,7 @@ const ProductState = (props) => {
         updateCartProductQty,
         addToMyShop,
         getMyshop, getFeatured, getOnSale, featured, onSale,
-        MyShopItems,
+        MyShopItems, cartLoading
       }}
     >
       {props.children}
