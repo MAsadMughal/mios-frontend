@@ -44,7 +44,7 @@ const PaidPerUser = () => {
                                     <td colSpan="1" className="text-center">
                                         {item?.orders.map((item, k) => {
                                             return (<>
-                                                <Link to={`/admin/orderproduct/details/${item}`} style={{ fontSize: "20px" }}>&nbsp;&nbsp;|&nbsp;{k + 1}&nbsp;|&nbsp;&nbsp;</Link>{k+1 % 3 == 0 && <br />}
+                                                <Link to={`/admin/orderproduct/details/${item}`} style={{ fontSize: "20px" }}>&nbsp;&nbsp;|&nbsp;{k + 1}&nbsp;|&nbsp;&nbsp;</Link>{k + 1 % 3 == 0 && <br />}
                                             </>)
                                         })}
                                     </td >
