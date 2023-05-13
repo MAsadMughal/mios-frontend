@@ -25,14 +25,13 @@ const OrderProductDetails = () => {
   return (
     <>
       <div className="container mt-3">
-        <h2 className="text-center">Product Details</h2>
-        <h3 className="text-center">  Ordered By: {orderProduct?.user?.name}({orderProduct?.user?.role})</h3>
-        <h6 className="text-center">  ID: {orderProduct?.user?._id}</h6><br />
-        <h3 className="text-center">  Ordered At: {new Date(orderProduct?.date).toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })}</h3><br />
-        {orderProduct?.user?.role == "dropshipper" && <h3 className="text-center">  Profit Amount: {orderProduct?.profitAmount}</h3>}
+        {loading ? <Loader /> : <><h2 className="text-center">Product Details</h2>
+          <h3 className="text-center">  Ordered By: {orderProduct?.user?.name}({orderProduct?.user?.role})</h3>
+          <h6 className="text-center">  ID: {orderProduct?.user?._id}</h6><br />
+          <h3 className="text-center">  Ordered At: {new Date(orderProduct?.date).toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })}</h3><br />
+          {orderProduct?.user?.role == "dropshipper" && <h3 className="text-center">  Profit Amount: {orderProduct?.profitAmount}</h3>}
 
 
-        {loading ? <Loader /> :
           <table class="table table-striped table-bordered">
             <thead class="thead-dark">
               <tr className="table-dark text-center">
@@ -66,10 +65,10 @@ const OrderProductDetails = () => {
                   );
                 })}
             </tbody>
-          </table>}
-      </div>
-    </>
-  );
+          </table></>}
+        </div>
+      </>
+      );
 };
 
-export default OrderProductDetails;
+      export default OrderProductDetails;
