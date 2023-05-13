@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Notification from "../../Notifications/Notifications";
 import { ReactNotifications } from "react-notifications-component";
 import Loader from "../../Loader/Loader";
 const image = window.location.origin + "/Assets/no-data.svg";
@@ -60,7 +59,7 @@ const DropshipPending = () => {
             </div>}
           </div>
         </div>
-}
+      }
     </>
   );
 }
