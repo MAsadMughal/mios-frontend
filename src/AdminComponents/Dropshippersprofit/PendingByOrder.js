@@ -16,10 +16,14 @@ const PendingByOrder = () => {
     }, [])
     const { id } = useParams();
     const getAllProfits = async () => {
-        setLoading(true)
-        const { data } = await axios.get(`${host}/api/profitrecords/pendingprofitsbyuser/${id}`);
-        setAllProfits(data);
-        setLoading(false)
+        try {
+            setLoading(true)
+            const { data } = await axios.get(`${host}/api/profitrecords/pendingprofitsbyuser/${id}`);
+            setAllProfits(data);
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+        }
     }
 
     const paySingleProfits = async (user, amount, orderId) => {
@@ -44,7 +48,7 @@ const PendingByOrder = () => {
                             <tr className="table-dark">
                                 <th colSpan="1" >Sr.</th>
                                 <th colSpan="1" className="text-center">Customer Name</th>
-                                <th colSpan="1" className="text-center">Company Name</th>
+                                <th colSpan="1" className="text-center">Order ID</th>
                                 <th colSpan="1" className="text-center">Contact</th>
                                 <th colSpan="1" className="text-center">Pending Profit</th>
                                 <th colSpan="1" className="text-center">Profit Status</th>
@@ -58,7 +62,7 @@ const PendingByOrder = () => {
                                 return (<tr key={key}>
                                     <td colSpan="1" className="text-center">{key + 1}</td>
                                     <td colSpan="1" className="text-center">{item?.user?.name}</td>
-                                    <td colSpan="1" className="text-center">{item?.user?.company}</td>
+                                    <td colSpan="1" className="text-center"><Link to={`/admin/orderproduct/details/${item?._id}`}>{item?._id}</Link></td>
                                     <td colSpan="1" className="text-center">{item?.user?.city}</td>
                                     <td colSpan="1" className="text-center">{item?.profitAmount}</td>
                                     <td colSpan="1" className="text-center">{item?.profitStatus}</td>

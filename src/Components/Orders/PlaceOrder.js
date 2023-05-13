@@ -29,7 +29,7 @@ const PlaceOrder = () => {
             Navigate("/Cart");
         }
         let w = 0;
-        CartItems?.cart.forEach((item) => {
+        CartItems?.cart?.forEach((item) => {
             w += item.product.weight * item.quantity;
         })
         setWeight(w);

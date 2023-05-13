@@ -54,10 +54,14 @@ const ProductState = (props) => {
   }, []);
 
   const Cart = async () => {
-    setCartLoading(true)
-    const { data } = await axios.get(`${host}/api/cart/allcartitems`);
-    setCartItems(data);
-    setCartLoading(false)
+    try {
+      // setCartLoading(true)
+      const { data } = await axios.get(`${host}/api/cart/allcartitems`);
+      setCartItems(data);
+      // setCartLoading(false)
+    } catch (error) {
+      // setCartLoading(false)
+    }
   };
 
   const getMyshop = async () => {
@@ -70,7 +74,7 @@ const ProductState = (props) => {
   useEffect(() => {
     getCategories();
     getProducts();
-    Cart();
+    // Cart();
     getMyshop();
   }, [setCartItems]);
 
@@ -82,10 +86,9 @@ const ProductState = (props) => {
     setLoading(true)
     setCartLoading(true)
     await axios.post(`${host}/api/cart/addtocart`, { cart })
-      .then(function (response) {
+      .then(function () {
         setCartLoading(false)
         setLoading(false)
-        console.log(response);
       })
       .catch(function (error) {
         setCartLoading(false)
@@ -116,16 +119,14 @@ const ProductState = (props) => {
       })
       .catch(function (error) {
         setCartLoading(false)
-        console.log(error);
       });
   };
 
   const addToMyShop = async (product) => {
     setLoading(true)
     await axios.post(`${host}/api/myshop/addtomyshop`, { product })
-      .then(function (response) {
+      .then(function () {
         setLoading(false)
-        console.log(response);
       })
       .catch(function (error) {
         setLoading(false)

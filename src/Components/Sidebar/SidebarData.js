@@ -18,7 +18,6 @@ export const navArr = [
 export const orderStatuses = [
     { title: "Pending", path: "/orders/Pending" },
     { title: "Delivered", path: "/orders/delivered" },
-    { title: "Shipped", path: "/orders/shipped" },
     { title: "Returned", path: "/orders/returned" },
 ]
 

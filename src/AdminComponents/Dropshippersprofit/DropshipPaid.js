@@ -1,89 +1,69 @@
-import React, { Component } from "react";
-// import Moment from 'moment';
-// import ShippingDetails from "../Shippingcost/ShippingDetails";
-// import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Notification from "../../Notifications/Notifications";
+import { ReactNotifications } from "react-notifications-component";
+import Loader from "../../Loader/Loader";
 const image = window.location.origin + "/Assets/no-data.svg";
-class DropshipPaid extends Component {
-  constructor() {
-    super();
-    this.state = {
-      orders: [],
-      loading: false,
-      checked: false,
-    };
+const DropshipPending = () => {
+  const host = process.env.REACT_APP_API_URL;
+  const [allProfits, setAllProfits] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    getAllProfits()
+  }, [])
+  const getAllProfits = async () => {
+    try {
+      setLoading(true)
+      const { data } = await axios.get(`${host}/api/profitrecords/paidprofits`);
+      setAllProfits(data);
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
   }
-  host = process.env.REACT_APP_API_URL;
-  async componentDidMount() {
-    let url = `${this.host}/api/profit/paidprofit`;
-    this.setState({ loading: true });
-    let data = await fetch(url);
-    data = await data.json();
-    this.setState({ loading: false, orders: data });
-  }
-
-  onChecked = (e) => {
-    this.setState({
-      checked: !this.state.checked,
-    });
-  };
-
-  handlePayment = async (_id) => {
-    let url = `${this.host}/api/order/changepaymentstatus/${_id}`;
-    await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    let updatedUser = `${this.host}/api/order/dropshiporder`
-    let uUser = await fetch(updatedUser);
-    let usr = await uUser.json();
-    this.setState({ orders: usr });
-  };
 
 
-  
-
-  render() {
-    return (
-      <>
+  return (
+    <>
+      <ReactNotifications />{loading ? <Loader /> :
         <div className="main">
-        <div className="container-fluid">
-        <table className="table table-hover table-bordered">
-          <thead>
-            <tr className="table-dark">
-              <th colSpan="1" >Sr.</th>
-              <th colSpan="1" className="text-center">Customer Name</th>
-              {/* <th colSpan="1" className="text-center">Company Name</th> */}
-              {/* <th colSpan="1" className="text-center">Contact</th> */}
-              <th colSpan="1" className="text-center">Paid Profit</th>
-              <th colSpan="1" className="text-center">Profit Details</th>
-            </tr>
-          </thead>
-          <tbody>
-          {this.state.orders.map((order) => {
-              return (
-                <tr key={order._id}>
-                  <td>{this.state.orders.indexOf(order) + 1}</td>
-                  <td className="text-center">{order.name}</td>
-                  {/* <td className="text-center">Apex Space</td> */}
-                  {/* <td className="text-center">03164322144</td> */}
-                  <td className="text-center" >{order.profit}</td>
-                  <td className="text-center">{order.name}</td>
-                  </tr>
-              );
-            })}
-          </tbody>
-        </table>
-        {this.state.orders.length === 0 && <div className='no_data'> 
-            <img className='no_data-img' src={image} alt='No Data' ></img>
-            </div>} 
+          <div className="container-fluid">
+            <table className="table table-hover table-bordered">
+              <thead>
+                <tr className="table-dark">
+                  <th colSpan="1" >Sr.</th>
+                  <th colSpan="1" className="text-center">Customer Name</th>
+                  <th colSpan="1" className="text-center">City</th>
+                  <th colSpan="1" className="text-center">Total Paid Profit</th>
+                  <th colSpan="1" className="text-center">Latest Payment</th>
+                  <th colSpan="1" className="text-center">Profit Detail</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                {allProfits && allProfits?.map((item, key) => {
+                  return (<tr key={key}>
+                    <td colSpan="1" className="text-center">{key + 1}</td>
+                    <td colSpan="1" className="text-center">{item?.name}</td>
+                    <td colSpan="1" className="text-center">{item?.city}</td>
+                    <td colSpan="1" className="text-center">{item?.totalProfit}</td>
+                    <td colSpan="1" className="text-center">{new Date(item?.latestDatePaid).toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })}</td>
+                    <td colSpan="1" className="text-center"><Link to={`/admin/PaidPerUser/${item?.id}`}><button className="btn btn-primary">Detail</button></Link></td>
+                  </tr>)
+                })}
+              </tbody>
+            </table>
+            {allProfits?.length <= 0 && <div className='no_data'>
+              <img className='no_data-img' src={image} alt='No Data' ></img>
+            </div>}
+          </div>
         </div>
-        </div>
-      </>
-    );
-  }
+}
+    </>
+  );
 }
 
+export default DropshipPending;
 
-export default (DropshipPaid);

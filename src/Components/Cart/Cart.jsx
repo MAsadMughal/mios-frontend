@@ -14,8 +14,8 @@ import Loader from "../../Loader/Loader";
 
 const Cart = () => {
     const context = useContext(ProductContext);
-    const { loading,} = useContext(UserContext);
-    const { Cart, CartItems, setSubTotal, cartLoading, } = context;
+    const { loading, } = useContext(UserContext);
+    const { Cart, CartItems, setSubTotal, cartLoading } = context;
     const localCart = CartItems;
     const { user } = useContext(UserContext);
     const getCart = Cart;
@@ -37,6 +37,7 @@ const Cart = () => {
         });
         return subTotal;
     }
+
     const subTotl = localCart !== null ? (user.role === "dropshipper" ? subTotalD(localCart.cart) : subTotalW(localCart.cart)) : null;
     setSubTotal(subTotl);
 

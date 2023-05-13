@@ -11,6 +11,7 @@ import UserContext from '../../context/User/UserContext';
 import "./SideBar.css";
 import { arr, navArr, orderStatuses } from './SidebarData';
 import Loader from "../../Loader/Loader";
+import OrderContext from "../../context/Order/OrderContext";
 
 
 
@@ -25,20 +26,29 @@ export default function Sidebar() {
     const Navigation = (e) => { Navigate(e.target.id); setOpen(false); }
     let [numbers, setNumbers] = useState({ pending: 0, shipped: 0, delivered: 0, returned: 0 });
     let [count, setCount] = useState({});
+    const { userOrders, orderLoading, getMyOrders } = useContext(OrderContext);
+    const [pending, setPending] = useState(0)
+    const [delivered, setDelivered] = useState(0)
+    const [returned, setReturned] = useState(0)
+
     useEffect(() => {
         window.scrollTo(0, 0);
+
+        if (location.pathname === '/' || userOrders.length !== (numbers.pending + numbers.delivered + numbers.returned)) {
+            getMyOrders();
+            Cart();
+            setPending(userOrders.filter(order => order.orderStatus === 'Pending').length);
+            setDelivered(userOrders.filter(order => order.orderStatus === 'Delivered').length);
+            setReturned(userOrders.filter(order => order.orderStatus === 'Returned').length);
+            setNumbers({ pending, delivered, returned })
+        }
         const getNumbers = async () => {
-            const pending = await axios.get(`${host}/api/order/pendingOrders`)
-            const shipped = await axios.get(`${host}/api/order/shippedOrders`)
-            const delivered = await axios.get(`${host}/api/order/deliveredOrders`)
-            const returned = await axios.get(`${host}/api/order/returnedOrders`)
-            setNumbers({ pending: pending?.data?.length, shipped: shipped?.data?.length, delivered: delivered?.data?.length, returned: returned?.data?.length })
             const { data } = await axios.get(`${host}/api/product/catcount`);
             setCount(data.count);
         }
         getNumbers();
-    }, [location.pathname])
-    const { CartItems, categories } = useContext(ProductContext);
+    }, [userOrders])
+    const { CartItems, categories, Cart } = useContext(ProductContext);
     const { user, loading, } = useContext(UserContext);
 
 

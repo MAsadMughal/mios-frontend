@@ -64,6 +64,7 @@ import DropshipPending from './AdminComponents/Dropshippersprofit/DropshipPendin
 import PendingByOrder from './AdminComponents/Dropshippersprofit/PendingByOrder';
 import DropshipPaid from './AdminComponents/Dropshippersprofit/DropshipPaid';
 import Loader from './Loader/Loader';
+import PaidPerUser from './AdminComponents/Dropshippersprofit/PaidPerUser';
 
 axios.defaults.withCredentials = true;
 function App() {
@@ -102,7 +103,7 @@ function App() {
   return (
     <>
       <div className='home'>
-        {loading ? <Loader/> :
+        {loading ? <Loader /> :
           <BrowserRouter>
             <ProductState>
               <User>
@@ -162,6 +163,7 @@ function App() {
                     <Route path="/admin/pendingprofits" element={admin ? <DropshipPending /> : null} />
                     <Route path="/admin/pendingprofits/byorder/:id" element={admin ? <PendingByOrder /> : null} />
                     <Route path="/admin/dropship-paid" element={admin ? <DropshipPaid /> : null} />
+                    <Route path="/admin/paidperUser/:id" element={admin ? <PaidPerUser /> : null} />
                     {/* <Route path="/admin/products" element={admin ? <AddProduct /> : null} /> */}
                     <Route path="/admin/addProduct" element={admin ? <AddProduct /> : null} />
                     <Route path="/admin/category/edit/:id" element={admin ? <EditCategory /> : null} />

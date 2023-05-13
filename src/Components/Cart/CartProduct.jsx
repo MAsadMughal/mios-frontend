@@ -26,24 +26,25 @@ export const CartProduct = ({ Data }) => {
                 }
             }
         }
-    }, [cartLoading,user])// eslint-disable-line react-hooks/exhaustive-deps
+    }, [cartLoading, user])// eslint-disable-line react-hooks/exhaustive-deps
 
 
-    useEffect(() => {
-        if (Qty >= 1) {
-            updateCartProductQty(Data.product._id, Qty);
-        }
-    }, [Qty])// eslint-disable-line react-hooks/exhaustive-deps
+    // useEffect(() => {
+    //     if (Qty >= 1) {
+    //         // updateCartProductQty(Data.product._id, Qty);
+    //     }
+    // }, [Qty])// eslint-disable-line react-hooks/exhaustive-deps
 
     const addOne = () => {
+        updateCartProductQty(Data.product._id, Qty + 1);
         setQty(Qty + 1);
+
     }
 
     const minusOne = () => {
-        setQty(Qty - 1);
-        //if Qty is less than 1, set Qty to 1
-        if (Qty <= 1) {
-            setQty(1);
+        if (Qty >= 2) {
+            setQty(Qty - 1);
+            updateCartProductQty(Data.product._id, Qty - 1);
         }
     }
 

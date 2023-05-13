@@ -13,10 +13,15 @@ const DropshipPending = () => {
     getAllProfits()
   }, [])
   const getAllProfits = async () => {
-    setLoading(true)
-    const { data } = await axios.get(`${host}/api/profitrecords/allprofits`);
-    setAllProfits(data);
-    setLoading(false)
+    try {
+      setLoading(true)
+      const { data } = await axios.get(`${host}/api/profitrecords/allprofits`);
+      setAllProfits(data);
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error);
+    }
   }
   const payAllProfits = async (user, amount) => {
     try {

@@ -8,7 +8,7 @@ import ProductContext from '../../context/Product/ProductContext';
 
 const Sidebar = () => {
     const host = process.env.REACT_APP_API_URL;
-    const { allUsers, wholesellers, dropShippers, requests, user } = useContext(UserContext);
+    const { allUsers, wholesellers, dropShippers, requests, user, } = useContext(UserContext);
     const { categories, products } = useContext(ProductContext);
 
     const bodyStyles =
@@ -51,6 +51,7 @@ const Sidebar = () => {
                     </div>
                 </div>
             </header>
+
             <div className="nav" id="navbar">
                 <nav className="nav__container">
                     <div>

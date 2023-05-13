@@ -7,10 +7,12 @@ import "./Categories.css";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import Notification from '../../Notifications/Notifications';
 import Loader from '../../Loader/Loader';
+import UserContext from '../../context/User/UserContext';
 
 const Categories = () => {
   const host = process.env.REACT_APP_API_URL;
-  const { categories, getCategories,loading,setLoading } = useContext(ProductContext);
+  const { categories, getCategories, loading, setLoading } = useContext(ProductContext);
+  const userload = useContext(UserContext);
   const [show, setShow] = useState(true)
 
   useEffect(() => {
