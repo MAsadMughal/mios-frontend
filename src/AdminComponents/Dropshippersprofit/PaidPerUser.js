@@ -41,13 +41,7 @@ const PaidPerUser = () => {
                                 return (<tr key={key}>
                                     <td colSpan="1" className="text-center">{key + 1}</td>
                                     <td colSpan="1" className="text-center">{profits?.user?.name}</td>
-                                    <td colSpan="1" className="text-center">
-                                        {item?.orders.map((item, k) => {
-                                            return (<>
-                                                <Link to={`/admin/orderproduct/details/${item}`} style={{ fontSize: "20px" }}>&nbsp;&nbsp;|&nbsp;{k + 1}&nbsp;|&nbsp;&nbsp;</Link>{k + 1 % 3 == 0 && <br />}
-                                            </>)
-                                        })}
-                                    </td >
+                                    <td colSpan="1" className="text-center"><Link to={`/admin/singleprofit/${profits?.user?._id}/${item._id}`} style={{ fontSize: "20px" }}>{item?.orders?.length}</Link></td >
                                     <td colSpan="1" className="text-center">{item?.amount}</td>
                                     <td colSpan="1" className="text-center">{new Date(item?.datePaid).toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })}</td>
                                 </tr>)

@@ -9,7 +9,7 @@ export const CartProduct = ({ Data }) => {
     const { user } = useContext(UserContext);
     const { removeCartProduct, updateCartProductQty, cartLoading } = context;
     const [Qty, setQty] = useState(Data.quantity);
-    const [currPrice, setCurrPrice] = useState(user.role == "wholeseller" ? Data?.product?.wholesalePrice : user.role == "dropshipper" ? Data.product.dropshipperPrice : 0);
+    const [currPrice, setCurrPrice] = useState(user.role === "wholeseller" ? Data?.product?.wholesalePrice : user.role === "dropshipper" ? Data.product.dropshipperPrice : 0);
     useEffect(() => {
         if (user.isAdmin === false) {
             if (user.role === "wholeseller") {
@@ -87,7 +87,7 @@ export const CartProduct = ({ Data }) => {
                         <button style={{ border: "1px solid lightgrey" }} onClick={minusOne}>
                             -
                         </button>
-                        <input style={{ border: "1px solid lightgrey", width: "40px", background: "white", }} value={Qty} type="number" onChange={handleChange} name="quantity" min="1" />
+                        <input disabled style={{ border: "1px solid lightgrey", width: "40px", background: "white", }} value={Qty} type="number" onChange={handleChange} name="quantity" min="1" />
 
                         <button style={{ border: "1px solid lightgrey" }} onClick={addOne}>
                             +
