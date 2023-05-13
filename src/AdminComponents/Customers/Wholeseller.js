@@ -106,7 +106,7 @@ const WholeSeller = () => {
         <br />
         <div className='row mb-3'>
           <h1 className='col'></h1>
-        <h1 className='col'>All WholeSellers Accounts({allUsers && allUsers.length})</h1>
+          <h1 className='col'>All WholeSellers Accounts({allUsers && allUsers.length})</h1>
           <div class="col text-end me-5">
             <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New WholeSeller` : `Show All Wholesellers`}</button>
           </div>

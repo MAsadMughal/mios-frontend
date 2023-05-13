@@ -107,18 +107,18 @@ const EditCustomers = () => {
       <ReactNotifications />
 
       {loading ? <Loader /> : <>
-          <br />
-          <br />
-          <br />
-          <div className='row mb-3'>
-            <h1 className='col'></h1>
-            <h1 className='col d-md-inline'>Edit Customer Account Details</h1>
-            <div class="col text-end me-5">
-              <Link to='/admin/customer/all'>
-                <button className='btn btn-info'>Go Back</button>
-              </Link>
-            </div>
+        <br />
+        <br />
+        <br />
+        <div className='row mb-3'>
+          <h1 className='col'></h1>
+          <h1 className='col d-md-inline'>Edit Customer Account Details</h1>
+          <div class="col text-end me-5">
+            <Link to='/admin/customer/all'>
+              <button className='btn btn-info'>Go Back</button>
+            </Link>
           </div>
+        </div>
         <section className="area-login" style={{ marginTop: '0px' }}>
           <div className="login">
             <form method='post'>

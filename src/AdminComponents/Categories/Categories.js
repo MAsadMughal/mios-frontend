@@ -133,11 +133,11 @@ const Categories = () => {
                   <h2 className='col'>Create Category</h2>
                   <div class="col text-end me-5">
                     <Link to="/admin/categories">
-                      <button className="btn btn-info"onClick={()=>setShow(true)}>Go Back</button>
+                      <button className="btn btn-info" onClick={() => setShow(true)}>Go Back</button>
                     </Link>
                   </div>
-                </div> 
-                                <form className='input-group w-50' method='post'  >
+                </div>
+                <form className='input-group w-50' method='post'  >
                   <input className='form-control' value={name} type="name" name="name" id='name' placeholder="Name" autoFocus onChange={onChange} required />
                   <input className='form-control' type="submit" value="Create Category" onClick={createCategory} />
                 </form>
