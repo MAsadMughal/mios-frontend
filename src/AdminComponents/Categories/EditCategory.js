@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import ProductContext from '../../context/Product/ProductContext';
 import Notification from '../../Notifications/Notifications';
 import { ReactNotifications } from 'react-notifications-component';
@@ -58,7 +58,19 @@ const EditCategory = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <h2 className="text-center my-4">Edit Category</h2>
+
+
+              <div className='row mb-3 mt-5'>
+                <h1 className='col'></h1>
+                <h2 className='col'>Edit Category</h2>
+                <div class="col text-end me-5">
+                  <Link to="/admin/categories">
+                    <button className="btn btn-info">Go Back</button>
+                  </Link>
+                </div>
+              </div>
+
+
               <form
                 method="post"
                 onSubmit={handleSubmit}

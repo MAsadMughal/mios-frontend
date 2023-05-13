@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ReactNotifications } from 'react-notifications-component';
 import Notification from '../../Notifications/Notifications';
 import UserContext from '../../context/User/UserContext';
@@ -107,9 +107,20 @@ const EditCustomers = () => {
       <ReactNotifications />
 
       {loading ? <Loader /> : <>
+          <br />
+          <br />
+          <br />
+          <div className='row mb-3'>
+            <h1 className='col'></h1>
+            <h1 className='col d-md-inline'>Edit Customer Account Details</h1>
+            <div class="col text-end me-5">
+              <Link to='/admin/customer/all'>
+                <button className='btn btn-info'>Go Back</button>
+              </Link>
+            </div>
+          </div>
         <section className="area-login" style={{ marginTop: '0px' }}>
           <div className="login">
-            <h1>Edit Customer Account Details</h1>
             <form method='post'>
               <input value={email} type="email" disabled style={{ opacity: 0.8 }} name="email" id='email' placeholder="E-mail" autoFocus onChange={onChange} required />
               <input value={name} type="name" name="name" id='name' placeholder="Name" autoFocus onChange={onChange} required />

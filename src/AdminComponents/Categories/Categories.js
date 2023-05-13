@@ -85,14 +85,19 @@ const Categories = () => {
     <center>
       <ReactNotifications />
       <br />
-      <button className="btn btn-info" onClick={() => setShow(!show)}>{show ? `Add New Category` : `Show All Categories`}</button>
-      <br />
       {loading ? <Loader /> :
         <>
           {show ?
             <div>
               <br />
-              <h1>All Categories({categories && categories.length})</h1>
+              <div className='row mb-3'>
+                <h1 className='col'></h1>
+                <h1 className='col'>All Categories({categories && categories.length})</h1>
+                <div class="col text-end me-5">
+                  <button className="btn btn-info" onClick={() => setShow(!show)}>{show ? `Add New Category` : `Show All Categories`}</button>
+                </div>
+              </div>
+
               <table className='table' style={{ textAlign: 'center' }} width={'90%'}>
                 <thead>
                   <tr color='color-primary'>
@@ -123,8 +128,16 @@ const Categories = () => {
             <section style={{ marginTop: '2%' }}>
               {/* Create New Category */}
               <div >
-                <h1>Create New Category</h1><br />
-                <form className='input-group w-50' method='post'  >
+                <div className='row mb-3 '>
+                  <h1 className='col'></h1>
+                  <h2 className='col'>Create Category</h2>
+                  <div class="col text-end me-5">
+                    <Link to="/admin/categories">
+                      <button className="btn btn-info"onClick={()=>setShow(true)}>Go Back</button>
+                    </Link>
+                  </div>
+                </div> 
+                                <form className='input-group w-50' method='post'  >
                   <input className='form-control' value={name} type="name" name="name" id='name' placeholder="Name" autoFocus onChange={onChange} required />
                   <input className='form-control' type="submit" value="Create Category" onClick={createCategory} />
                 </form>

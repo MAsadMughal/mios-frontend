@@ -22,7 +22,7 @@ const WholeSeller = () => {
   })
 
   // const { getAndSetUsers, loading, setLoading } = useContext(UserContext);
-  const { loading, setLoading ,getAndSetUsers} = useContext(UserContext);
+  const { loading, setLoading, getAndSetUsers } = useContext(UserContext);
   const { name, email, password, address, phone, company, city } = user;
 
 
@@ -103,12 +103,17 @@ const WholeSeller = () => {
       <ReactNotifications />
       <br />
       {loading ? <Loader /> : <>
-        <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New WholeSeller` : `Show All Wholesellers`}</button>
         <br />
+        <div className='row mb-3'>
+          <h1 className='col'></h1>
+        <h1 className='col'>All WholeSellers Accounts({allUsers && allUsers.length})</h1>
+          <div class="col text-end me-5">
+            <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New WholeSeller` : `Show All Wholesellers`}</button>
+          </div>
+        </div>
         {show ?
           <div>
             <br />
-            <h1>All WholeSellers Accounts({allUsers && allUsers.length})</h1>
             <br />
             <table className='table' width={'90%'}>
               <thead>

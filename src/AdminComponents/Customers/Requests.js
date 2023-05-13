@@ -109,12 +109,17 @@ const Requests = () => {
       <ReactNotifications />
       <br />
       {loading ? <Loader /> : <>
-        <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New Dropshipper(Request) Account` : `Show All Dropshippers Requests`}</button>
         <br />
         {show ?
           <div>
             <br />
-            <h1>All Dropshippers Requests({allUsers && allUsers.length})</h1>
+            <div className='row mb-3'>
+              <h1 className='col'></h1>
+              <h1 className='col'>All Dropshippers Requests({allUsers && allUsers.length})</h1>
+              <div class="col text-end me-5">
+                <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New Dropshipper(Request) Account` : `Show All Dropshippers Requests`}</button>
+              </div>
+            </div>
             <br />
             <table className='table' width={'90%'} >
               <thead>

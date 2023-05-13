@@ -43,7 +43,22 @@ const Customers = () => {
       {loading ? <Loader /> :
         <div>
           <br />
-          <h1>All Customers Details({allUsers && allUsers.length})</h1>
+          <div className='row mb-3 '>
+            <div className='col'>
+              <Link to="/admin/customer/dropshipper">
+                <button className="btn btn-info">Add Dropshipper</button>
+              </Link>
+            </div>
+            <h1 className='col'>All Customers Details({allUsers && allUsers.length})</h1>
+            <br />
+            <div class="col text-end me-5">
+              <Link to="/admin/customer/wholeseller">
+                <button className="btn btn-info">Add WholeSeller</button>
+              </Link>
+
+            </div>
+          </div>
+
           <br />
 
           <table className='table' width={'90%'}>
