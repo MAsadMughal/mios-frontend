@@ -4,7 +4,7 @@ import "./Customers.css"
 import { ReactNotifications } from 'react-notifications-component';
 import Notification from '../../Notifications/Notifications';
 import UserContext from '../../context/User/UserContext';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Loader from '../../Loader/Loader';
 
 
@@ -24,6 +24,27 @@ const Requests = () => {
   const [show, setShow] = useState(true)
   const { getAndSetUsers, loading, setLoading } = useContext(UserContext);
   const { name, email, password, address, phone, company, city } = user;
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("query") || "");
+
+  const [filterUsers, setFilterUsers] = useState([])
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    setSearchParams({ query: e.target.value });
+  }
+
+  useEffect(() => {
+    if (query) {
+      const newUsers = allUsers.filter((user) => {
+        return user.name.toLowerCase().includes(query.toLowerCase());
+      });
+      setFilterUsers(newUsers);
+    } else {
+      setFilterUsers(allUsers);
+    }
+  }, [query, allUsers]);
 
 
 
@@ -111,11 +132,13 @@ const Requests = () => {
       {loading ? <Loader /> : <>
         <br />
         {show ?
-          <div>
+          <div className='container-fluid'>
             <br />
             <div className='row mb-3'>
-              <h1 className='col'></h1>
-              <h1 className='col'>All Dropshippers Requests({allUsers && allUsers.length})</h1>
+              <div className='col'>
+              <input type="text" name='search' onChange={handleChange} value={query} className='form-control' placeholder='Search Customer by name' />
+              </div>
+              <h1 className='col'>All Dropshippers Requests({filterUsers && filterUsers.length})</h1>
               <div class="col text-end me-5">
                 <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New Dropshipper(Request) Account` : `Show All Dropshippers Requests`}</button>
               </div>
@@ -137,7 +160,7 @@ const Requests = () => {
                   <th>Edit</th>
                 </tr>
               </thead>
-              {allUsers && allUsers.map((item, ind) => {
+              {filterUsers && filterUsers.map((item, ind) => {
                 return (
                   <tbody key={ind}>
                     <tr>
