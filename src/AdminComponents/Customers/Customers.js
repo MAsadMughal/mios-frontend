@@ -1,17 +1,38 @@
 import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import UserContext from '../../context/User/UserContext';
 import "./Customers.css";
 import Loader from '../../Loader/Loader';
 
 const Customers = () => {
+
   const host = process.env.REACT_APP_API_URL;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("query") || "");
+
+
   const [allUsers, setAllUser] = useState([])
   const [loading, setLoading] = useState([])
   const { getAndSetUsers } = useContext(UserContext);
+  const [filterUsers, setFilterUsers] = useState([])
 
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    setSearchParams({ query: e.target.value });
+  }
 
+  useEffect(() => { 
+    if (query) {
+      const newUsers = allUsers.filter((user) => {
+        return user.name.toLowerCase().includes(query.toLowerCase());
+      });
+      setFilterUsers(newUsers);
+    } else {
+      setFilterUsers(allUsers);
+    }
+  }, [query, allUsers]);
+  
 
   useEffect(() => {
     getUsers();
@@ -27,7 +48,6 @@ const Customers = () => {
     setLoading(false)
   }
 
-
   const deleteAccount = async (e) => {
     setLoading(true)
     await axios.delete(`${host}/api/auth/delete/${e.currentTarget.id}`);
@@ -41,21 +61,21 @@ const Customers = () => {
   return (
     <center>
       {loading ? <Loader /> :
-        <div>
+        <div className='container-fluid'>
           <br />
-          <div className='row mb-3 '>
-            <div className='col'>
-              <Link to="/admin/customer/dropshipper">
-                <button className="btn btn-info">Add Dropshipper</button>
-              </Link>
+          <div className='row mb-3'>
+            <div className='col-md-3'>
+              <input type="text" name='search' onChange={handleChange} value={query} className='form-control' placeholder='Search Customer by name' />
             </div>
-            <h1 className='col'>All Customers Details({allUsers && allUsers.length})</h1>
+            <h1 className='col-md-4 mt-2'>All Customers Details({filterUsers && filterUsers.length})</h1>
             <br />
-            <div class="col text-end me-5">
+            <div class="col-md-5 d-flex justify-content-evenly">
               <Link to="/admin/customer/wholeseller">
                 <button className="btn btn-info">Add WholeSeller</button>
               </Link>
-
+              <Link to="/admin/customer/dropshipper">
+                <button className="btn btn-info">Add Dropshipper</button>
+              </Link>
             </div>
           </div>
 
@@ -76,7 +96,7 @@ const Customers = () => {
                 <th>Delete</th>
               </tr>
             </thead>
-            {allUsers && allUsers.map((item, ind) => {
+            {filterUsers && filterUsers.map((item, ind) => {
               return (
                 <tbody key={ind}>
                   <tr>

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState, useEffect, useContext } from 'react'
 import { ReactNotifications } from 'react-notifications-component';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import UserContext from '../../context/User/UserContext';
 import Notification from '../../Notifications/Notifications';
 import Loader from '../../Loader/Loader';
@@ -24,6 +24,27 @@ const WholeSeller = () => {
   // const { getAndSetUsers, loading, setLoading } = useContext(UserContext);
   const { loading, setLoading, getAndSetUsers } = useContext(UserContext);
   const { name, email, password, address, phone, company, city } = user;
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("query") || "");
+
+  const [filterUsers, setFilterUsers] = useState([])
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    setSearchParams({ query: e.target.value });
+  }
+
+  useEffect(() => {
+    if (query) {
+      const newUsers = allUsers.filter((user) => {
+        return user.name.toLowerCase().includes(query.toLowerCase());
+      });
+      setFilterUsers(newUsers);
+    } else {
+      setFilterUsers(allUsers);
+    }
+  }, [query, allUsers]);
 
 
   useEffect(() => {
@@ -104,15 +125,18 @@ const WholeSeller = () => {
       <br />
       {loading ? <Loader /> : <>
         <br />
-        <div className='row mb-3'>
-          <h1 className='col'></h1>
-          <h1 className='col'>All WholeSellers Accounts({allUsers && allUsers.length})</h1>
-          <div class="col text-end me-5">
-            <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New WholeSeller` : `Show All Wholesellers`}</button>
-          </div>
-        </div>
+
         {show ?
           <div>
+            <div className='row mb-3'>
+              <div className='col'>
+                <input type="text" name='search' onChange={handleChange} value={query} className='form-control' placeholder='Search Customer by name' />
+              </div>
+              <h1 className='col'>All WholeSellers Accounts({filterUsers && filterUsers.length})</h1>
+              <div class="col text-end me-5">
+                <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New WholeSeller` : `Show All Wholesellers`}</button>
+              </div>
+            </div>
             <br />
             <br />
             <table className='table' width={'90%'}>
@@ -129,7 +153,7 @@ const WholeSeller = () => {
                   <th>Edit</th>
                 </tr>
               </thead>
-              {allUsers && allUsers.map((item, ind) => {
+              {filterUsers && filterUsers.map((item, ind) => {
                 return (
                   <tbody key={ind}>
                     <tr>

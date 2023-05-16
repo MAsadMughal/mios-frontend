@@ -4,16 +4,39 @@ import "./Customers.css";
 import { ReactNotifications } from 'react-notifications-component';
 import Notification from '../../Notifications/Notifications';
 import UserContext from '../../context/User/UserContext';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Loader from '../../Loader/Loader';
 
 
 
 const DropShip = () => {
   const host = process.env.REACT_APP_API_URL;
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("query") || "");
+
   const [allUsers, setAllUser] = useState([])
   const { getAndSetUsers, loading, setLoading } = useContext(UserContext);
   const [show, setShow] = useState(true)
+
+  const [filterUsers, setFilterUsers] = useState([])
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    setSearchParams({ query: e.target.value });
+  }
+
+  useEffect(() => { 
+    if (query) {
+      const newUsers = allUsers.filter((user) => {
+        return user.name.toLowerCase().includes(query.toLowerCase());
+      });
+      setFilterUsers(newUsers);
+    } else {
+      setFilterUsers(allUsers);
+    }
+  }, [query, allUsers]);
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -108,11 +131,13 @@ const DropShip = () => {
       {loading ? <Loader /> : <>
         <br />
         {show ?
-          <div>
+          <div className='container-fluid'>
             <br />
             <div className='row mb-3'>
-              <h1 className='col'></h1>
-              <h1 className='col'>All DropShipper Accounts({allUsers && allUsers.length})</h1>
+              <div className='col'>
+                <input type="text" name='search' onChange={handleChange} value={query} className='form-control' placeholder='Search Customer by name' />
+              </div>
+              <div className='col'><h1>All DropShipper Accounts({filterUsers && filterUsers.length})</h1></div>
               <div class="col text-end me-5">
                 <button className='btn btn-info' onClick={() => setShow(!show)}>{show ? `Add New Dropshipper` : `Show All Dropshippers`}</button>
               </div>
@@ -133,7 +158,7 @@ const DropShip = () => {
                   <th>Delete</th>
                 </tr>
               </thead>
-              {allUsers && allUsers.map((item, ind) => {
+              {filterUsers && filterUsers.map((item, ind) => {
                 return (
                   <tbody key={ind}>
                     <tr>

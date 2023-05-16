@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import axios from "axios";
 import { ReactNotifications } from "react-notifications-component"
 import ProductContext from '../../context/Product/ProductContext';
@@ -18,6 +18,27 @@ const Categories = () => {
   useEffect(() => {
     getCategories();
   }, [])// eslint-disable-line react-hooks/exhaustive-deps
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [query, setQuery] = useState(searchParams.get("query") || "");
+
+  const [filter, setFilter] = useState([])
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+    setSearchParams({ query: e.target.value });
+  }
+
+  useEffect(() => {
+    if (query) {
+      const newCategories = categories.filter((categ) => {
+        return categ.name.toLowerCase().includes(query.toLowerCase());
+      });
+      setFilter(newCategories);
+    } else {
+      setFilter(categories);
+    }
+  }, [query, categories]);
 
 
   const deleteCategory = async (e) => {
@@ -88,10 +109,12 @@ const Categories = () => {
       {loading ? <Loader /> :
         <>
           {show ?
-            <div>
+            <div className='container-fluid'>
               <br />
               <div className='row mb-3'>
-                <h1 className='col'></h1>
+                <div className='col'>
+                  <input type="text" name='search' onChange={handleChange} value={query} className='form-control' placeholder='Search Category by Name' />
+                </div>
                 <h1 className='col'>All Categories({categories && categories.length})</h1>
                 <div class="col text-end me-5">
                   <button className="btn btn-info" onClick={() => setShow(!show)}>{show ? `Add New Category` : `Show All Categories`}</button>
@@ -107,7 +130,7 @@ const Categories = () => {
                     <th>Delete</th>
                   </tr>
                 </thead>
-                {categories && categories.map((item, ind) => {
+                {filter && filter.map((item, ind) => {
                   return (
                     <tbody key={ind}>
                       <tr>
