@@ -61,7 +61,7 @@ const PendingOrders = () => {
                                     <td>{`${d}/${m}/${y} at ${h}:${min}`}</td>
                                     <td>{item.orderStatus}</td>
                                     <td>
-                                        <span><Link to="orderedit">Edit</Link></span> | <span>Delete</span>
+                                        <span><Link to={`orderedit/${item._id}`}>Edit</Link></span> | <span>Delete</span>
                                     </td>
                                 </tr>
                             )

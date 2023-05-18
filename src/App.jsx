@@ -66,6 +66,8 @@ import DropshipPaid from './AdminComponents/Dropshippersprofit/DropshipPaid';
 import Loader from './Loader/Loader';
 import PaidPerUser from './AdminComponents/Dropshippersprofit/PaidPerUser';
 import ProfitOrderDetails from './AdminComponents/Dropshippersprofit/ProfitOrderDetails';
+import PendingOrderEdit from './Components/Orders/PendingOrderEdit';
+import ImportProducts from './AdminComponents/Product/ImportProducts';
 
 axios.defaults.withCredentials = true;
 function App() {
@@ -90,6 +92,8 @@ function App() {
       }
     }
     getUserDetails();
+
+    // eslint-disable-next-line
   }, [])
 
 
@@ -130,6 +134,7 @@ function App() {
                     <Route path='/user/profile' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserProfile /> : null} />
                     <Route path='/myOrders' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <MyOrders /> : null} />
                     <Route path='/orders/pending' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PendingOrders /> : null} />
+                    <Route path='/orders/Pending/orderedit/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PendingOrderEdit /> : null} />
                     <Route path='/orders/delivered' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <DeliveredOrders /> : null} />
                     <Route path='/orders/shipped' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ShippedOrders /> : null} />
                     <Route path='/orders/returned' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ReturnedOrders /> : null} />
@@ -168,6 +173,7 @@ function App() {
                     <Route path="/admin/singleprofit/:userid/:id" element={admin ? <ProfitOrderDetails /> : null} />
                     {/* <Route path="/admin/products" element={admin ? <AddProduct /> : null} /> */}
                     <Route path="/admin/addProduct" element={admin ? <AddProduct /> : null} />
+                    <Route path="/admin/addProduct/importproducts" element={admin ? <ImportProducts /> : null} />
                     <Route path="/admin/category/edit/:id" element={admin ? <EditCategory /> : null} />
                     <Route path="/admin/product/edit/:id" element={admin ? <EditProduct /> : null} />
                     <Route path="/admin/reports/order-report" element={admin ? <OrderReport /> : null} />

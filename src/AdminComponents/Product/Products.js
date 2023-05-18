@@ -56,9 +56,12 @@ const AdminProducts = () => {
             <input type="text" name='search' onChange={handleChange} value={query} className='form-control' placeholder='Search Product by Title' />
           </div>
           <div className="col-md-4 mt-2 text-center">All Products ({products && products.length})</div>
-          <div className="col-md-4 text-center">
+          <div className="col-md-4 text-center d-flex justify-content-evenly">
             <Link to="/admin/addProduct">
-              <button className="btn btn-info">Add New Product</button>
+              <button className="btn btn-primary">Add New Product</button>
+            </Link>
+            <Link to="/admin/addProduct/importproducts">
+              <button className="btn btn-info">Import Products</button>
             </Link>
           </div>
         </div>
