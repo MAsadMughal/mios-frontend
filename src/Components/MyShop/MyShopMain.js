@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import MyShop from "./MyShop";
 import ProductContext from "../../context/Product/ProductContext";
 // import { useParams } from 'react-router-dom'
@@ -6,12 +6,23 @@ import UserContext from "../../context/User/UserContext";
 
 
 const MyShopMain = ({ data }) => {
-  const { products ,MyShopItems } = useContext(ProductContext);
+  const { products, getMyshop, MyShopItems } = useContext(ProductContext);
   const [singleProduct, setSingleProduct] = useState({})
   const { user } = useContext(UserContext);
   const context = useContext(ProductContext);
   const Refresh = context.Cart;
   const { addToCart } = context;
+  const [shop, setShop] = useState(MyShopItems)
+
+  useEffect(() => {
+    getMyshop();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    setShop(MyShopItems)
+  }, [MyShopItems]);
+
+  
 
 
   const modalRef = useRef(null);
@@ -46,10 +57,11 @@ const MyShopMain = ({ data }) => {
     
   return (
     <>
-      <div className="container-fluid mt-5 home-sidebar">
+      <div className="container-fluid mt-3 home-sidebar">
         <div className="row">
+            <h2 className="mb-4 text-center">Myshop</h2>
           <div className="grid-container">
-            {MyShopItems.product.map((product, index) => {
+            {shop.map((product, index) => {
               return <MyShop product={product} modalRef={modelFunction} key={index + 1} />;
             })}
           </div>

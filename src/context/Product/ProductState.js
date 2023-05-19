@@ -51,6 +51,8 @@ const ProductState = (props) => {
   };
   useEffect(() => {
     getShipCat();
+
+    // eslint-disable-next-line
   }, []);
 
   const Cart = async () => {
@@ -67,7 +69,7 @@ const ProductState = (props) => {
   const getMyshop = async () => {
     setLoading(true)
     const { data } = await axios.get(`${host}/api/myshop/allmyshopitems`);
-    setMyShopItems(data);
+    setMyShopItems(data.product);
     setLoading(false)
   };
 
@@ -76,6 +78,8 @@ const ProductState = (props) => {
     getProducts();
     // Cart();
     getMyshop();
+
+    // eslint-disable-next-line
   }, [setCartItems]);
 
   const addToCart = async ({ product }, quantity) => {
@@ -122,11 +126,13 @@ const ProductState = (props) => {
       });
   };
 
-  const addToMyShop = async (product) => {
+  const addToMyShop = async (productid) => {
+    const productId = {product: productid}
     setLoading(true)
-    await axios.post(`${host}/api/myshop/addtomyshop`, { product })
-      .then(function () {
+    await axios.post(`${host}/api/myshop/addtomyshop`, productId)
+      .then(function (res) {
         setLoading(false)
+        console.log(res);
       })
       .catch(function (error) {
         setLoading(false)

@@ -10,7 +10,7 @@ import ProductContext from '../../context/Product/ProductContext';
 import UserContext from '../../context/User/UserContext';
 import "./SideBar.css";
 import { arr, navArr, orderStatuses } from './SidebarData';
-import Loader from "../../Loader/Loader";
+// import Loader from "../../Loader/Loader";
 import OrderContext from "../../context/Order/OrderContext";
 
 
@@ -26,7 +26,8 @@ export default function Sidebar() {
     const Navigation = (e) => { Navigate(e.target.id); setOpen(false); }
     let [numbers, setNumbers] = useState({ pending: 0, shipped: 0, delivered: 0, returned: 0 });
     let [count, setCount] = useState({});
-    const { userOrders, orderLoading, getMyOrders } = useContext(OrderContext);
+    // const { userOrders, orderLoading, getMyOrders } = useContext(OrderContext);
+    const { userOrders,  getMyOrders } = useContext(OrderContext);
     const [pending, setPending] = useState(0)
     const [delivered, setDelivered] = useState(0)
     const [returned, setReturned] = useState(0)
@@ -47,6 +48,8 @@ export default function Sidebar() {
             setCount(data.count);
         }
         getNumbers();
+
+        // eslint-disable-next-line
     }, [userOrders])
     const { CartItems, categories, Cart } = useContext(ProductContext);
     const { user, loading, } = useContext(UserContext);
@@ -168,6 +171,9 @@ export default function Sidebar() {
                                 </span>
                                 <span className='mx-2'>
                                     <Link className='nav__name' to='/user/dashboard'>Dashboard</Link>
+                                </span>
+                                <span className='mx-2'>
+                                    <Link className='nav__name' to='/myshop'>Myshop</Link>
                                 </span>
                                 <span className='mx-2'>
                                     <Link className='nav__name' to='/featured'>Featured</Link>
