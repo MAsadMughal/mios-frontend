@@ -147,7 +147,7 @@ function App() {
                     <Route exact path="/admin/login" element={(user._id && user.isAdmin === false) ? <ProductMain data="fetchallproducts" /> : !admin ? <AdminLogin setUser={setUser} /> : <Dashboard />} />
                     <Route path="/admin/usercreation" element={admin ? <Usercreation /> : null} />
                     <Route path="/admin/dashboard" element={admin ? <Dashboard /> : null} />
-                    <Route path="/admin/customer/all" element={admin ? <Customers /> : null} />
+                    <Route path="/admin/customer" element={admin ? <Customers /> : null} />
                     <Route path="/admin/customer/wholeseller" element={admin ? <Wholeseller /> : null} />
                     <Route path="/admin/customer/dropshipper" element={admin ? <Dropship /> : null} />
                     <Route path="/admin/customer/requests" element={admin ? <Requests /> : null} />

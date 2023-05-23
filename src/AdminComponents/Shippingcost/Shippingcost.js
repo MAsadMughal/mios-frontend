@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom";
 import Loader from '../../Loader/Loader';
+// import { Link } from "react-router-dom";
 // const image = window.location.origin + "/Assets/no-data.svg";
 export class Shippingcost extends Component {
   constructor() {
@@ -93,13 +93,15 @@ export class Shippingcost extends Component {
         <div className="main" id="main">
           <div className="container-fluid">
 
-            <div className="my-3 d-flex justify-content-between">
-              <div></div>
-              <Link to="/admin/addshippingcost" className="btn btn-sm btn-success ">Add Shipping Cost</Link>
+            <div className="my-3 d-flex justify-content-center">
+              <div>
+                <h3 className='text-center'>Shipping Cost</h3>
+              </div>
+              {/* <Link to="/admin/addshippingcost" className="btn btn-sm btn-success ">Add Shipping Cost</Link> */}
             </div>
-            <table className="table table-hover table-bordered">
+            <table  className='table'>
               <thead>
-                <tr className="table-dark">
+                <tr>
                   <th colSpan="1" >Sr.</th>
                   <th colSpan="1" className="text-center">Weight Category(Kg)</th>
                   <th colSpan="1" className="text-center">Intercity</th>

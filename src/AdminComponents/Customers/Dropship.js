@@ -41,6 +41,9 @@ const DropShip = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     getUsers();
+
+
+    // eslint-disable-next-line
   }, [])
 
 
@@ -191,7 +194,7 @@ const DropShip = () => {
                 <input value={email} type="email" name="email" id='email' placeholder="E-mail" autoFocus onChange={onChange} required />
                 <input value={password} className="mb-3" type="password" name="password" id='password' placeholder="Password" onChange={onChange} required />
                 <input value={phone} type="phone" name="phone" id='phone' placeholder="Phone Number" autoFocus onChange={onChange} required /><br />
-                <select name="city" className='input-group' style={{ height: "35px", fontSize: "20px" }} value={city} onChange={onChange} id="Location" required>
+                <select name="city" className='form-select' value={city} onChange={onChange} id="Location" required>
                   <option value="" disabled selected>Select The City</option>
                   <option value="Islamabad">Islamabad</option>
                   <option value="" disabled>Punjab Cities</option>
