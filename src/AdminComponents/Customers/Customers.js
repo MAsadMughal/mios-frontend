@@ -22,7 +22,7 @@ const Customers = () => {
     setSearchParams({ query: e.target.value });
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     if (query) {
       const newUsers = allUsers.filter((user) => {
         return user.name.toLowerCase().includes(query.toLowerCase());
@@ -32,7 +32,7 @@ const Customers = () => {
       setFilterUsers(allUsers);
     }
   }, [query, allUsers]);
-  
+
 
   useEffect(() => {
     getUsers();
