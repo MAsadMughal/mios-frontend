@@ -45,12 +45,51 @@ const UserProfile = () => {
         }
     }
 
+    const [bank, setBank] = useState(null);
+
+    const checkBankDetails = async () => {
+        const data = await axios.get(`${host}/api/bankDetails`);
+        if (data && data.data.length > 0) {
+            setLoading(false)
+            setBank(data.data[0]);
+        }
+    }
+
+    useEffect(() => {
+        checkBankDetails();
+
+        // eslint-disable-next-line
+    }, [])
+
     return (
         <>
             <ReactNotifications />
             {loading ? <Loader /> :
                 <div className="my-5 mx-5">
-                    <center><h1>{user && user.name}'s Profile</h1></center><ReactNotifications />
+                    <div className='d-flex justify-content-between'>
+                        <center><h1>{user && user.name}'s Profile</h1></center><ReactNotifications />
+                        {role === "dropshipper" && bank ? (
+                            <div>
+                                <button
+                                    onClick={() => Navigate("/user/updatebank")}
+                                    className="btn btn-primary mx-1"
+                                >
+                                    Update Bank Details
+                                </button>
+                            </div>
+                        ) : (
+                            role === "dropshipper" && (
+                                <div>
+                                    <button
+                                        onClick={() => Navigate("/user/addbankdetails")}
+                                        className="btn btn-primary mx-1"
+                                    >
+                                        Add Bank Details
+                                    </button>
+                                </div>
+                            )
+                        )}
+                    </div>
                     <label className="form-label">Name</label>
                     <input onChange={changeFun} type="text" value={name} name="name" className="form-control" placeholder="Enter Your Name" />
                     <label className="form-label">email</label>
@@ -306,6 +345,7 @@ const UserProfile = () => {
                         <option value="Zhob">Zhob</option>
                         <option value="Ziarat">Ziarat</option>
                     </select><br />
+
                     <label className="form-label">Role</label>
                     <input type="text" value={role} name="role" disabled className="form-control" placeholder="" /><br />
                     <button onClick={updateFun} type="submit" className="btn btn-primary">Save</button>

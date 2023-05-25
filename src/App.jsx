@@ -12,6 +12,8 @@ import Cart from './Components/Cart/Cart';
 import Sidebar from "./Components/Sidebar/Sidebar";
 import MyShopMain from './Components/MyShop/MyShopMain';
 
+import UserBank from './Components/Dashboard/UserBank';
+import UserBankUpdate from './Components/Dashboard/UserBankUpdate';
 
 
 // Admin Imports
@@ -140,6 +142,8 @@ function App() {
                     <Route path='/orders/returned' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ReturnedOrders /> : null} />
                     <Route path='/category/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <CategoryProducts /> : null} />
                     <Route path='/checkout' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PlaceOrder /> : null} />
+                    <Route path='/user/addbankdetails' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserBank /> : null} />
+                    <Route path='/user/updatebank' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserBankUpdate /> : null} />
                     {/* <Route path='/checkout' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin == false) ? <Checkout /> : null} /> */}
 
                     {/* Admin Routes */}
@@ -178,6 +182,7 @@ function App() {
                     <Route path="/admin/product/edit/:id" element={admin ? <EditProduct /> : null} />
                     <Route path="/admin/reports/order-report" element={admin ? <OrderReport /> : null} />
                     <Route path="/admin/addshippingcost" element={admin ? <Addshippingcost /> : null} />
+
                     <Route path='*' element={NotFound} />
                   </Routes>
                 </OrderState>
