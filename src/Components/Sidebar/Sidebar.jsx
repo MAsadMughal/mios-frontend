@@ -36,7 +36,7 @@ export default function Sidebar() {
         window.scrollTo(0, 0);
 
         if (location.pathname === '/' || userOrders.length !== (numbers.pending + numbers.delivered + numbers.returned)) {
-            getMyOrders();
+            // getMyOrders();
             Cart();
             setPending(userOrders.filter(order => order.orderStatus === 'Pending').length);
             setDelivered(userOrders.filter(order => order.orderStatus === 'Delivered').length);

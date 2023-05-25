@@ -1,12 +1,12 @@
 import { React, useEffect, useState, useRef } from 'react'
 import axios from "axios";
-import moment from "moment";
+// import moment from "moment";
 import "./Order.css";
 import { Link } from "react-router-dom";
 import Loader from "../../Loader/Loader";
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
-import { DateRangePicker } from 'react-date-range';
+// import { DateRangePicker } from 'react-date-range';
 const image = window.location.origin + "/Assets/no-data.svg";
 
 const WholesaleOrder = () => {
@@ -14,14 +14,15 @@ const WholesaleOrder = () => {
     const host = process.env.REACT_APP_API_URL;
 
     const modalRef = useRef(null);
-    const closeRef = useRef(null);
+    // const closeRef = useRef(null);
     const [orders, setOrders] = useState([])
+    // eslint-disable-next-line
     const [allOrders, setAllOrders] = useState([])
     const [loading, setLoading] = useState(false)
     const [checked, setChecked] = useState(false)
     const [details, setDetails] = useState([])
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    // const [startDate, setStartDate] = useState(new Date());
+    // const [endDate, setEndDate] = useState(new Date());
 
     const getOrders = async () => {
         setLoading(true)
@@ -33,8 +34,12 @@ const WholesaleOrder = () => {
 
     useEffect(() => {
         getOrders()
+
+        // eslint-disable-next-line
     }, [])
 
+    
+    // eslint-disable-next-line
     const onChecked = (e) => {
         setChecked(!checked)
     };
@@ -88,24 +93,24 @@ const WholesaleOrder = () => {
         setOrders(pro);
     };
 
-    const handleSelect = (date) => {
-        let filteredOrders = allOrders.filter((order) => {
-            let productDate = new Date(order.date);
-            return (
-                productDate >= date.selection.startDate &&
-                productDate <= date.selection.endDate
-            );
-        });
-        setStartDate(date.selection.startDate);
-        setEndDate(date.selection.endDate);
-        setOrders(filteredOrders);
-    };
+    // const handleSelect = (date) => {
+    //     let filteredOrders = allOrders.filter((order) => {
+    //         let productDate = new Date(order.date);
+    //         return (
+    //             productDate >= date.selection.startDate &&
+    //             productDate <= date.selection.endDate
+    //         );
+    //     });
+    //     setStartDate(date.selection.startDate);
+    //     setEndDate(date.selection.endDate);
+    //     setOrders(filteredOrders);
+    // };
 
-    const selectionRange = {
-        startDate: startDate,
-        endDate: endDate,
-        key: 'selection',
-    }
+    // const selectionRange = {
+    //     startDate: startDate,
+    //     endDate: endDate,
+    //     key: 'selection',
+    // }
 
     return (
         <>
@@ -113,13 +118,16 @@ const WholesaleOrder = () => {
                 <>
                     <div className="main">
                         <div className="container-fluid">
-                            <DateRangePicker
+                            <h3 className='text-center my-4'>
+                                Wholesale Orders
+                            </h3>
+                            {/* <DateRangePicker
                                 ranges={[selectionRange]}
                                 onChange={handleSelect}
-                            />
-                            <table className="table table-hover table-bordered">
+                            /> */}
+                            <table className="table">
                                 <thead>
-                                    <tr className="table-dark">
+                                    <tr>
                                         <th colSpan="1" className="text-center align-middle">
                                             Sr.
                                         </th>

@@ -24,11 +24,15 @@ const Product = ({ product, modalRef }) => {
     }
   };
   const addAndRefresh = async (product) => {
-    await addToCart({ product }, quantity);
-    await Refresh();
-    setTimeout(() => {
-      Notification("Success", "Added To Cart", "success");
-    }, 10);
+    if (quantity >= 1 && quantity <= product?.stock) {
+      await addToCart({ product }, quantity);
+      await Refresh();
+      setTimeout(() => {
+        Notification("Success", "Added To Cart", "success");
+      }, 10);
+    } else {
+      Notification("Danger", "You enter more than stock quantity", "danger");
+    }
   };
 
   return (
