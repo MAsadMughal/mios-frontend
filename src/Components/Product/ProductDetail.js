@@ -5,57 +5,68 @@ import { useParams } from "react-router-dom";
 import "./Product.css";
 import Notification from "../../Notifications/Notifications";
 import { ReactNotifications } from "react-notifications-component";
+import UserContext from "../../context/User/UserContext";
+
 
 const ProductDetail = () => {
   const host = process.env.REACT_APP_API_URL;
-  const [products, setProducts] = useState([]);
+  const [product, setProduct] = useState(null);
   const params = useParams();
   const [quantity, setQuantity] = useState(1);
   const context = useContext(ProductContext);
+  const { user } = useContext(UserContext);
   const { addToCart, updateCartProductQty } = context;
   const Refresh = context.Cart;
 
   const { id } = params;
-  useEffect(() => {
-    const getProducts = async () => {
+
+  const getProduct = async () => {
+    try {
       const { data } = await axios.get(`${host}/api/product/product/${id}`);
-      setProducts(data);
-    };
-    getProducts();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+      setProduct(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
-    if (quantity >= 1) {
+    getProduct();
+  }, [id]);
+
+  useEffect(() => {
+    if (quantity >= 1 && quantity <= product?.stock) {
       updateCartProductQty(id, quantity);
     }
-  }, [quantity]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  }, [quantity]);
 
   const handleChange = (e) => {
     const newQty = parseInt(e.target.value);
-    if (!isNaN(newQty)) {
+    if (!isNaN(newQty) ) {
       setQuantity(newQty);
-      // updateProductQty(Data.product._id, newQty)
     } else {
       setQuantity(0);
     }
   };
 
   const addAndRefresh = async (product) => {
-    await addToCart({ product }, quantity);
-    Notification("Success", "Added to Cart", "success")
-    await Refresh();
+
+    if (quantity >= 1 && quantity <= product?.stock) {
+      await addToCart({ product }, quantity);
+      Notification("Success", "Added to Cart", "success");
+      await Refresh();
+    } else {
+      Notification("Danger", "You enter more than stock quantity", "danger");
+    }
+
   };
 
   return (
     <>
       <ReactNotifications />
       <div className="container-fluid mt-5">
-        {products.map((product) => (
-          <div
-            className="card p-4"
-            key={product._id}
-            style={{ margin: "5.5rem 0 0 0" }}
-          >
+        {product ? (
+          <div className="card p-4" style={{ margin: "5.5rem 0 0 0" }}>
             <div className="row">
               <div className="col-md-6">
                 <div className="image-product p-3">
@@ -67,23 +78,26 @@ const ProductDetail = () => {
                   <div className="product-info">
                     <div className="product-name">{product.title}</div>
                     <div className="reviews-counter">
-                      <span>{product}</span>
+                      {/* <span>{byIdProduc.review}</span> */}
                     </div>
-
-                    {/* <div className="product-price-discount"><span>{product.discountedPrice} Rs</span><span className="line-through">{product.wholesalePrice} Rs</span></div> */}
                     <div className="product-price-discount">
-                      {product.discountedPrice ? (
-                        <span className="product-price-discount">
-                          {product.discountedPrice} Rs.
-                        </span>
+                      {user.role === "wholeseller" ? (
+                        product.discountedPriceW > 0 ? (
+                          <>
+                            Rs. {product.discountedPriceW}{" "}
+                            <del>{product.wholesalePrice}</del>
+                          </>
+                        ) : (
+                          <>Rs. {product.wholesalePrice}</>
+                        )
+                      ) : product.discountedPriceD > 0 ? (
+                        <>
+                          Rs. {product.discountedPriceD}{" "}
+                          <del>{product.dropshipperPrice}</del>
+                        </>
                       ) : (
-                        <span>{product.wholesalePrice} Rs.</span>
+                        <>Rs. {product.dropshipperPrice}</>
                       )}
-                      {product.discountedPrice ? (
-                        <span className="line-through">
-                          {product.wholesalePrice} Rs.
-                        </span>
-                      ) : null}
                     </div>
                     <div className="skuNumber">
                       <span>
@@ -91,32 +105,13 @@ const ProductDetail = () => {
                         {product.skuNumber}
                       </span>
                     </div>
+
+                    <div className="product-description">
+                      <h6>Description:</h6>
+                      <p>{product.description}</p>
+                    </div>
+
                   </div>
-                  <p className="mt-3">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </p>
-                  {/* <div className="row">
-	        				<div className="col-md-6">
-	        					<label for="size">Size</label>
-								<select id="size" name="size" className="form-control">
-									<option>S</option>
-									<option>M</option>
-									<option>L</option>
-									<option>XL</option>
-								</select>
-	        				</div>
-	        				<div className="col-md-6">
-	        					<label for="color">Color</label>
-								<select id="color" name="color" className="form-control">
-									<option>Blue</option>
-									<option>Green</option>
-									<option>Red</option>
-								</select>
-	        				</div>
-	        			</div> */}
                   <div className="product-count">
                     <label htmlFor="size">Quantity</label>
                     <form action="#" className="display-flex">
@@ -140,7 +135,9 @@ const ProductDetail = () => {
                       <div
                         className="qtyplus"
                         onClick={() => {
-                          setQuantity(quantity + 1);
+                          if (quantity < product.stock) {
+                            setQuantity(quantity + 1);
+                          }
                         }}
                       >
                         +
@@ -162,7 +159,9 @@ const ProductDetail = () => {
               </div>
             </div>
           </div>
-        ))}
+        ) : (
+          <div>Loading...</div>
+        )}
       </div>
     </>
   );

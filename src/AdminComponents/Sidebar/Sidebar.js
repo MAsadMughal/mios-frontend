@@ -1,4 +1,4 @@
-import React, { useContext, } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import "./Sidebar.css"
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -21,6 +21,16 @@ const Sidebar = () => {
         document.body.style.paddingLeft = bodyStyles.paddingLeft;
     }
 
+    const [subMenuIndex, setSubMenuIndex] = useState(-1);
+    const arrow = useRef([]);
+
+    const handleMenuClick = (index) => {
+        if (subMenuIndex === index) {
+            setSubMenuIndex(-1);
+        } else {
+            setSubMenuIndex(index);
+        }
+    };
 
 
 
@@ -69,12 +79,15 @@ const Sidebar = () => {
                                     <span className="nav__name">Home</span>
                                 </Link>
 
-                                <div className="nav__dropdown">
-                                    <Link to="/admin/customer/all" className="nav__link">
+                                <div className={
+                                    subMenuIndex === 1 ? 'nav__dropdown dropdown_active' : 'nav__dropdown'
+                                } ref={(el) => (arrow.current[1] = el)}
+                                    onClick={() => handleMenuClick(1)}>
+                                    <div className="nav__link">
                                         <i className='bx bx-user nav__icon' ></i>
                                         <span className="nav__name">Customers({allUsers})</span>
                                         <i className='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
-                                    </Link>
+                                    </div>
 
                                     <div className="nav__dropdown-collapse">
                                         <div className="nav__dropdown-content">
@@ -89,12 +102,15 @@ const Sidebar = () => {
                                     <span className="nav__name">Categories({categories && categories.length})</span>
                                 </Link>
 
-                                <div className="nav__dropdown">
-                                    <Link to="/admin/products" className="nav__link">
+                                <div className={
+                                    subMenuIndex === 2 ? 'nav__dropdown dropdown_active' : 'nav__dropdown'
+                                } ref={(el) => (arrow.current[2] = el)}
+                                    onClick={() => handleMenuClick(2)}>
+                                    <div className="nav__link">
                                         <i className='bx bx-store-alt nav__icon' ></i>
                                         <span className="nav__name">Products({products && products.length})</span>
                                         <i className='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
-                                    </Link>
+                                    </div>
 
                                     <div className="nav__dropdown-collapse">
                                         <div className="nav__dropdown-content">
@@ -112,7 +128,10 @@ const Sidebar = () => {
                                     <i className='bx bx-calculator nav__icon' ></i>
                                     <span className="nav__name">Shipping Cost</span>
                                 </Link>
-                                <div className="nav__dropdown">
+                                <div div className={
+                                    subMenuIndex === 3 ? 'nav__dropdown dropdown_active' : 'nav__dropdown'
+                                } ref={(el) => (arrow.current[3] = el)}
+                                    onClick={() => handleMenuClick(3)}>
                                     <div className="nav__link">
                                         <i className='bx bx-file nav__icon' ></i>
                                         <span className="nav__name">Reports</span>
@@ -127,12 +146,15 @@ const Sidebar = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="nav__dropdown">
-                                    <Link to="/admin/pendingprofits" className="nav__link">
+                                <div div className={
+                                    subMenuIndex === 4 ? 'nav__dropdown dropdown_active' : 'nav__dropdown'
+                                } ref={(el) => (arrow.current[4] = el)}
+                                    onClick={() => handleMenuClick(4)}>
+                                    <div className="nav__link">
                                         <i className='bx bx-menu nav__icon' ></i>
                                         <span className="nav__name">DS Profit</span>
                                         <i className='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
-                                    </Link>
+                                    </div>
 
                                     <div className="nav__dropdown-collapse">
                                         <div className="nav__dropdown-content">
@@ -148,30 +170,38 @@ const Sidebar = () => {
                             <div className="nav__items">
                                 <h3 className="nav__subtitle">Orders</h3>
 
-                                <div className="nav__dropdown">
-                                    <Link to="/admin/wholesaleorders" className="nav__link">
+                                <div div className={
+                                    subMenuIndex === 5 ? 'nav__dropdown dropdown_active' : 'nav__dropdown'
+                                } ref={(el) => (arrow.current[5] = el)}
+                                    onClick={() => handleMenuClick(5)}>
+                                    <div className="nav__link">
                                         <i className='bx bx-task nav__icon' ></i>
                                         <span className="nav__name">Wholesale</span>
                                         <i className='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
-                                    </Link>
+                                    </div>
 
                                     <div className="nav__dropdown-collapse">
                                         <div className="nav__dropdown-content">
+                                            <Link to="/admin/wholesaleorders" className="nav__dropdown-item">All Orders</Link>
                                             <Link to="/admin/return" className="nav__dropdown-item">Return Orders</Link>
                                             <Link to="/admin/pending-orders" className="nav__dropdown-item">Pending Orders</Link>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div className="nav__dropdown">
-                                    <Link to="/admin/dropshiporders" className="nav__link">
+                                <div div className={
+                                    subMenuIndex === 6 ? 'nav__dropdown dropdown_active' : 'nav__dropdown'
+                                } ref={(el) => (arrow.current[6] = el)}
+                                    onClick={() => handleMenuClick(6)}>
+                                    <div  className="nav__link">
                                         <i className='bx bx-task nav__icon' ></i>
                                         <span className="nav__name">Dropship</span>
                                         <i className='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
-                                    </Link>
+                                    </div>
 
                                     <div className="nav__dropdown-collapse">
                                         <div className="nav__dropdown-content">
+                                            <Link to="/admin/dropshiporders" className="nav__dropdown-item">All Orders</Link>
                                             <Link to="/" className="nav__dropdown-item">Return Orders</Link>
                                             <Link to="/" className="nav__dropdown-item">Pending Orders</Link>
 

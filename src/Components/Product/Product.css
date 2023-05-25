@@ -568,6 +568,7 @@ padding-right: 1em; */
 
 .card {
   background-color: white !important;
+  width: 100%;
 }
 
 input::-webkit-outer-spin-button,
@@ -581,9 +582,9 @@ input::-webkit-inner-spin-button {
   text-overflow: ellipsis;
   display: -webkit-box;
   font-size: 14px;
-  line-height: 14px; /* fallback */
+  line-height: 18px; /* fallback */
   max-height: 28px; /* fallback */
-  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-line-clamp: 1; /* number of lines to show */
   -webkit-box-orient: vertical;
 }
 

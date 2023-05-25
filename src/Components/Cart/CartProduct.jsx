@@ -56,7 +56,7 @@ export const CartProduct = ({ Data }) => {
         const newQty = parseInt(e.target.value);
         if (!isNaN(newQty)) {
             setQty(newQty);
-            // updateProductQty(Data.product._id, newQty)
+            // updateCartProductQty(Data.product._id, newQty)
         } else {
             setQty(0);
         }

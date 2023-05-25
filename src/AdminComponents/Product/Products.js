@@ -5,6 +5,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import ProductContext from "../../context/Product/ProductContext";
 import Loader from "../../Loader/Loader";
 import Notification from "../../Notifications/Notifications";
+import Papa from 'papaparse';
 
 
 const AdminProducts = () => {
@@ -45,6 +46,36 @@ const AdminProducts = () => {
   }, [query, products]);
 
 
+  const csVDataDownload = filter.map((item) => {
+    return {
+      id: item._id,
+      title: item.title,
+      category: item.category.name,
+      skuNumber: item.skuNumber,
+      stock: item.stock,
+      wholesellerPrice: item.wholesellerPrice,
+      discountedPriceW: item.discountedPriceW,
+      dropshipperPrice: item.dropshipperPrice,
+      discountedPriceD: item.discountedPriceD,
+      featured: item.featured,
+      onSale: item.onSale,
+      weight: item.weight,
+      image: item.photo.url,
+      description: item.description
+    }
+  })
+
+  const csv = Papa.unparse(csVDataDownload);
+  const download = () => {
+    const element = document.createElement("a");
+    const file = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    element.href = URL.createObjectURL(file);
+    element.download = "products.csv";
+    document.body.appendChild(element);
+    element.click();
+  }
+
+  
 
 
 
@@ -58,11 +89,12 @@ const AdminProducts = () => {
           <div className="col-md-4 mt-2 text-center">All Products ({products && products.length})</div>
           <div className="col-md-4 text-center d-flex justify-content-evenly">
             <Link to="/admin/addProduct">
-              <button className="btn btn-primary">Add New Product</button>
+              <button className="btn btn-primary btn-sm">Add New</button>
             </Link>
             <Link to="/admin/addProduct/importproducts">
-              <button className="btn btn-info">Import Products</button>
+              <button className="btn btn-info btn-sm">Import</button>
             </Link>
+            <button className="btn btn-primary btn-sm" onClick={download}>Export</button>
           </div>
         </div>
 

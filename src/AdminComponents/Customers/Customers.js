@@ -4,6 +4,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import UserContext from '../../context/User/UserContext';
 import "./Customers.css";
 import Loader from '../../Loader/Loader';
+import Papa from 'papaparse';
 
 const Customers = () => {
 
@@ -36,6 +37,8 @@ const Customers = () => {
 
   useEffect(() => {
     getUsers();
+
+    // eslint-disable-next-line
   }, [])
 
 
@@ -56,6 +59,28 @@ const Customers = () => {
     setLoading(false)
   }
 
+  const csVDataDownload = filterUsers.map((item) => {
+    return {
+      Name: item.name,
+      Email: item.email,
+      Phone: item.phone,
+      City: item.city,
+      Address: item.address,
+      Role: item.role,
+      Company: item.company,
+    }
+  })
+
+  const csv = Papa.unparse(csVDataDownload);
+  const download = () => {
+    const element = document.createElement("a");
+    const file = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    element.href = URL.createObjectURL(file);
+    element.download = "Customers.csv";
+    document.body.appendChild(element);
+    element.click();
+  }
+
 
 
   return (
@@ -64,18 +89,13 @@ const Customers = () => {
         <div className='container-fluid'>
           <br />
           <div className='row mb-3'>
-            <div className='col-md-3'>
+            <div className='col-md-4'>
               <input type="text" name='search' onChange={handleChange} value={query} className='form-control' placeholder='Search Customer by name' />
             </div>
-            <h1 className='col-md-4 mt-2'>All Customers Details({filterUsers && filterUsers.length})</h1>
+            <h1 className='col-md-4 mt-2'>Customers Details({filterUsers && filterUsers.length})</h1>
             <br />
-            <div class="col-md-5 d-flex justify-content-evenly">
-              <Link to="/admin/customer/wholeseller">
-                <button className="btn btn-info">Add WholeSeller</button>
-              </Link>
-              <Link to="/admin/customer/dropshipper">
-                <button className="btn btn-info">Add Dropshipper</button>
-              </Link>
+            <div class="col-md-4 d-flex justify-content-evenly">
+            <button className="btn btn-primary" onClick={download}>Export Customers</button>
             </div>
           </div>
 

@@ -1,10 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios from 'axios';
 import Papa from 'papaparse';
+import ProductContext from "../../context/Product/ProductContext";
+import { useNavigate } from 'react-router-dom';
+
 
 const ImportProducts = () => {
     const host = process.env.REACT_APP_API_URL;
-
+    const { getProducts } = useContext(ProductContext);
+    const navigate = useNavigate();
     const [data, setData] = useState("");
 
     const handleChange = (e) => {
@@ -47,7 +51,13 @@ const ImportProducts = () => {
         })
         console.log(parseData);
         try {
-            axios.post(`${host}/api/product/importproduct`, parseData)
+            axios.post(`${host}/api/product/importproduct`, parseData).then((res) => {
+                console.log(res);
+                getProducts();
+                navigate('/admin/products');
+            }).catch((err) => {
+                alert("Something went wrong may be you are trying to import duplicate products or invalid data");
+            })
 
         } catch (e) {
             console.log(e);
