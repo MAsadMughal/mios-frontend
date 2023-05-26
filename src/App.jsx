@@ -125,63 +125,63 @@ function App() {
                     <Route path="/signup" element={DSrequest ? <Navigate to="/" /> : (user._id && user.isAdmin === false) ? <Navigate to="/" /> : admin ? <Navigate to="/" /> : <Signup setuser={setUser} />} />
                     <Route path='/productMain' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ProductMain /> : <Navigate to="/login" />} />
                     {/* <Route path='/categories/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin == false) ? <CategoryProducts params={{ id: ':id' }} /> : null} /> */}
-                    <Route path='/featured' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <FeaturedProducts /> : null} />
-                    <Route path='/onsale' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <OnSaleProducts /> : null} />
-                    <Route path='/instock' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <Instock /> : null} />
-                    <Route path='/outOfStock' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <OutOfStock /> : null} />
-                    <Route path='/cart' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <Cart /> : null} />
-                    <Route path='/myshop' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <MyShopMain /> : null} />
-                    <Route path='/product/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ProductDetail params={{ id: 'id' }} /> : null} />
-                    <Route path='/user/dashboard' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserDashboard /> : null} />
-                    <Route path='/user/profile' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserProfile /> : null} />
-                    <Route path='/myOrders' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <MyOrders /> : null} />
-                    <Route path='/orders/pending' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PendingOrders /> : null} />
-                    <Route path='/orders/Pending/orderedit/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PendingOrderEdit /> : null} />
-                    <Route path='/orders/delivered' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <DeliveredOrders /> : null} />
-                    <Route path='/orders/shipped' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ShippedOrders /> : null} />
-                    <Route path='/orders/returned' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ReturnedOrders /> : null} />
-                    <Route path='/category/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <CategoryProducts /> : null} />
-                    <Route path='/checkout' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PlaceOrder /> : null} />
-                    <Route path='/user/addbankdetails' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserBank /> : null} />
-                    <Route path='/user/updatebank' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserBankUpdate /> : null} />
+                    <Route path='/featured' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <FeaturedProducts /> : <Navigate to="/" />} />
+                    <Route path='/onsale' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <OnSaleProducts /> : <Navigate to="/" />} />
+                    <Route path='/instock' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <Instock /> : <Navigate to="/" />} />
+                    <Route path='/outOfStock' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <OutOfStock /> : <Navigate to="/" />} />
+                    <Route path='/cart' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <Cart /> : <Navigate to="/" />} />
+                    <Route path='/myshop' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <MyShopMain /> : <Navigate to="/" />} />
+                    <Route path='/product/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ProductDetail params={{ id: 'id' }} /> : <Navigate to="/" />} />
+                    <Route path='/user/dashboard' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserDashboard /> : <Navigate to="/" />} />
+                    <Route path='/user/profile' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserProfile /> : <Navigate to="/" />} />
+                    <Route path='/myOrders' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <MyOrders /> : <Navigate to="/" />} />
+                    <Route path='/orders/pending' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PendingOrders /> : <Navigate to="/" />} />
+                    <Route path='/orders/Pending/orderedit/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PendingOrderEdit /> : <Navigate to="/" />} />
+                    <Route path='/orders/delivered' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <DeliveredOrders /> : <Navigate to="/" />} />
+                    <Route path='/orders/shipped' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ShippedOrders /> : <Navigate to="/" />} />
+                    <Route path='/orders/returned' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <ReturnedOrders /> : <Navigate to="/" />} />
+                    <Route path='/category/:id' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <CategoryProducts /> : <Navigate to="/" />} />
+                    <Route path='/checkout' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <PlaceOrder /> : <Navigate to="/" />} />
+                    <Route path='/user/addbankdetails' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserBank /> : <Navigate to="/" />} />
+                    <Route path='/user/updatebank' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin === false) ? <UserBankUpdate /> : <Navigate to="/" />} />
                     {/* <Route path='/checkout' element={DSrequest ? <RequestedDS setUser={setUser} /> : (user._id && user.isAdmin == false) ? <Checkout /> : null} /> */}
 
                     {/* Admin Routes */}
                     <Route exact path="/admin/" element={(user._id && user.isAdmin === false) ? <ProductMain data="fetchallproducts" /> : !admin ? <AdminLogin setUser={setUser} /> : <Dashboard />} />
                     <Route exact path="/admin/login" element={(user._id && user.isAdmin === false) ? <ProductMain data="fetchallproducts" /> : !admin ? <AdminLogin setUser={setUser} /> : <Dashboard />} />
-                    <Route path="/admin/usercreation" element={admin ? <Usercreation /> : null} />
-                    <Route path="/admin/dashboard" element={admin ? <Dashboard /> : null} />
-                    <Route path="/admin/customer" element={admin ? <Customers /> : null} />
-                    <Route path="/admin/customer/wholeseller" element={admin ? <Wholeseller /> : null} />
-                    <Route path="/admin/customer/dropshipper" element={admin ? <Dropship /> : null} />
-                    <Route path="/admin/customer/requests" element={admin ? <Requests /> : null} />
-                    <Route path="/admin/customer/edit/:id" element={admin ? <EditCustomers /> : null} />
-                    <Route path="/admin/products" element={admin ? <AdminProducts /> : null} />
-                    <Route path="/admin/featured" element={admin ? <Featured /> : null} />
-                    <Route path="/admin/onsale" element={admin ? <OnSale /> : null} />
-                    <Route path="/admin/categories" element={admin ? <Categories /> : null} />
-                    {/* <Route path="/admin/payments" element={admin ? <Payments /> : null} /> */}
-                    {/* <Route path="/admin/allorders" element={admin ? <Order /> : null} /> */}
-                    <Route path="/admin/dropshiporders" element={admin ? <DropshipOrder /> : null} />
+                    <Route path="/admin/usercreation" element={admin ? <Usercreation /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/dashboard" element={admin ? <Dashboard /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/customer" element={admin ? <Customers /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/customer/wholeseller" element={admin ? <Wholeseller /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/customer/dropshipper" element={admin ? <Dropship /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/customer/requests" element={admin ? <Requests /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/customer/edit/:id" element={admin ? <EditCustomers /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/products" element={admin ? <AdminProducts /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/featured" element={admin ? <Featured /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/onsale" element={admin ? <OnSale /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/categories" element={admin ? <Categories /> : <Navigate to="/admin/login" />} />
+                    {/* <Route path="/admin/payments" element={admin ? <Payments /> : <Navigate to="/admin/login" />} /> */}
+                    {/* <Route path="/admin/allorders" element={admin ? <Order /> : <Navigate to="/admin/login" />} /> */}
+                    <Route path="/admin/dropshiporders" element={admin ? <DropshipOrder /> : <Navigate to="/admin/login" />} />
                     <Route path="/admin/wholesaleorders" element={admin ? <WholesaleOrder /> : <></>} />
                     <Route path="/admin/orderproduct/details/:id" element={admin ? <OrderProductDetails /> : <></>} />
                     <Route path="/admin/updateshippingstatus/:id" element={admin ? <UpdateShippingStatus /> : <></>} />
                     <Route path="/admin/editwholesaleorder/:id" element={admin ? <EditOrderAdminW /> : <></>} />
                     <Route path="/admin/editdropshiporder/:id" element={admin ? <EditOrderAdminD /> : <></>} />
-                    <Route path="/admin/shippingcost" element={admin ? <Shippingcost /> : null} />
-                    {/* <Route path="/admin/reports" element={admin ? <Reports /> : null} /> */}
-                    <Route path="/admin/pendingprofits" element={admin ? <DropshipPending /> : null} />
-                    <Route path="/admin/pendingprofits/byorder/:id" element={admin ? <PendingByOrder /> : null} />
-                    <Route path="/admin/dropship-paid" element={admin ? <DropshipPaid /> : null} />
-                    <Route path="/admin/paidperUser/:id" element={admin ? <PaidPerUser /> : null} />
-                    <Route path="/admin/singleprofit/:userid/:id" element={admin ? <ProfitOrderDetails /> : null} />
-                    {/* <Route path="/admin/products" element={admin ? <AddProduct /> : null} /> */}
-                    <Route path="/admin/addProduct" element={admin ? <AddProduct /> : null} />
-                    <Route path="/admin/addProduct/importproducts" element={admin ? <ImportProducts /> : null} />
-                    <Route path="/admin/category/edit/:id" element={admin ? <EditCategory /> : null} />
-                    <Route path="/admin/product/edit/:id" element={admin ? <EditProduct /> : null} />
-                    <Route path="/admin/reports/order-report" element={admin ? <OrderReport /> : null} />
-                    <Route path="/admin/addshippingcost" element={admin ? <Addshippingcost /> : null} />
+                    <Route path="/admin/shippingcost" element={admin ? <Shippingcost /> : <Navigate to="/admin/login" />} />
+                    {/* <Route path="/admin/reports" element={admin ? <Reports /> : <Navigate to="/admin/login" />} /> */}
+                    <Route path="/admin/pendingprofits" element={admin ? <DropshipPending /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/pendingprofits/byorder/:id" element={admin ? <PendingByOrder /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/dropship-paid" element={admin ? <DropshipPaid /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/paidperUser/:id" element={admin ? <PaidPerUser /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/singleprofit/:userid/:id" element={admin ? <ProfitOrderDetails /> : <Navigate to="/admin/login" />} />
+                    {/* <Route path="/admin/products" element={admin ? <AddProduct /> : <Navigate to="/admin/login" />} /> */}
+                    <Route path="/admin/addProduct" element={admin ? <AddProduct /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/addProduct/importproducts" element={admin ? <ImportProducts /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/category/edit/:id" element={admin ? <EditCategory /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/product/edit/:id" element={admin ? <EditProduct /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/reports/order-report" element={admin ? <OrderReport /> : <Navigate to="/admin/login" />} />
+                    <Route path="/admin/addshippingcost" element={admin ? <Addshippingcost /> : <Navigate to="/admin/login" />} />
 
                     <Route path='*' element={NotFound} />
                   </Routes>
