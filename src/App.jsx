@@ -148,7 +148,7 @@ function App() {
 
                     {/* Admin Routes */}
                     <Route exact path="/admin/" element={(user._id && user.isAdmin === false) ? <ProductMain data="fetchallproducts" /> : !admin ? <AdminLogin setUser={setUser} /> : <Dashboard />} />
-                    <Route exact path="/admin/login" element={(user._id && user.isAdmin === false) ? <ProductMain data="fetchallproducts" /> : !admin ? <AdminLogin setUser={setUser} /> : <Dashboard />} />
+                    <Route exact path="/admin/login" element={(user._id && user.isAdmin === false) ? <Navigate to='/' /> : !admin ? <AdminLogin setUser={setUser} /> : <Dashboard />} />
                     <Route path="/admin/usercreation" element={admin ? <Usercreation /> : <Navigate to="/admin/login" />} />
                     <Route path="/admin/dashboard" element={admin ? <Dashboard /> : <Navigate to="/admin/login" />} />
                     <Route path="/admin/customer" element={admin ? <Customers /> : <Navigate to="/admin/login" />} />
