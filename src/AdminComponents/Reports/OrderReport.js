@@ -111,7 +111,7 @@ const WholesaleOrder = () => {
     //     key: 'selection',
     // }
 
-    const csVDataDownload = orders.map((item) => {
+    const csVDataDownload = filteredRecords.map((item) => {
         return {
             'Billing Name': item.billingDetails.name,
             'Billing Email': item.billingDetails.email,
@@ -151,13 +151,11 @@ const WholesaleOrder = () => {
             let endUTC = new Date(to);
             endUTC.setUTCHours(23, 59, 59, 999);
             endUTC = endUTC.toISOString();
-            console.log(startUTC, endUTC);
             if (startUTC && endUTC) {
                 const filtered = orders?.filter((record) => {
                     let recordDate = new Date(record.date);
                     recordDate.setUTCHours(recordDate.getUTCHours() + 5);
                     recordDate = recordDate.toISOString();
-                    console.log(recordDate);
                     return recordDate >= startUTC && recordDate <= endUTC;
                 });
                 setFilteredRecords(filtered);

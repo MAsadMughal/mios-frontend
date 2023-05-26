@@ -26,7 +26,6 @@ const PaidPerUser = () => {
         setLoading(true)
         const { data } = await axios.get(`${host}/api/profitrecords/paidperuser/${id}`);
         setAllProfits(data);
-        console.log(data.records);
         setFilteredRecords(data?.records);
         setLoading(false)
     }
@@ -282,7 +281,6 @@ const PaidPerUser = () => {
         } catch (error) {
             setLoading(false)
             Notification('Error', error?.response?.data?.message, 'danger');
-            console.log('Error generating PDF:', error);
         }
     }
 
@@ -290,18 +288,15 @@ const PaidPerUser = () => {
     const filter = () => {
 
         if (to && from && (new Date(from).toISOString() <= new Date(to).toISOString())) {
-            console.log(to, from);
             const startUTC = new Date(from).toISOString();
             let endUTC = new Date(to);
             endUTC.setUTCHours(23, 59, 59, 999);
             endUTC = endUTC.toISOString();
-            console.log(startUTC, endUTC);
             if (startUTC && endUTC) {
                 const filtered = profits?.records?.filter((record) => {
                     let recordDate = new Date(record.datePaid);
                     recordDate.setUTCHours(recordDate.getUTCHours() + 5);
                     recordDate = recordDate.toISOString();
-                    console.log(recordDate);
                     return recordDate >= startUTC && recordDate <= endUTC;
                 });
                 setFilteredRecords(filtered);
