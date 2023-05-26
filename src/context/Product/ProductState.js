@@ -132,7 +132,6 @@ const ProductState = (props) => {
     await axios.post(`${host}/api/myshop/addtomyshop`, productId)
       .then(function (res) {
         setLoading(false)
-        console.log(res);
       })
       .catch(function (error) {
         setLoading(false)

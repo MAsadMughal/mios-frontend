@@ -49,10 +49,8 @@ const ImportProducts = () => {
 
             return null
         })
-        console.log(parseData);
         try {
             axios.post(`${host}/api/product/importproduct`, parseData).then((res) => {
-                console.log(res);
                 getProducts();
                 navigate('/admin/products');
             }).catch((err) => {

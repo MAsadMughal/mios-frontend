@@ -13,6 +13,9 @@ const image = window.location.origin + "/Assets/no-data.svg";
 const PaidPerUser = () => {
     const host = process.env.REACT_APP_API_URL;
     const [profits, setAllProfits] = useState([]);
+    const [filteredRecords, setFilteredRecords] = useState([]);
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
     const [loading, setLoading] = useState(false);
     useEffect(() => {
         getAllProfits();
@@ -23,6 +26,8 @@ const PaidPerUser = () => {
         setLoading(true)
         const { data } = await axios.get(`${host}/api/profitrecords/paidperuser/${id}`);
         setAllProfits(data);
+        console.log(data.records);
+        setFilteredRecords(data?.records);
         setLoading(false)
     }
 
@@ -98,7 +103,7 @@ const PaidPerUser = () => {
                 color: rgb(0, 0, 0),
             });
 
-            logoImagePage.drawText(`\t\t\tTotal Profit Paid: ${data?.records?.records[0]?.amount}\n\t\tPayment Date: ${new Date(data?.records?.records[0]?.datePaid).toLocaleDateString('en-PK', { timeZone: 'Asia/Karachi' })}`, {
+            logoImagePage.drawText(`\t\t\tTotal Profit Paid: ${data?.records?.records[0]?.amount} Rs.\n\t\tPayment Date: ${new Date(data?.records?.records[0]?.datePaid).toLocaleDateString('en-PK', { timeZone: 'Asia/Karachi' })}`, {
                 x: 184,
                 y: 530,
                 size: 15,
@@ -140,7 +145,7 @@ const PaidPerUser = () => {
 
             const tableData = [['Order\nID', 'Order\nAmount', 'Order\nDate', 'Profit\nAmount']];
             data?.records?.records[0]?.orders?.forEach(item => {
-                tableData.push([item?._id, item?.orderAmount.toString(), new Date(item?.date).toLocaleDateString('en-PK', { timeZone: 'Asia/Karachi' }), item?.profitAmount.toString()]);
+                tableData.push([item?._id, `${item?.orderAmount.toString()} Rs.`, new Date(item?.date).toLocaleDateString('en-PK', { timeZone: 'Asia/Karachi' }), `${item?.profitAmount.toString()} Rs.`]);
             });
 
             const tableWidth = 500;
@@ -281,9 +286,50 @@ const PaidPerUser = () => {
         }
     }
 
+
+    const filter = () => {
+
+        if (to && from && (new Date(from).toISOString() <= new Date(to).toISOString())) {
+            console.log(to, from);
+            const startUTC = new Date(from).toISOString();
+            let endUTC = new Date(to);
+            endUTC.setUTCHours(23, 59, 59, 999);
+            endUTC = endUTC.toISOString();
+            console.log(startUTC, endUTC);
+            if (startUTC && endUTC) {
+                const filtered = profits?.records?.filter((record) => {
+                    let recordDate = new Date(record.datePaid);
+                    recordDate.setUTCHours(recordDate.getUTCHours() + 5);
+                    recordDate = recordDate.toISOString();
+                    console.log(recordDate);
+                    return recordDate >= startUTC && recordDate <= endUTC;
+                });
+                setFilteredRecords(filtered);
+
+            } else {
+                Notification('Error', 'Enter Valid Dates', 'danger')
+            }
+        } else {
+            Notification('Error', 'Enter Valid Dates', 'danger')
+        }
+    }
+
     return (
         <><ReactNotifications />
             {loading ? <Loader /> : <div className="main">
+                <div className="d-flex w-80 align-items-center justify-content-evenly mb-3 mt-3">
+
+                    <div>
+                        <label for="" className="form-label">Starting From: &nbsp;&nbsp;&nbsp;</label>
+                        <input type="Date" className="p-1" onChange={(e) => setFrom(e.target.value)} value={from} name="from" placeholder="" />
+                    </div>
+                    <div>
+                        <label for="" className="form-label">Till Date:&nbsp;&nbsp;&nbsp; </label>
+                        <input type="Date" className="p-1" name="to" onChange={(e) => setTo(e.target.value)} value={to} placeholder="" />
+                    </div>
+                    <button className="btn btn-sm btn-info text-light" onClick={filter}>Filter</button>
+                    <button className="btn btn-sm btn-info text-light" onClick={() => setFilteredRecords(profits?.records)}>Fetch All</button>
+                </div>
                 <div className="container-fluid">
                     <table className="table table-hover table-bordered">
                         <thead>
@@ -297,12 +343,12 @@ const PaidPerUser = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {profits && profits?.records?.map((item, key) => {
+                            {filteredRecords && filteredRecords?.map((item, key) => {
                                 return (<tr key={key}>
                                     <td colSpan="1" className="text-center">{key + 1}</td>
                                     <td colSpan="1" className="text-center">{profits?.user?.name}</td>
                                     <td colSpan="1" className="text-center"><Link to={`/admin/singleprofit/${profits?.user?._id}/${item._id}`} style={{ fontSize: "20px" }}>{item?.orders?.length}</Link></td >
-                                    <td colSpan="1" className="text-center">{item?.amount}</td>
+                                    <td colSpan="1" className="text-center">{item?.amount} Rs.</td>
                                     <td colSpan="1" className="text-center">{new Date(item?.datePaid).toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })}</td>
                                     <td colSpan="1" className="text-center"><button className="btn btn-sm btn-info text-light" id={`${profits?.user?._id}_***_${item._id}`} onClick={download}>
                                         Download PDF
