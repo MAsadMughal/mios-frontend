@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import Loader from "../../Loader/Loader";
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import { ReactNotifications } from 'react-notifications-component';
+import Notification from '../../Notifications/Notifications';
 // import { DateRangePicker } from 'react-date-range';
 const image = window.location.origin + "/Assets/no-data.svg";
 
@@ -17,8 +19,11 @@ const WholesaleOrder = () => {
     const modalRef = useRef(null);
     // const closeRef = useRef(null);
     const [orders, setOrders] = useState([])
+    const [filteredRecords, setFilteredRecords] = useState([]);
+    const [from, setFrom] = useState("");
+    const [to, setTo] = useState("");
+
     // eslint-disable-next-line
-    const [allOrders, setAllOrders] = useState([])
     const [loading, setLoading] = useState(false)
     const [checked, setChecked] = useState(false)
     const [details, setDetails] = useState([])
@@ -29,7 +34,7 @@ const WholesaleOrder = () => {
         setLoading(true)
         const { data } = await axios.get(`${host}/api/order/allorders`);
         setOrders(data)
-        setAllOrders(data)
+        setFilteredRecords(data)
         setLoading(false)
     }
 
@@ -44,6 +49,8 @@ const WholesaleOrder = () => {
     const onChecked = (e) => {
         setChecked(!checked)
     };
+
+
 
     const handlePayment = async (_id) => {
         let url = `${host}/api/order/changepaymentstatus/${_id}`;
@@ -137,10 +144,50 @@ const WholesaleOrder = () => {
       }
     
 
+      const filter = () => {
+
+        if (to && from && (new Date(from).toISOString() <= new Date(to).toISOString())) {
+            const startUTC = new Date(from).toISOString();
+            let endUTC = new Date(to);
+            endUTC.setUTCHours(23, 59, 59, 999);
+            endUTC = endUTC.toISOString();
+            console.log(startUTC, endUTC);
+            if (startUTC && endUTC) {
+                const filtered = orders?.filter((record) => {
+                    let recordDate = new Date(record.date);
+                    recordDate.setUTCHours(recordDate.getUTCHours() + 5);
+                    recordDate = recordDate.toISOString();
+                    console.log(recordDate);
+                    return recordDate >= startUTC && recordDate <= endUTC;
+                });
+                setFilteredRecords(filtered);
+
+            } else {
+                Notification('Error', 'Enter Valid Dates', 'danger')
+            }
+        } else {
+            Notification('Error', 'Enter Valid Dates', 'danger')
+        }
+    }
+
+
     return (
-        <>
+        <><ReactNotifications/>
             {loading ? <Loader /> :
                 <>
+                           <div className="d-flex w-80 align-items-center justify-content-evenly mb-3 mt-3">
+
+                            <div>           
+                            <label for="" className="form-label">Starting From: &nbsp;&nbsp;&nbsp;</label>              
+                            <input type="Date" className="p-1" onChange={(e) => setFrom(e.target.value)} value={from} name="from" placeholder="" />             
+                        </div>              
+                        <div>               
+                            <label for="" className="form-label">Till Date:&nbsp;&nbsp;&nbsp; </label>              
+                            <input type="Date" className="p-1" name="to" onChange={(e) => setTo(e.target.value)} value={to} placeholder="" />               
+                        </div>              
+                        <button className="btn btn-sm btn-info text-light" onClick={filter}>Filter</button>             
+                        <button className="btn btn-sm btn-info text-light" onClick={() => setFilteredRecords(orders)}>Fetch All</button>
+                        </div>
                     <div className="main">
                         <div className="container-fluid">
                             <div className='row my-4'>
@@ -203,17 +250,16 @@ const WholesaleOrder = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {orders.map((order) => {
+                                    {filteredRecords.map((order,k) => {
                                         let date = new Date(order.date);
                                         return (
                                             <tr className="text-center align-middle" key={order._id}>
-                                                <td>{orders.indexOf(order) + 1}</td>
+                                                <td>{k+1}</td>
                                                 <td className="text-center align-middle">
                                                     {order.shippingDetails.name}
                                                 </td>
                                                 <td className="text-center align-middle">
-                                                    {date.toLocaleDateString()}
-                                                </td>
+{new Date(order?.date).toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })}                                                </td>
                                                 <td className="text-center align-middle hover-pointer">
                                                     <span
                                                         className="btn btn-primary btn-sm"
