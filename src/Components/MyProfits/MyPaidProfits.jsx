@@ -296,10 +296,8 @@ const MyPaidProfits = () => {
                     let recordDate = new Date(record.datePaid);
                     recordDate.setUTCHours(recordDate.getUTCHours() + 5);
                     recordDate = recordDate.toISOString();
-                    console.log(recordDate, startUTC, endUTC);
                     return recordDate >= startUTC && recordDate <= endUTC;
                 });
-                console.log(filtered)
                 setFilteredRecords(filtered);
 
             } else {

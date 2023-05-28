@@ -21,7 +21,6 @@ const ProductDetail = () => {
     const getProductBYID = async () => {
         try {
             const { data } = await axios.get(`${host}/api/product/product/${id}`);
-            console.log(data);
             setProduct(data);
         } catch (error) {
             console.log(error);
@@ -35,7 +34,6 @@ const ProductDetail = () => {
         // eslint-disable-next-line
     }, []);
 
-    console.log(product);
 
     useEffect(() => {
         if (quantity >= 1) {
