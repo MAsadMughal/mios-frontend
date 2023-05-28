@@ -27,7 +27,7 @@ export default function Sidebar() {
     let [numbers, setNumbers] = useState({ pending: 0, shipped: 0, delivered: 0, returned: 0 });
     let [count, setCount] = useState({});
     // const { userOrders, orderLoading, getMyOrders } = useContext(OrderContext);
-    const { userOrders,  getMyOrders } = useContext(OrderContext);
+    const { userOrders, getMyOrders } = useContext(OrderContext);
     const [pending, setPending] = useState(0)
     const [delivered, setDelivered] = useState(0)
     const [returned, setReturned] = useState(0)
@@ -129,7 +129,20 @@ export default function Sidebar() {
                                     })}
                                 </div>
                                 <Divider />
-
+                                <div>
+                                    <h4 style={{ paddingTop: "10px", paddingLeft: "10px", }}>Profits</h4>
+                                    <p className="mt-3 ps-2">
+                                        <Link to='/user/mypaidprofits' className="AdminSidebarSubHead" style={location.pathname.toLowerCase() === '/user/mypaidprofits' ? { backgroundColor: 'deepskyblue', color: 'white' } : null}>
+                                            Paid Profits
+                                        </Link>
+                                    </p>
+                                    <p className="mt-2 ps-2">
+                                        <Link to='/user/mypendingprofits' className="AdminSidebarSubHead" style={location.pathname.toLowerCase() === '/user/mypendingprofits' ? { backgroundColor: 'deepskyblue', color: 'white' } : null}>
+                                            Pending Profits
+                                        </Link>
+                                    </p>
+                                    <Divider />
+                                </div>
                                 {/* Types of Product Sales */}
                                 <div>
                                     <h4 style={{ paddingTop: "10px", paddingLeft: "10px", }}>Products</h4>
@@ -239,6 +252,20 @@ export default function Sidebar() {
                                     })}
                                     <Divider />
                                 </div>}
+                                {(location.pathname !== "/" && location.pathname.toLowerCase() !== "/featured" && location.pathname.toLowerCase() !== "/onsale" && location.pathname.toLowerCase() !== "/instock" && location.pathname.toLowerCase() !== "/outofstock" && !location.pathname.includes("/category/")) && user?.role === 'dropshipper' && <div>
+                                    <h4 style={{ paddingTop: "10px", paddingLeft: "10px", }}>Profits</h4>
+                                    <p className="mt-3 ps-2">
+                                        <Link to='/user/mypaidprofits' className="AdminSidebarSubHead" style={location.pathname.toLowerCase() === '/user/mypaidprofits' ? { backgroundColor: 'deepskyblue', color: 'white' } : null}>
+                                            Paid Profits
+                                        </Link>
+                                    </p>
+                                    <p className="mt-2 ps-2">
+                                        <Link to='/user/mypendingprofits' className="AdminSidebarSubHead" style={location.pathname.toLowerCase() === '/user/mypendingprofits' ? { backgroundColor: 'deepskyblue', color: 'white' } : null}>
+                                            Pending Profits
+                                        </Link>
+                                    </p>
+                                    <Divider />
+                                </div>}
 
                                 {/* Categories */}
                                 <div>
@@ -256,9 +283,9 @@ export default function Sidebar() {
                                     </div>}
                                 </div>
 
-                            </ul>
-                        </div>
-                    </Drawer>
+                            </ul >
+                        </div >
+                    </Drawer >
                 </Box >
             }
         </>

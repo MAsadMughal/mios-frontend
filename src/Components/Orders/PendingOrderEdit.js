@@ -1,140 +1,101 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from 'react'
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import UserContext from '../../context/User/UserContext';
+import Loader from '../../Loader/Loader';
 
 
-
-const PendingOrderEdit = () => {
-
+const PendingOrders = () => {
     const host = process.env.REACT_APP_API_URL;
-    const params = useParams();
-    const { id } = params;
-    const Navigate = useNavigate();
+    const navigate = useNavigate();
+    const [orders, setOrders] = useState([]);
+    const [orderLoading, setloading] = useState(false);
+    const { loading } = useContext(UserContext);
+    useEffect(() => {
+        const getOrders = async () => {
+            setloading(true)
+            const { data } = await axios.get(`${host}/api/order/pendingOrders`);
+            setOrders(data);
+            setloading(false)
+        }
+        getOrders();
 
-    const getDetails = async () => {
-      const { data } = await axios.get(`${host}/api/order/orderproduct/${id}`);
-      setShippingDetails(data.shippingDetails);
-    };
+        // eslint-disable-next-line
+    }, [])
 
-  const [shippingDetails, setShippingDetails] = useState({
-    name: "",
-    address: "",
-    email: "",
-    phone: "",
-  });
+    const handleEdit = (id, order) => {
+        if (window.confirm('Are you sure you want to edit this order? If you click "Ok" than this order is deleted and your cart is also deleted and send this order to the cart for editing and than you can place order again. ')) {
+            axios.put(`${host}/api/order/edituserorder/${id}`, order)
+                .then(res => {
+                    console.log(res.data);
+                    window.location.reload();
+                    // navigate('/cart')
+                }
+                )
+                .catch(err => console.log(err))
 
+        }
 
-  
-
-  useEffect(() => {
-
-    getDetails();
-
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const onChangeShip = (e) => {
-    setShippingDetails({ ...shippingDetails, [e.target.name]: e.target.value })
-  }
-
-
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-
-      await axios.put(`${host}/api/order/updateshippingdetails/${id}`, {
-        name: shippingDetails.name,
-        address: shippingDetails.address,
-        email: shippingDetails.email,
-        phone: shippingDetails.phone,
-      });
-
-      
-
-      Navigate(`/orders/Pending`);
-
-    } catch (e) {
-      console.log(e);
     }
-  };
-  return (
-    <>
-      <div className="container">
-        <div className="row">
-          <div className="col-md-12">
-            <form
-              method="post"
-              onSubmit={handleSubmit}
-              className="py-2 px-4 rounded"
-            >
-              <div className="row mb-2   justify-content-center">
-                <h3 className="text-center my-2">Edit Shipping Details</h3>
-                <div className="form-group col-sm-8 mt-3">
-                  <label htmlFor="name">Name</label>
-                  <input
-                    type="text"
-                    value={shippingDetails.name}
-                    placeholder="Update Sipping Name"
-                    className="form-control mt-2"
-                    id="name"
-                    name="name"
-                    onChange={onChangeShip}
-                    required
-                  />
-                </div>
-                <div className="form-group col-sm-8 mt-3">
-                  <label htmlFor="address">Address</label>
-                  <input
-                    type="text"
-                    value={shippingDetails.address}
-                    placeholder="Enter Shipping Address"
-                    className="form-control mt-2"
-                    id="address"
-                    name="address"
-                    onChange={onChangeShip}
-                    required
-                  />
-                </div>
-                <div className="form-group col-sm-8 mt-3">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="text"
-                    value={shippingDetails.email}
-                    placeholder="Enter Update Email"
-                    className="form-control mt-2"
-                    id="email"
-                    name="email"
-                    onChange={onChangeShip}
-                    required
-                  />
-                </div>
-                <div className="form-group col-sm-8 mt-3">
-                  <label htmlFor="phone">Phone</label>
-                  <input
-                    type="text"
-                    value={shippingDetails.phone}
-                    placeholder="Enter Update Phone Number"
-                    className="form-control mt-2"
-                    id="phone"
-                    name="phone"
-                    onChange={onChangeShip}
-                    required
-                  />
-                </div>
-                
-                <div className="col-sm-8 ">
-                  <button type="submit" className="btn btn-success ">
-                    Save Changes
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
+
+    return (
+        <div>
+            {loading || orderLoading ? <Loader /> : <>
+                <h1 style={{ textAlign: 'center' }}>My Orders</h1>
+                <table className='table table-striped table-responsive table-hover' width={'90%'}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th>City</th>
+                            <th>Shipping Charges</th>
+                            <th>Total</th>
+                            <th>Payment Method</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {orders && orders.map((item, ind) => {
+                            var date = new Date(item.date);
+                            var d = date.getDate();
+                            var m = date.getMonth() + 1;
+                            var y = date.getFullYear();
+                            var h = date.getHours();
+                            var min = date.getMinutes();
+                            return (
+                                <tr key={ind}>
+                                    <td>{ind + 1}</td>
+                                    <td>{item.shippingDetails.name}</td>
+                                    <td>{item.shippingDetails.phone}</td>
+                                    <td>{item.shippingDetails.address}</td>
+                                    <td>{item.shippingDetails.city}</td>
+                                    <td>{item.shippingPrice}</td>
+                                    <td>{item.orderAmount}</td>
+                                    <td>{item.paymentOption}</td>
+                                    <td>{`${d}/${m}/${y} at ${h}:${min}`}</td>
+                                    <td>{item.orderStatus}</td>
+                                    <td>
+                                        <span style={{ cursor: 'pointer', color: 'blue' }} onClick={() => { handleEdit(item._id, item) }}>
+                                            Edit
+                                        </span> |&nbsp;
+                                        <span style={{ cursor: 'pointer', color: 'red' }}>
+                                            Delete
+                                        </span>
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+
+                </table>
+
+            </>}
         </div>
-      </div>
-    </>
-  );
+    )
 }
 
-export default PendingOrderEdit
+export default PendingOrders

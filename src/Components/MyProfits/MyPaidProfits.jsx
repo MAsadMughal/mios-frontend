@@ -6,11 +6,12 @@ import { Link, useParams } from "react-router-dom";
 import Notification from "../../Notifications/Notifications";
 import mioslogo from '../assets/images/mioslogo.png';
 import Loader from "../../Loader/Loader";
-import { Download } from '@mui/icons-material'
+import { Download } from "@mui/icons-material";
 const image = window.location.origin + "/Assets/no-data.svg";
 
 
-const PaidPerUser = () => {
+
+const MyPaidProfits = () => {
     const host = process.env.REACT_APP_API_URL;
     const [profits, setAllProfits] = useState([]);
     const [filteredRecords, setFilteredRecords] = useState([]);
@@ -21,10 +22,9 @@ const PaidPerUser = () => {
         getAllProfits();
         // eslint-disable-next-line
     }, [])
-    const { id } = useParams();
     const getAllProfits = async () => {
         setLoading(true)
-        const { data } = await axios.get(`${host}/api/profitrecords/paidperuser/${id}`);
+        const { data } = await axios.get(`${host}/api/profitrecords/myPaidProfit`);
         setAllProfits(data);
         setFilteredRecords(data?.records);
         setLoading(false)
@@ -58,8 +58,8 @@ const PaidPerUser = () => {
                 height: logoDims.height,
             });
 
-            const { data } = await axios.get(`${host}/api/profitrecords/singleprofit/${userid}/${id}`)
-            let bank = await axios.get(`${host}/api/bankDetails/${data?.user?._id}`);
+            const { data } = await axios.get(`${host}/api/profitrecords/mysingleprofit/${id}`)
+            let bank = await axios.get(`${host}/api/bankDetails/`);
             bank = bank?.data;
             // Add the heading to the PDF
             logoImagePage.drawText(`Paid Profit Detail`, {
@@ -286,7 +286,6 @@ const PaidPerUser = () => {
 
 
     const filter = () => {
-
         if (to && from && (new Date(from).toISOString() <= new Date(to).toISOString())) {
             const startUTC = new Date(from).toISOString();
             let endUTC = new Date(to);
@@ -297,8 +296,10 @@ const PaidPerUser = () => {
                     let recordDate = new Date(record.datePaid);
                     recordDate.setUTCHours(recordDate.getUTCHours() + 5);
                     recordDate = recordDate.toISOString();
+                    console.log(recordDate, startUTC, endUTC);
                     return recordDate >= startUTC && recordDate <= endUTC;
                 });
+                console.log(filtered)
                 setFilteredRecords(filtered);
 
             } else {
@@ -342,11 +343,11 @@ const PaidPerUser = () => {
                                 return (<tr key={key}>
                                     <td colSpan="1" className="text-center">{key + 1}</td>
                                     <td colSpan="1" className="text-center">{profits?.user?.name}</td>
-                                    <td colSpan="1" className="text-center"><Link to={`/admin/singleprofit/${profits?.user?._id}/${item._id}`} style={{ fontSize: "20px" }}>{item?.orders?.length}</Link></td >
+                                    <td colSpan="1" className="text-center"><Link to={`/user/mysingleprofit/${item._id}`} style={{ fontSize: "20px" }}>{item?.orders?.length}</Link></td >
                                     <td colSpan="1" className="text-center">{item?.amount} Rs.</td>
                                     <td colSpan="1" className="text-center">{new Date(item?.datePaid).toLocaleString('en-PK', { timeZone: 'Asia/Karachi' })}</td>
                                     <td colSpan="1" className="text-center"><button className="btn btn-sm btn-info text-light" id={`${profits?.user?._id}_***_${item._id}`} onClick={download}>
-                                        Receipt <Download/>
+                                    Receipt <Download/>
                                     </button>
                                     </td >
                                 </tr>)
@@ -362,5 +363,5 @@ const PaidPerUser = () => {
     );
 }
 
-export default PaidPerUser;
+export default MyPaidProfits;
 

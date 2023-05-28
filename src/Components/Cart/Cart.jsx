@@ -21,6 +21,7 @@ const Cart = () => {
     const getCart = Cart;
     useEffect(() => {
         getCart();
+
     }, [])// eslint-disable-line react-hooks/exhaustive-deps
 
     const subTotalD = (cart) => {
@@ -115,4 +116,3 @@ const Cart = () => {
 };
 
 export default Cart;
-

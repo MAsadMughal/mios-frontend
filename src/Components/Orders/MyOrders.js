@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import OrderContext from '../../context/Order/OrderContext'
 import Loader from '../../Loader/Loader';
 import UserContext from '../../context/User/UserContext';
+import { Link } from 'react-router-dom';
 
 const MyOrders = () => {
     const { getMyOrders, userOrders, orderLoading } = useContext(OrderContext);
@@ -24,9 +25,9 @@ const MyOrders = () => {
                             <th>City</th>
                             <th>Shipping Charges</th>
                             <th>Total</th>
-                            <th>Payment Method</th>
                             <th>Date</th>
                             <th>Status</th>
+                            {/* <th>Detail</th> */}
                         </tr>
                     </thead>
                     <tbody>
@@ -46,9 +47,9 @@ const MyOrders = () => {
                                     <td>{item.shippingDetails.city}</td>
                                     <td>{item.shippingPrice}</td>
                                     <td>{item.orderAmount}</td>
-                                    <td>{item.paymentOption}</td>
                                     <td>{`${d}/${m}/${y} at ${h}:${min}`}</td>
                                     <td>{item.orderStatus}</td>
+                                    {/* <td><Link to={`/user/order/${item._id}`}>Detail</Link></td> */}
                                 </tr>
                             )
                         })}
