@@ -129,7 +129,7 @@ export default function Sidebar() {
                                     })}
                                 </div>
                                 <Divider />
-                                <div>
+                                {user?.role === 'dropshipper' && <div>
                                     <h4 style={{ paddingTop: "10px", paddingLeft: "10px", }}>Profits</h4>
                                     <p className="mt-3 ps-2">
                                         <Link to='/user/mypaidprofits' className="AdminSidebarSubHead" style={location.pathname.toLowerCase() === '/user/mypaidprofits' ? { backgroundColor: 'deepskyblue', color: 'white' } : null}>
@@ -142,7 +142,7 @@ export default function Sidebar() {
                                         </Link>
                                     </p>
                                     <Divider />
-                                </div>
+                                </div>}
                                 {/* Types of Product Sales */}
                                 <div>
                                     <h4 style={{ paddingTop: "10px", paddingLeft: "10px", }}>Products</h4>
