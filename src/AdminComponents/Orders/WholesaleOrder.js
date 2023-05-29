@@ -19,10 +19,8 @@ const WholesaleOrder = () => {
     // eslint-disable-next-line
     const [allOrders, setAllOrders] = useState([])
     const [loading, setLoading] = useState(false)
-    const [checked, setChecked] = useState(false)
     const [details, setDetails] = useState([])
-    // const [startDate, setStartDate] = useState(new Date());
-    // const [endDate, setEndDate] = useState(new Date());
+
 
     const getOrders = async () => {
         setLoading(true)
@@ -38,25 +36,6 @@ const WholesaleOrder = () => {
         // eslint-disable-next-line
     }, [])
 
-    
-    // eslint-disable-next-line
-    const onChecked = (e) => {
-        setChecked(!checked)
-    };
-
-    const handlePayment = async (_id) => {
-        let url = `${host}/api/order/changepaymentstatus/${_id}`;
-        await fetch(url, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        let updatedUser = `${host}/api/order/wholesaleorder`;
-        let uUser = await fetch(updatedUser);
-        let usr = await uUser.json();
-        setOrders(usr)
-    };
 
     const handleShipping = (id) => {
         modalRef.current.click();
@@ -73,44 +52,40 @@ const WholesaleOrder = () => {
             },
             body: JSON.stringify({ orderStatus }),
         });
-        let updatedUser = `${host}/api/order/wholesaleorder`;
-        let uUser = await fetch(updatedUser);
-        let usr = await uUser.json();
-        setOrders(usr);
+        getOrders()
     };
 
     const handleDelete = async (id) => {
-        let url = `${host}/api/product/deleteproduct/${id}`;
-        await fetch(url, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-        let updatedOrder = `${host}/api/order/allorders`;
-        let uOrder = await fetch(updatedOrder);
-        let pro = await uOrder.json();
-        setOrders(pro);
+        if (window.confirm("Are you sure you want to delete this order?")) {
+            axios.delete(`${host}/api/order/deleteorderadmin/${id}`)
+                .then(res => {
+                    getOrders()
+                })
+        }
     };
 
-    // const handleSelect = (date) => {
-    //     let filteredOrders = allOrders.filter((order) => {
-    //         let productDate = new Date(order.date);
-    //         return (
-    //             productDate >= date.selection.startDate &&
-    //             productDate <= date.selection.endDate
-    //         );
-    //     });
-    //     setStartDate(date.selection.startDate);
-    //     setEndDate(date.selection.endDate);
-    //     setOrders(filteredOrders);
-    // };
+    const handleReverse = async (id) => {
+        axios.put(`${host}/api/order/reverseorder/${id}`)
+            .then(res => {
+                getOrders()
+            })
+            .catch(err => {
+                window.alert("Something went wrong")
+            })
+    }
 
-    // const selectionRange = {
-    //     startDate: startDate,
-    //     endDate: endDate,
-    //     key: 'selection',
-    // }
+    const handlePayment = async (id) => {
+        if (window.confirm("Are you sure you want to verify payment?")) {
+            await axios.put(`${host}/api/order/verifyorderpayment/${id}`)
+                .then(res => {
+                    getOrders()
+                })
+                .catch(err => {
+                    window.alert("Something went wrong")
+                })
+        }
+    }
+
 
     return (
         <>
@@ -121,10 +96,6 @@ const WholesaleOrder = () => {
                             <h3 className='text-center my-4'>
                                 Wholesale Orders
                             </h3>
-                            {/* <DateRangePicker
-                                ranges={[selectionRange]}
-                                onChange={handleSelect}
-                            /> */}
                             <table className="table">
                                 <thead>
                                     <tr>
@@ -201,84 +172,99 @@ const WholesaleOrder = () => {
                                                     </Link>
                                                 </td>
                                                 <td className="text-center align-middle align-middle">
-                                                    <label className="switch">
-                                                        <input
-                                                            onChange={() => handlePayment(order._id)}
-                                                            type="checkbox"
-                                                            checked={order.payment}
-                                                        />
-                                                        <span></span>
-                                                    </label>
+                                                    {
+                                                        order.paymentStatus !== true ? (
+                                                            <>
+                                                                <button className='btn btn-danger btn-sm' onClick={() => { handlePayment(order._id) }}>
+                                                                    Click to Verify
+                                                                </button>
+                                                            </>
+                                                        ) : (
+                                                            <span className='text-primary'>
+                                                                Verified
+                                                            </span>
+                                                        )
+                                                    }
                                                 </td>
                                                 <td className="text-center align-middle">
-                                                    <button
-                                                        className="btn btn-primary btn-sm text-white"
-                                                        disabled={
-                                                            order.shippingStatus === true ? true : false
-                                                        }
-                                                    >
-                                                        <Link
-                                                            to={`/admin/updateshippingstatus/${order._id}`}
-                                                            className="text-white"
-                                                        >
-                                                            {order.shippingStatus === true
-                                                                ? "Shipped"
-                                                                : "Pending"}
-                                                        </Link>
-                                                    </button>
+                                                    {
+                                                        order.shippingStatus === true ? (
+                                                            <span className="text-success">Shipped</span>
+                                                        ) : (
+                                                            <Link to={`/admin/updateshippingstatus/${order._id}`} className="text-white" >
+                                                                <button
+                                                                    className="btn btn-primary btn-sm text-white">
+                                                                    Click to ship
+                                                                </button>
+                                                            </Link>
+                                                        )
+                                                    }
+
                                                 </td>
                                                 <td className="text-center align-middle">
-                                                    {order.orderStatus === "Pending" ? (
-                                                        <>
-                                                            <button
-                                                                className="btn btn-primary btn-sm mb-2"
-                                                                onClick={() =>
-                                                                    handleOrderStatues(order._id, "Returned")
-                                                                }
-                                                                disabled={
-                                                                    order.shippingStatus === false ? true : false
-                                                                }
-                                                            >
-                                                                {order.orderStatus === "Returned"
-                                                                    ? "Returned"
-                                                                    : "Order Return"}
+
+                                                    {
+                                                        order.shippingStatus === true ? (
+                                                            order.orderStatus === "Pending" ? (
+                                                                <>
+                                                                    <button
+                                                                        className="btn btn-primary btn-sm mb-2"
+                                                                        onClick={() =>
+                                                                            handleOrderStatues(order._id, "Returned")
+                                                                        }
+                                                                        disabled={
+                                                                            order.shippingStatus === false ? true : false
+                                                                        }
+                                                                    >
+                                                                        {order.orderStatus === "Returned"
+                                                                            ? "Returned"
+                                                                            : "Order Return"}
+                                                                    </button>
+                                                                    <button
+                                                                        className="btn btn-primary btn-sm"
+                                                                        onClick={() =>
+                                                                            handleOrderStatues(order._id, "Delivered")
+                                                                        }
+                                                                        disabled={
+                                                                            order.shippingStatus === false ? true : false
+                                                                        }
+                                                                    >
+                                                                        {order.orderStatus === "Delivered"
+                                                                            ? "Delivered"
+                                                                            : "Order Deliver"}
+                                                                    </button>
+                                                                </>
+                                                            ) : (
+                                                                <span className="">
+                                                                    {order.orderStatus}
+                                                                </span>)
+                                                        ) : (
+                                                            <span className="text-danger">Not Shipped</span>
+                                                        )
+                                                    }
+
+
+
+                                                </td>
+                                                <td className="text-center align-middle">
+                                                    {
+                                                        order.orderStatus !== "Pending" ? (
+                                                            <button className='btn btn-warning btn-sm' onClick={() => { handleReverse(order._id) }}>
+                                                                Reverse Order
                                                             </button>
-                                                            <button
-                                                                className="btn btn-primary btn-sm"
-                                                                onClick={() =>
-                                                                    handleOrderStatues(order._id, "Delivered")
-                                                                }
-                                                                disabled={
-                                                                    order.shippingStatus === false ? true : false
-                                                                }
-                                                            >
-                                                                {order.orderStatus === "Delivered"
-                                                                    ? "Delivered"
-                                                                    : "Order Deliver"}
-                                                            </button>
-                                                        </>
-                                                    ) : (<button className="btn btn-primary btn-sm">
-                                                        {order.orderStatus}
-                                                    </button>)}
-                                                </td>
-                                                <td className="text-center align-middle">
-                                                    <button
-                                                        className="btn btn-primary btn-sm"
-                                                        onClick={() => handleOrderStatues(order._id)}
-                                                        disabled={
-                                                            order.shippingStatus === false ? true : false
-                                                        }
-                                                    >
-                                                        {order.orderStatus === "Delivered"
-                                                            ? "Click to undeliver"
-                                                            : "Undelivered"}
-                                                    </button>
+                                                        ) : (
+                                                            <span>
+                                                                Order Pending
+                                                            </span>
+                                                        )
+                                                    }
+
                                                 </td>
                                                 <td className="text-center align-middle">
                                                     <Link to={`/admin/editwholesaleorder/${order._id}`}>
-                                                        <span className="edit-delete">Edit </span>
+                                                        <span className="edit-delete">Edit</span>
                                                     </Link>
-                                                    |
+                                                    &nbsp;|&nbsp;
                                                     <span
                                                         className="edit-delete"
                                                         onClick={() => handleDelete(order._id)}

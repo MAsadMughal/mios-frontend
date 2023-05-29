@@ -1,12 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
-import { Link } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import UserContext from '../../context/User/UserContext';
 import Loader from '../../Loader/Loader';
 
 
 const PendingOrders = () => {
     const host = process.env.REACT_APP_API_URL;
+    // const navigate = useNavigate();
     const [orders, setOrders] = useState([]);
     const [orderLoading, setloading] = useState(false);
     const { loading } = useContext(UserContext);
@@ -18,7 +19,33 @@ const PendingOrders = () => {
             setloading(false)
         }
         getOrders();
+
+        // eslint-disable-next-line
     }, [])
+
+    const handleEdit = (id, order) => {
+        if (window.confirm('Are you sure you want to edit this order? If you click "Ok" than this order is deleted and your cart is also deleted and send this order to the cart for editing and than you can place order again. ')) {
+            axios.put(`${host}/api/order/edituserorder/${id}`, order)
+                .then(res => {
+                    console.log(res.data);
+                    window.location.reload();
+                    // navigate('/cart')
+                }
+                )
+                .catch(err => console.log(err))
+
+        }
+
+    }
+
+    const handleDelete = (id) => {
+        if (window.confirm('Are you sure you want to delete this order?')) {
+            axios.delete(`${host}/api/order/deleteorder/${id}`)
+                .then(res => {
+                    window.location.reload();
+                })
+        }
+    }
 
     return (
         <div>
@@ -61,7 +88,14 @@ const PendingOrders = () => {
                                     <td>{`${d}/${m}/${y} at ${h}:${min}`}</td>
                                     <td>{item.orderStatus}</td>
                                     <td>
-                                        <span><Link to={`orderedit/${item._id}`}>Edit</Link></span> | <span>Delete</span>
+                                        <span style={{ cursor: 'pointer', color: 'blue' }} onClick={() => { handleEdit(item._id, item) }}>
+                                            Edit
+                                        </span> |&nbsp;
+                                        <span style={{ cursor: 'pointer', color: 'red' }} onClick={() => {
+                                            handleDelete(item._id)
+                                        }}>
+                                            Delete
+                                        </span>
                                     </td>
                                 </tr>
                             )
